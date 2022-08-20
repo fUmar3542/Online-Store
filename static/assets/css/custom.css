@@ -1,0 +1,46 @@
+/*==================================================================================
+    Custom Stylesheet (Any custom styling you want to apply should be defined here).
+====================================================================================*/
+
+.modal-window-container.fancy.window-show {
+    display: none;
+}
+
+.slidenav.left-side.catagory-menu.active .container {
+    max-width: 100% !important;
+}
+
+.slidenav.left-side.catagory-menu.active .offset-lg-1 {
+    margin-left: 0 !important;
+}
+
+@media screen and (max-width: 1400px) {
+    .main-header-wraper.main-header.inner-page-header .col-6.col-sm-6.col-md-6.col-lg-7.col-xl-6 {
+        padding: 0;
+        margin: 0;
+    }
+
+    .slidenav.left-side.catagory-menu.active .catagory-menu-wrap ul li ul:before {
+        right: -12%;
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    .slidenav.left-side.catagory-menu.active .catagory-menu-wrap ul > li.parent-li {
+        width: 24%;
+    }
+
+    .slidenav.left-side.catagory-menu.active li.parent-li.second-row {
+        top: 440px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .slidenav.left-side.catagory-menu.active li.parent-li.second-row {
+        top: 0px;
+    }
+
+    .slidenav.left-side.catagory-menu.active .catagory-menu-wrap ul > li.parent-li {
+        width: 100%;
+    }
+}
