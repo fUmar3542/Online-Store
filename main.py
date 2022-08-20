@@ -1,5 +1,6 @@
 from Base import Session, engine, Base
-from flask import Flask, session, render_template, render_template, make_response, request, url_for, redirect
+from flask import Flask, session, render_template, make_response, request, url_for, redirect
+from Model import User, Order, Category, SubCategory, Product, OrderProduct, Payment
 
 app = Flask(__name__)
 
