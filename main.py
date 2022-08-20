@@ -6,10 +6,6 @@ app = Flask(__name__)
 Base.metadata.create_all(engine)
 session = Session()
 
-# @app.route('/check.html', methods=['post','get'])
-# def check():
-#     return render_template("check.html")
-
 @app.route('/', methods=['post','get'])
 def main():
     return render_template("index.html")
