@@ -107,18 +107,19 @@
                                                     <li><a href="collection-page2.html">Discount %</a></li>
                                                 </ul>
                                             </li>
-                                            <li>
-                                                <a href="#">Profile</a>
-                                                <ul>
-                                                    <li><a href="myaccount.html">My Account</a></li>
-                                                    <li><a href="cart-list.html">Cart List</a></li>
-                                                    <li><a href="wish-list.html">Wish List</a></li>
-                                                    <li><a href="faq.html">FAQ</a></li>
-                                                    <li><a href="search-result.html">Search Results</a></li>
-                                                    <li><a href="logout.html">Log Out</a></li>
-
-                                                </ul>
-                                            </li>
+                                            {% if login %}
+                                                <li>
+                                                    <a href="#">Profile</a>
+                                                    <ul>
+                                                        <li><a href="myaccount.html">My Account</a></li>
+                                                        <li><a href="cart-list.html">Cart List</a></li>
+                                                        <li><a href="wish-list.html">Wish List</a></li>
+                                                        <li><a href="faq.html">FAQ</a></li>
+                                                        <li><a href="search-result.html">Search Results</a></li>
+                                                        <li><a href="logout.html">Log Out</a></li>
+                                                    </ul>
+                                                </li>
+                                            {% endif %}
                                             <li><a href="about.html">About</a></li>
                                             <li>
                                                 <a href="blog-list.html">Blog</a>
@@ -143,34 +144,31 @@
                                         </a>
                                     </div>
                                 </li>
-                                <li>
-                                    <div class="cart-btn" title="Cart list">
-                                        <a href="login.html">
-                                            <img src="static/assets/img/icons/add-bag.svg" alt="" class="svg">
-                                        </a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="wishlist-btn-off" title="Wish list">
-                                        <a href="#">
-                                            <img src="static/assets/img/icons/wishlist.svg" alt="" class="svg">
-                                        </a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="account-btn" title="account list">
-                                        <a href="#">
-                                            <img src="static/assets/img/icons/account.svg" alt="" class="svg">
-                                        </a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="menu-btn" title="Category menu">
-                                        <a href="#">
-                                            <img src="static/assets/img/icons/manu-button.svg" alt="" class="svg">
-                                        </a>
-                                    </div>
-                                </li>
+                                {% if login %}
+                                    <li>
+                                        <div class="cart-btn" title="Cart list">
+                                            <a href="login.html">
+                                                <img src="static/assets/img/icons/add-bag.svg" alt="" class="svg">
+                                            </a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="wishlist-btn-off" title="Wish list">
+                                            <a href="#">
+                                                <img src="static/assets/img/icons/wishlist.svg" alt="" class="svg">
+                                            </a>
+                                        </div>
+                                    </li>
+                                {% endif %}
+                                {% if login == False %}
+                                    <li>
+                                        <div class="account-btn" title="account list">
+                                            <a href="#">
+                                                <img src="static/assets/img/icons/account.svg" alt="" class="svg">
+                                            </a>
+                                        </div>
+                                    </li>
+                                {% endif %}
                             </ul>
                         </div>
                         <!-- End of modal menu -->
@@ -523,109 +521,117 @@
     </div>
     <!-- End of cart list -->
 
-    <!-- log in and register -->
-    <div class="offcanvas offcanvas-account">
-            <div class="offcanvas-head">
-                <div class="head-text">
-                    <img src="static/assets/img/icons/account2.svg" class="svg" alt="">
-                    <h3>Account</h3>
-                </div>
-                <div class="offcanvas-cancel">
-                    <img src="static/assets/img/icons/close-button.svg" class="svg" alt="">
-                </div>
-            </div>
 
-            <div class="offcanvas-inner">
-                <!-- login register -->
-                <div class="login-register-wrap">
-                    <!-- login register nav -->
-                    <div class="login-register-nav">
-                        <nav class="nav lr-nav text-center">
-                            <a id="nav-login-tab" data-toggle="tab" href="#login" class="active">Log In</a>
-                            <a id="nav-register-tab" data-toggle="tab" href="#reg">Register</a>
-                        </nav>
-                    </div>
-                    <!-- End of login register nav -->
-
-                    <!-- login register content -->
-                    <div class="login-register-content tab-content">
-                        <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="nav-login-tab">
-                            <div class="primary-form parsley-validate">
-                                <form action="#">
-                                    <!-- loging input -->
-                                    <div class="name-input input-field">
-                                        <label>
-                                            <img src="static/assets/img/icons/account3.svg" class="svg" alt="">
-                                        </label>
-                                        <input type="text" placeholder='User name / Email Address' class="theme-input-style" required>
-                                    </div>
-
-                                    <div class="password-input input-field">
-                                        <label>
-                                            <img src="static/assets/img/icons/regi-icon.svg" class="svg" alt="">
-                                        </label>
-                                        <input type="password" placeholder='password' class="theme-input-style" required>
-                                    </div>
-                                    <!-- loging input -->
-                                    <button type="submit" class="btn btn-fill-type">log In</button>
-                                </form>
-                                <p>Don’t have an account,<a href="#"> register now!</a></p>
-                            </div>
-                        </div>
-
-                        <div class="tab-pane fade" id="reg" role="tabpanel" aria-labelledby="nav-login-tab">
-                            <div class="primary-form parsley-validate">
-                                <form action="#">
-                                    <!-- register input -->
-                                    <div class="name-input input-field">
-                                        <label>
-                                            <img src="static/assets/img/icons/account-icon.svg" class="svg" alt="">
-                                        </label>
-                                        <input type="text" placeholder='User name / Email Address' class="theme-input-style" required>
-                                    </div>
-
-                                    <div class="email-input input-field">
-                                        <label>
-                                            <img src="static/assets/img/icons/email-icon.svg" class="svg" alt="">
-                                        </label>
-                                        <input type="email" placeholder='email' class="theme-input-style" required>
-                                    </div>
-
-                                    <div class="password-input input-field">
-                                        <label>
-                                            <img src="static/assets/img/icons/regi-icon.svg" class="svg" alt="">
-                                        </label>
-                                        <input type="password" placeholder='password' class="theme-input-style" required>
-                                    </div>
-                                    <!-- register input -->
-                                    <button type="submit" class="btn btn-fill-type">Register</button>
-                                </form>
-                                <p>Have an account,<a href="#">Log In now!</a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End of login register content -->
-                </div>
-                <!-- End of login register -->
-
-                <!-- add to button an support -->
-                <div class="cart-support">
-                    <p class="roboto">Support</p>
-                    <ul class="list-unstyled">
-                        <li>
-                            <span><i class="fa fa-phone"></i></span>
-                            Phone: +00 654 321 9874
-                        </li>
-                        <li>
-                            <span><i class="fa fa-map-marker"></i></span>
-                            1622 Colins Street West, Strawberry (Le), ITALY
-                        </li>
-                    </ul>
-                </div>
-                <!-- add to button an support -->
-            </div>
+<!-- log in and register -->
+<div class="offcanvas offcanvas-account">
+    <div class="offcanvas-head">
+        <div class="head-text">
+            <img src="static/assets/img/icons/account2.svg" class="svg" alt="">
+            <h3>Account</h3>
+        </div>
+        <div class="offcanvas-cancel">
+            <img src="static/assets/img/icons/close-button.svg" class="svg" alt="">
+        </div>
     </div>
-    <!-- End of log in and ragister -->
+
+    <div class="offcanvas-inner">
+        <!-- login register -->
+        <div class="login-register-wrap">
+            <!-- login register nav -->
+            <div class="login-register-nav">
+                <nav class="nav lr-nav text-center">
+                    <a id="nav-login-tab" data-toggle="tab" href="#login" class="active">Log In</a>
+                    <a id="nav-register-tab" data-toggle="tab" href="#reg">Register</a>
+                </nav>
+            </div>
+            <!-- End of login register nav -->
+
+            <!-- login register content -->
+            <div class="login-register-content tab-content">
+                <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="nav-login-tab">
+                    <div class="primary-form parsley-validate">
+                        <form action="/login" method="post">
+                            <!-- loging input -->
+                            <div class="name-input input-field">
+                                <label>
+                                    <img src="static/assets/img/icons/account3.svg" class="svg" alt="">
+                                </label>
+                                <input name="username" type="text" placeholder='User name / Email Address'
+                                       class="theme-input-style"
+                                       required>
+                            </div>
+
+                            <div class="password-input input-field">
+                                <label>
+                                    <img src="static/assets/img/icons/regi-icon.svg" class="svg" alt="">
+                                </label>
+                                <input name="password" type="password" placeholder='password' class="theme-input-style"
+                                       required>
+                            </div>
+                            <!-- loging input -->
+                            <button type="submit" class="btn btn-fill-type">log In</button>
+                        </form>
+                        <p>Don’t have an account,<a href="#"> register now!</a></p>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="reg" role="tabpanel" aria-labelledby="nav-login-tab">
+                    <div class="primary-form parsley-validate">
+                        <form action="/register" method="post">
+                            <!-- register input -->
+                            <div class="name-input input-field">
+                                <label>
+                                    <img src="static/assets/img/icons/account-icon.svg" class="svg" alt="">
+                                </label>
+                                <input name="username1" type="text" placeholder='User name / Email Address'
+                                       class="theme-input-style"
+                                       required>
+                            </div>
+
+                            <div class="email-input input-field">
+                                <label>
+                                    <img src="static/assets/img/icons/email-icon.svg" class="svg" alt="">
+                                </label>
+                                <input name="email1" type="email" placeholder='email' class="theme-input-style"
+                                       required>
+                            </div>
+
+                            <div class="password-input input-field">
+                                <label>
+                                    <img src="static/assets/img/icons/regi-icon.svg" class="svg" alt="">
+                                </label>
+                                <input name="password1" type="password" placeholder='password' class="theme-input-style"
+                                       required>
+                            </div>
+                            <!-- register input -->
+                            <button type="submit" class="btn btn-fill-type">Register</button>
+                        </form>
+                        <p>Have an account,<a href="#">Log In now!</a></p>
+                    </div>
+                </div>
+            </div>
+            <!-- End of login register content -->
+        </div>
+        <!-- End of login register -->
+
+        <!-- add to button an support -->
+        <div class="cart-support">
+            <p class="roboto">Support</p>
+            <ul class="list-unstyled">
+                <li>
+                    <span><i class="fa fa-phone"></i></span>
+                    Phone: +00 654 321 9874
+                </li>
+                <li>
+                    <span><i class="fa fa-map-marker"></i></span>
+                    1622 Colins Street West, Strawberry (Le), ITALY
+                </li>
+            </ul>
+        </div>
+        <!-- add to button an support -->
+    </div>
+</div>
+<!-- End of log in and ragister -->
     <!-- End of offcanvas menu-->
 
 

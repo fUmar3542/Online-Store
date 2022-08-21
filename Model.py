@@ -8,6 +8,10 @@ class User(Base):
     username = Column(String(20))
     email = Column(String(20))
     password = Column(String(20))
+    def __init__(self, nm, em, pas):
+        self.username = nm
+        self.email = em
+        self.password = pas
 
 class Category(Base):
     __tablename__ = "categories"
