@@ -20,58 +20,82 @@ def home():
         return render_template("index.html", log=True)
     return render_template("index.html", log=False)
 
-@app.route('/header.html', methods=['post', 'get'])
-def header():
-    if 'username' in session:
-        return render_template("header.html", login=True)
-    return render_template("header.html", login=False)
-
-@app.route('/about.html', methods=['get'])
+@app.route('/about.html', methods=['get', 'post'])
 def about():
-    # if 'username' in session:
-    #     return render_template("about.html", log=True)
-    # return render_template("about.html", log=False)
-    return render_template("about.html")
+    if 'username' in session:
+        return render_template("about.html", login=True)
+    else:
+        return render_template("about.html", login=False)
 
 @app.route('/blog-details.html', methods=['get'])
 def blog_details():
-    return render_template("blog-details.html")
+    if 'username' in session:
+        return render_template("blog-details.html", login=True)
+    else:
+        return render_template("blog-details.html", login=False)
 
 @app.route('/blog-list.html', methods=['get'])
 def blog_list():
-    return render_template("blog-list.html")
+    if 'username' in session:
+        return render_template("blog-list.html", login=True)
+    else:
+        return render_template("blog-list.html", login=False)
 
 @app.route('/cart-list.html', methods=['get'])
 def cart_list():
-    return render_template("cart-list.html")
+    if 'username' in session:
+        return render_template("cart-list.html", login=True)
+    else:
+        return render_template("cart-list.html", login=False)
 
 @app.route('/categories-page1.html', methods=['get'])
 def categories_page1():
-    return render_template("categories-page1.html")
+    if 'username' in session:
+        return render_template("categories-page1.html", login=True)
+    else:
+        return render_template("categories-page1.html", login=False)
 
 @app.route('/categories-page2.html', methods=['get'])
 def categories_page2():
-    return render_template("categories-page2.html")
+    if 'username' in session:
+        return render_template("categories-page2.html", login=True)
+    else:
+        return render_template("categories-page2.html", login=False)
 
 @app.route('/categories-page4.html', methods=['get'])
 def categories_page4():
-    return render_template("categories-page4.html")
+    if 'username' in session:
+        return render_template("categories-page4.html", login=True)
+    else:
+        return render_template("categories-page4.html", login=False)
 
 @app.route('/checkout.html', methods=['get'])
 def checkout():
-    return render_template("checkout.html")
+    if 'username' in session:
+        return render_template("checkout.html", login=True)
+    else:
+        return render_template("checkout.html", login=False)
 
 @app.route('/collection-page1.html', methods=['get'])
 def collection_page1():
-    return render_template("collection-page1.html")
+    if 'username' in session:
+        return render_template("collection-page1.html", login=True)
+    else:
+        return render_template("collection-page1.html", login=False)
 
 @app.route('/collection-page2.html', methods=['get'])
 def collection_page2():
-    return render_template("collection-page2.html")
+    if 'username' in session:
+        return render_template("collection-page2.html", login=True)
+    else:
+        return render_template("collection-page2.html", login=False)
 
 @app.route('/contact.html', methods=['get'])
 def contact():
-    return render_template("contact.html")
+    if 'username' in session:
+        return render_template("contact.html", login=True)
+    else:
+        return render_template("contact.html", login=False)
 
 @app.route('/error1.html', methods=['get'])
 def error():
@@ -79,7 +103,10 @@ def error():
 
 @app.route('/faq.html', methods=['get'])
 def faq():
-    return render_template("faq.html")
+    if 'username' in session:
+        return render_template("faq.html", login=True)
+    else:
+        return render_template("faq.html", login=False)
 
 @app.route('/login', methods=['post'])
 def login():
@@ -118,15 +145,24 @@ def logout():
 
 @app.route('/myaccount.html', methods=['get'])
 def myaccount():
-    return render_template("myaccount.html")
+    if 'username' in session:
+        return render_template("myaccount.html", login=True)
+    else:
+        return render_template("myaccount.html", login=False)
 
 @app.route('/search-result.html', methods=['get'])
 def search_result():
-    return render_template("search-result.html")
+    if 'username' in session:
+        return render_template("search-result.html", login=True)
+    else:
+        return render_template("search-result.html", login=False)
 
 @app.route('/wish-list.html', methods=['get'])
 def wish_list():
-    return render_template("wish-list.html")
+    if 'username' in session:
+        return render_template("wish-list.html", login=True)
+    else:
+        return render_template("wish-list.html", login=False)
 
 @app.route('/admin-panel.html', methods=['get', 'post'])
 def admin_panel():
