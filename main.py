@@ -267,5 +267,11 @@ def search():
     if request.method == 'POST':
         return render_template("faq.html")
 
+@app.route('/email', methods=['get', 'post'])
+def email():
+    if request.method == 'POST':
+        return render_template("error1.html", Message="Your response has been submitted..")
+
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True)

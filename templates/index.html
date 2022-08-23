@@ -175,20 +175,22 @@
                     <div class="modal-menu-container">
                         <ul class="list-unstyled mb-0">
                             {% if log %}
-                                <li>
-                                    <div class="cart-btn" title="Cart list">
-                                        <a href="#">
-                                            <img src="static/assets/img/icons/add-bag.svg" alt="" class="svg">
-                                        </a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="wishlist-btn-off" title="Wish list">
-                                        <a href="#">
-                                            <img src="static/assets/img/icons/wishlist.svg" alt="" class="svg">
-                                        </a>
-                                    </div>
-                                </li>
+                                {% if admin == False %}
+                                    <li>
+                                        <div class="cart-btn" title="Cart list">
+                                            <a href="#">
+                                                <img src="static/assets/img/icons/add-bag.svg" alt="" class="svg">
+                                            </a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="wishlist-btn-off" title="Wish list">
+                                            <a href="#">
+                                                <img src="static/assets/img/icons/wishlist.svg" alt="" class="svg">
+                                            </a>
+                                        </div>
+                                    </li>
+                                {% endif %}
                             {% else %}
                                 <li>
                                     <div class="account-btn" title="account list">
@@ -669,7 +671,6 @@
 <!-- End of sticky social area -->
 
 <!-- End of offcanvas menu-->
-
 
 <!-- banner area -->
 <section class="banner-slider banner-slider3">
