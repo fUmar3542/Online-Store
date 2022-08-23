@@ -19,16 +19,13 @@ h2.cat-name {
 }
 
 .category-div {
-    border: 1px solid black;
     margin: 30px 0;
 }
 
-.cat-body a.cat-links {
+.cat-body .cat-links {
     color: #777777;
-    -webkit-transition: .3s all linear;
-    transition: .3s all linear;
     font-size: 14px;
-    text-decoration: none;
+    margin: 0 !important;
 }
 
 .cat-body a.cat-links:hover {
@@ -36,6 +33,20 @@ h2.cat-name {
     color: #333;
 } 
 
+.modal-window-container.fancy.sub-cat.window-show .modal-window-content {
+    height: auto;
+    top: 15%;
+}
+
+img.sub-cat-icon {
+    width: 20px;
+}
+
+.cat-link-div {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+}
 
 @media screen and (max-width: 768px)
 {
@@ -43,4 +54,228 @@ h2.cat-name {
         grid-template-columns: 25% 25% 25% 25%;
         grid-row-gap: 10px;
     }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400, 700&display=swap');
+    * {
+    margin:  0;
+    padding:  0;
+    box-sizing:  border-box;
+    list-style:  none;
+    font-family:  'Montserrat',  sans-serif;
+}
+body {
+    background-color:  #b064f7;
+    line-height:  1rem;
+    font-size:  14px;
+    padding:  10px;
+}
+.container.product-lists {
+    border-top-left-radius:  25px;
+    border-top-right-radius:  25px;
+    border-bottom-left-radius:  25px;
+    border-bottom-right-radius:  25px;
+}
+
+.product-lists img {
+    height: 170px;
+    width: 140px;
+}
+
+.product-lists .order .card {
+    position:  relative;
+    background:  #fff;
+    box-shadow:  0 0 15px rgba(0,  0,  0,  .1);
+}
+.product-lists .ribbon {
+    width:  150px;
+    height:  150px;
+    overflow:  hidden;
+    position:  absolute;
+}
+.product-lists .ribbon::before,  .ribbon::after {
+    position:  absolute;
+    content:  '';
+    display:  block;
+    border:  5px solid red;
+}
+.product-lists .ribbon span {
+    position:  absolute;
+    display:  block;
+    width:  225px;
+    padding:  15px 0;
+    background-color:  red;
+    box-shadow:  0 5px 10px rgba(0,  0,  0,  .1);
+    color:  #fff;
+    font:  700 18px/1 'Lato',  sans-serif;
+    text-shadow:  0 1px 1px rgba(0,  0,  0,  .2);
+    text-transform:  uppercase;
+    text-align:  center;
+}
+.product-lists .ribbon-top-right {
+    top:  -12px;
+    right:  -12px;
+}
+.product-lists .ribbon-top-right::before,  .ribbon-top-right::after {
+    border-top-color:  transparent;
+    border-right-color:  transparent;
+}
+.product-lists .ribbon-top-right::before {
+    top:  0;
+    left:  0;
+}
+.product-lists .ribbon-top-right::after {
+    bottom:  0;
+    right:  0;
+}
+.product-lists .ribbon-top-right span {
+    left:  -25px;
+    top:  30px;
+    transform:  rotate(45deg);
+}
+.product-lists small {
+    font-size:  12px;
+}
+.product-lists .cart {
+    line-height:  1;
+}
+.product-lists .icon {
+    background-color:  #eee;
+    width:  40px;
+    height:  40px;
+    display:  flex;
+    justify-content:  center;
+    align-items:  center;
+    border-radius:  50%}
+.product-lists .pic {
+    width:  70px;
+    height:  90px;
+    border-radius:  5px;
+}
+.product-lists td {
+    vertical-align:  middle;
+}
+.product-lists .red {
+    color:  #fd1c1c;
+    font-weight:  600;
+}
+.product-lists .b-bottom {
+    border-bottom:  2px dotted black;
+    padding-bottom:  20px;
+}
+.product-lists p {
+    margin:  0px;
+}
+.product-lists table input {
+    width:  40px;
+    border:  1px solid #eee;
+}
+.product-lists input:focus {
+    border:  1px solid #eee;
+    outline:  none;
+}
+.product-lists .round {
+    background-color:  #eee;
+    height:  40px;
+    width:  40px;
+    border-radius:  50%;
+    display:  flex;
+    align-items:  center;
+    justify-content:  center;
+}
+.product-lists .payment-summary .unregistered {
+    width:  100%;
+    display:  flex;
+    align-items:  center;
+    justify-content:  center;
+    background-color:  #eee;
+    text-transform:  uppercase;
+    font-size:  14px;
+}
+.product-lists .payment-summary input {
+    width:  100%;
+    margin-right:  20px;
+}
+.product-lists .payment-summary .sale {
+    width:  100%;
+    background-color:  #e9b3b3;
+    text-transform:  uppercase;
+    font-size:  12px;
+    display:  flex;
+    justify-content:  center;
+    align-items:  center;
+    padding:  5PX 0;
+}
+.product-lists .red {
+    color:  #fd1c1c;
+}
+.product-lists .del {
+    width:  35px;
+    height:  35px;
+    object-fit:  cover;
+}
+.product-lists .delivery .card {
+    padding:  10px 5px;
+}
+.product-lists .option {
+    position:  relative;
+    top:  50%;
+    display:  block;
+    cursor:  pointer;
+    color:  #888;
+}
+.product-lists .option input {
+    display:  none;
+}
+.product-lists .checkmark {
+    position:  absolute;
+    top:  40%;
+    left:  -25px;
+    height:  20px;
+    width:  20px;
+    background-color:  #fff;
+    border:  1px solid #ccc;
+    border-radius:  50%}
+.product-lists .option input:checked~.checkmark:after {
+    display:  block;
+}
+.product-lists .option .checkmark:after {
+    content:  "\2713";
+    width:  10px;
+    height:  10px;
+    display:  block;
+    position:  absolute;
+    top:  30%;
+    left:  50%;
+    transform:  translate(-50%,  -50%) scale(0);
+    transition:  200ms ease-in-out 0s;
+}
+.product-lists .option:hover input[type="radio"]~.checkmark {
+    background-color:  #f4f4f4;
+}
+.product-lists .option input[type="radio"]:checked~.checkmark {
+    background:  #ac1f32;
+    color:  #fff;
+    transition:  300ms ease-in-out 0s;
+}
+.product-lists .option input[type="radio"]:checked~.checkmark:after {
+    transform:  translate(-50%,  -50%) scale(1);
+    color:  #fff;
+}
+
+.product-lists a.btn.btn-fill-type {
+    display: block;
+    width: 150px;
+    margin: 20px auto;
 }
