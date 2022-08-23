@@ -41,51 +41,51 @@
                         <div class="login-register-content tab-content">
                             <div class="tab-pane fade show active" id="login2" role="tabpanel" aria-labelledby="nav-login-tab2">
                                 <div class="primary-form parsley-validate">
-                                    <form action="#">
+                                    <form action="/login" method="post">
                                         <!-- loging input -->
                                         <div class="name-input input-field">
                                             <label>
                                                 <img src="static/assets/img/icons/account3.svg" class="svg" alt="">
                                             </label>
-                                            <input type="text" placeholder='User name / Email Address' class="theme-input-style" required>
+                                            <input name="username" type="text" placeholder='User name / Email Address' class="theme-input-style" required>
                                         </div>
 
                                         <div class="password-input input-field">
                                             <label>
                                                 <img src="static/assets/img/icons/regi-icon.svg" class="svg" alt="">
                                             </label>
-                                            <input type="password" placeholder='password' class="theme-input-style" required>
+                                            <input name="password" type="password" placeholder='password' class="theme-input-style" required>
                                         </div>
                                         <!-- loging input -->
                                         <button type="submit" class="btn btn-fill-type">log In</button>
                                     </form>
-                                    <p>Don’t have an account,<a href="#">register now!</a></p>
+                                    <p>Don’t have an account,<a href=#>register now!</a></p>
                                 </div>
                             </div>
 
                             <div class="tab-pane fade" id="reg2" role="tabpanel" aria-labelledby="nav-register-tab2">
                                 <div class="primary-form parsley-validate">
-                                    <form action="#">
+                                    <form action="/register" method="post">
                                         <!-- register input -->
                                         <div class="name-input input-field">
                                             <label>
                                                 <img src="static/assets/img/icons/account-icon.svg" class="svg" alt="">
                                             </label>
-                                            <input type="text" placeholder='User name / Email Address' class="theme-input-style" required>
+                                            <input name="username" type="text" placeholder='User name / Email Address' class="theme-input-style" required>
                                         </div>
 
                                         <div class="email-input input-field">
                                             <label>
                                                 <img src="static/assets/img/icons/email-icon.svg" class="svg" alt="">
                                             </label>
-                                            <input type="email" placeholder='email' class="theme-input-style" required>
+                                            <input name="email" type="email" placeholder='email' class="theme-input-style" required>
                                         </div>
 
                                         <div class="password-input input-field">
                                             <label>
                                                 <img src="static/assets/img/icons/regi-icon.svg" class="svg" alt="">
                                             </label>
-                                            <input type="password" placeholder='password' class="theme-input-style" required>
+                                            <input name="password" type="password" placeholder='password' class="theme-input-style" required>
                                         </div>
                                         <!-- register input -->
                                         <button type="submit" class="btn btn-fill-type">Register</button>

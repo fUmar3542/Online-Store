@@ -109,6 +109,12 @@
                                                         {% if log %}
                                                             <li>
                                                                 <a href="#">Profile</a>
+                                                                {% if admin %}
+                                                                <ul>
+                                                                    <li><a href="admin-panel.html">Admin Panel</a></li>
+                                                                    <li><a href="logout.html">Log Out</a></li>
+                                                                </ul>
+                                                                {% else %}
                                                                 <ul>
                                                                     <li><a href="myaccount.html">My Account</a></li>
                                                                     <li><a href="cart-list.html">Cart List</a></li>
@@ -117,6 +123,7 @@
                                                                     <li><a href="search-result.html">Search Results</a></li>
                                                                     <li><a href="logout.html">Log Out</a></li>
                                                                 </ul>
+                                                                {% endif%}
                                                             </li>
                                                         {% endif %}
                                                         <li><a href="about.html">About</a></li>
@@ -223,9 +230,9 @@
             <div class="row">
                 <div class="col-md-8 offset-md-2">
                     <div class="search-bar primary-form parsley-validate">
-                        <form action="#">
+                        <form action="/search" method="post">
                             <input type="text" class="theme-input-style" placeholder="Type Your Search Here" required>
-                            <input type="submit" class="search-icon" value="&#xF002;" disabled>
+                            <input type="submit" class="search-icon" value="&#xF002;">
                         </form>
                     </div>
                 </div>
@@ -429,8 +436,8 @@
 
             <!-- add to button an support -->
             <div class="view-cart-check-btn text-center">
-                <a href="#" class='btn btn-fill-type'>View Cart List</a>
-                <a href="#" class='btn btn-fill-type'>Check Out</a>
+                <a href="cart-list.html" class='btn btn-fill-type'>View Cart List</a>
+                <a href="checkout.html" class='btn btn-fill-type'>Check Out</a>
                 <p>Free Shipping on All Orders Over $100!</p>
             </div>
             <div class="cart-support">
@@ -517,8 +524,8 @@
 
         <!-- add to button an support -->
         <div class="view-cart-check-btn text-center">
-            <a href="#" class='btn btn-fill-type'>View Cart List</a>
-            <a href="#" class='btn btn-fill-type'>Check Out</a>
+            <a href="cart-list.html" class='btn btn-fill-type'>View Cart List</a>
+            <a href="checkout.html" class='btn btn-fill-type'>Check Out</a>
             <p>Free Shipping on All Orders Over $100!</p>
         </div>
         <div class="cart-support">
@@ -648,7 +655,7 @@
         <!-- add to button an support -->
     </div>
 </div>
-<!-- End of log in and ragister -->
+<!-- End of log in and register -->
 
 <!-- sticky social area -->
 <div class="sticky-social-area">
@@ -879,8 +886,8 @@
                 <!-- single feature area -->
                 <div class="single-featured-inner type2 callto-action-inner"
                      data-bg-img='static/assets/img/add/cta-1.jpg'>
-                    <h3>All New #Summer Collection</h3>
-                    <h5>is <a href="#" class="btn">Available Here</a></h5>
+                    <h3>All Collections</h3>
+                    <h5>are <a href="#" class="btn">Available Here</a></h5>
                 </div>
                 <!--End of single feature area -->
             </div>

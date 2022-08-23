@@ -1,0 +1,46 @@
+h2.cat-name {
+    font-size: 25px;
+    margin: 0;
+}
+
+.cat-head {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 20px;
+    border-bottom: 1px solid #000;
+}
+
+.cat-body {
+    display: grid;
+    grid-template-columns: 20% 20% 20% 20% 20%;
+    padding: 20px;
+}
+
+.category-div {
+    border: 1px solid black;
+    margin: 30px 0;
+}
+
+.cat-body a.cat-links {
+    color: #777777;
+    -webkit-transition: .3s all linear;
+    transition: .3s all linear;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.cat-body a.cat-links:hover {
+    margin-left: 4px;
+    color: #333;
+} 
+
+
+@media screen and (max-width: 768px)
+{
+    .cat-body {
+        grid-template-columns: 25% 25% 25% 25%;
+        grid-row-gap: 10px;
+    }
+}
