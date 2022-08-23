@@ -156,22 +156,24 @@
                                         </a>
                                     </div>
                                 </li>
-                                {% if login %}
-                                    <li>
-                                        <div class="cart-btn" title="Cart list">
-                                            <a href="login.html">
-                                                <img src="static/assets/img/icons/add-bag.svg" alt="" class="svg">
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="wishlist-btn-off" title="Wish list">
-                                            <a href="#">
-                                                <img src="static/assets/img/icons/wishlist.svg" alt="" class="svg">
-                                            </a>
-                                        </div>
-                                    </li>
-                                {% else %}
+                               {% if log %}
+                                    {% if admin == False %}
+                                        <li>
+                                            <div class="cart-btn" title="Cart list">
+                                                <a href="#">
+                                                    <img src="static/assets/img/icons/add-bag.svg" alt="" class="svg">
+                                                </a>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="wishlist-btn-off" title="Wish list">
+                                                <a href="#">
+                                                    <img src="static/assets/img/icons/wishlist.svg" alt="" class="svg">
+                                                </a>
+                                            </div>
+                                        </li>
+                                    {% endif %}
+                               {% else %}
                                     <li>
                                         <div class="account-btn" title="account list">
                                             <a href="#">
@@ -179,7 +181,7 @@
                                             </a>
                                         </div>
                                     </li>
-                                {% endif %}
+                               {% endif %}
                             </ul>
                         </div>
                         <!-- End of modal menu -->
@@ -276,18 +278,18 @@
                                         </ul>
                                     </li>
                                     <li class="parent-li"><a href="#">Attire's</a>
-                                    <span><img src="static/assets/img/icons/man.svg" class="svg" alt=""></span>
-                                    <ul>
-                                        <li><a href="#">Men Casual</a></li>
-                                        <li><a href="#">Men Formal</a></li>
-                                        <li><a href="#">Women Stitched</a></li>
-                                        <li><a href="#">Women Unstitched</a></li>
-                                        <li><a href="#">Foot Wear</a></li>
-                                        <li><a href="#">Kids Wear</a></li>
-                                        <li><a href="#">Gowns</a></li>
-                                        <li><a href="#">Ready To Wear</a></li>
-                                    </ul>
-                                </li>
+                                        <span><img src="static/assets/img/icons/man.svg" class="svg" alt=""></span>
+                                        <ul>
+                                            <li><a href="#">Men Casual</a></li>
+                                            <li><a href="#">Men Formal</a></li>
+                                            <li><a href="#">Women Stitched</a></li>
+                                            <li><a href="#">Women Unstitched</a></li>
+                                            <li><a href="#">Foot Wear</a></li>
+                                            <li><a href="#">Kids Wear</a></li>
+                                            <li><a href="#">Gowns</a></li>
+                                            <li><a href="#">Ready To Wear</a></li>
+                                        </ul>
+                                    </li>
                                     <li class="parent-li second-row"><a href="#">Cosmetics</a>
                                         <span><img src="static/assets/img/icons/home-dec.svg" class="svg" alt=""></span>
                                         <ul>
