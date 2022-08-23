@@ -1,3 +1,6 @@
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 from Base import Session, engine, Base
 from flask import Flask, session, render_template, make_response, request, url_for, redirect
 from Model import User, Order, Category, SubCategory, Product, OrderProduct, Payment
@@ -270,8 +273,36 @@ def search():
 @app.route('/email', methods=['get', 'post'])
 def email():
     if request.method == 'POST':
-        return render_template("error1.html", Message="Your response has been submitted..")
+        name = request.form.get('name')
+        email = request.form.get('email')
+        subject = request.form.get('subject')
+        message = request.form.get('message')
+        mail_content = ("Name: " + name + "\nEmail: " + email +"\nMessage: " + message)
 
+        # mail_content = '''
+        #      Message: {{ message }} '''
+        # The mail addresses and password
+        sender_address = 'fumar3542@gmail.com'
+        sender_pass = 'pcjbqvrpdxkougpq'
+        receiver_address = 'fumar3542@gmail.com'
+        # Setup the MIME
+        message = MIMEMultipart()
+        message['From'] = sender_address
+        message['To'] = receiver_address
+        message['Subject'] = subject  # The subject line
+        # The body and the attachments for the mail
+        message.attach(MIMEText(mail_content, 'plain'))
+        try:
+            # Create SMTP session for sending the mail
+            session = smtplib.SMTP('smtp.gmail.com', 587)  # use gmail with port
+            session.starttls()  # enable security
+            session.login(sender_address, sender_pass)  # login with mail_id and password
+            text = message.as_string()
+            session.sendmail(sender_address, receiver_address, text)
+            session.quit()
+            return render_template("error1.html", Message="Your response has been submitted..")
+        except Exception as x:
+            return render_template("error1.html", Message="Something wrong happened....\n" + str(x))
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True)
