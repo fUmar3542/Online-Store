@@ -1,6 +1,37 @@
 {% extends "header.html" %}
 {% block body %}
 
+<!-- Modal Sub-Cat Main -->
+    <div class="modal-window-container fancy view-product">
+            <div class="modal-window-overlay"></div>
+            <div class="modal-window-content">
+                <div class="modal-window-inner text-center">
+                    <h2>Add Product</h2>
+                    <div class="modal-subscribe add-product">
+                        <form action="#">
+                            <input type="text" class="theme-input-style" required placeholder="Name">
+                            <input type="text" class="theme-input-style" required placeholder="Price">
+                            <input type="text" class="theme-input-style" required placeholder="Detail">
+                            <input type="text" class="theme-input-style" required placeholder="Brand">
+                            <input type="text" class="theme-input-style" required placeholder="Stock">
+<!--                            <input type="file" id="myFile" class="upload-image" name="filename">-->
+                            <!-- actual upload which is hidden -->
+                            <input type="file" id="actual-btn" hidden/>
+                            <!-- our custom upload button -->
+                            <label for="actual-btn">Choose File</label>
+                            <!-- name of file chosen -->
+                            <span id="file-chosen">No file chosen</span>
+                            <button type="submit" class="btn btn-fill-type">Add Now</button>
+                        </form>
+                    </div>
+                    <div class="modal-window-close">
+                        <img src="static/assets/img/icons/close-button.svg" class="svg" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+<!-- End of main wrapper -->
+
 <!-- page title -->
     <section class="page-title-inner" data-bg-img='static/assets/img/page-titlebg.png'>
         <div class="container">
@@ -24,7 +55,7 @@
     <!-- End of page title -->
 
     <div class="container product-lists py-5">
-        <a href="#" class="btn btn-fill-type"> Add a Product</a>
+        <a href="#" class="btn btn-fill-type add-a-product"> Add a Product</a>
     <div class="row">
         <div class="col-lg-8 mx-auto">
             <!-- List group-->

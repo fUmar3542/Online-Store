@@ -29,6 +29,26 @@ def home():
             return render_template("index.html", log=True, admin=False)
     return render_template("index.html", log=False, admin=False)
 
+@app.route('/list-product.html', methods=['get', 'post'])
+def list_product():
+    if 'username' in session:
+        if (session['username'] == adminUsername):
+            return render_template("list-product.html", log=True, admin=True)
+        else:
+            return render_template("list-product.html", log=True, admin=False)
+    else:
+        return render_template("list-product.html", login=False, admin=False)
+
+@app.route('/detail-product.html', methods=['get', 'post'])
+def detail_product():
+    if 'username' in session:
+        if (session['username'] == adminUsername):
+            return render_template("detail-product.html", log=True, admin=True)
+        else:
+            return render_template("detail-product.html", log=True, admin=False)
+    else:
+        return render_template("detail-product.html", login=False, admin=False)
+
 @app.route('/about.html', methods=['get', 'post'])
 def about():
     if 'username' in session:
@@ -279,9 +299,6 @@ def email():
         message = request.form.get('message')
         mail_content = ("Name: " + name + "\nEmail: " + email +"\nMessage: " + message)
 
-        # mail_content = '''
-        #      Message: {{ message }} '''
-        # The mail addresses and password
         sender_address = 'fumar3542@gmail.com'
         sender_pass = 'pcjbqvrpdxkougpq'
         receiver_address = 'fumar3542@gmail.com'
@@ -299,10 +316,12 @@ def email():
             session.login(sender_address, sender_pass)  # login with mail_id and password
             text = message.as_string()
             session.sendmail(sender_address, receiver_address, text)
-            session.quit()
-            return render_template("error1.html", Message="Your response has been submitted..")
+            # session.quit()
+            msg = "Your response has been submitted.."
+            print("Message sent")
+            return render_template("error1.html", Message=msg)
         except Exception as x:
-            return render_template("error1.html", Message="Something wrong happened....\n" + str(x))
+            return render_template("error1.html", Message="Something wrong happened....")
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True)
