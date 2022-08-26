@@ -4,6 +4,8 @@ from email.mime.text import MIMEText
 from Base import Session, engine, Base
 from flask import Flask, session, render_template, make_response, request, url_for, redirect
 from Model import User, Order, Category, SubCategory, Product, OrderProduct, Payment
+from pathlib import Path
+import os
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
@@ -14,7 +16,91 @@ Base.metadata.create_all(engine)
 db = Session()
 
 adminUsername = 'Umar'
+data = []
 
+@app.route('/add-category', methods=['get','post'])
+def add_category():
+    if request.method == 'POST':
+        n = request.form.get("nm")
+        m = request.form.get("name")
+        subcat = db.query(SubCategory).filter(SubCategory.name == m).first()
+        if subcat != None:
+            return render_template("error1.html", Message="Sub Category already exist....")
+        cat = db.query(Category).filter(Category.name == n).first()
+        obj = SubCategory(m,cat)
+        db.add(obj)
+        db.commit()
+        refresh()  # Refreshing Data from database
+        # Creating respective folder
+        current_directory = os.getcwd() + "\static\\assets\img"
+        final_directory = os.path.join(current_directory, m)
+        if not os.path.exists(final_directory):
+            os.makedirs(final_directory)
+    return redirect(url_for("admin_panel"))
+
+@app.route('/admin/<value>', methods=['get','post'])
+def delete_category(value):
+    db.query(SubCategory).filter(SubCategory.name == value).delete()
+    db.commit
+    # Removing respective folder
+    current_directory = os.getcwd() + "\static\\assets\img"
+    final_directory = os.path.join(current_directory, value)
+    if os.path.exists(final_directory):
+        os.rmdir(final_directory)
+    refresh()  # Refreshing Data from database
+    return redirect(url_for("admin_panel"))
+
+@app.route('/admin1/<value>', methods=['get','post'])
+def view_category(value):
+    session['sub_category_name'] = value
+    return redirect(url_for("view_product"))
+
+@app.route('/view-products.html', methods=['get', 'post'])
+def view_product():
+    value = session['sub_category_name']
+    sub_category = updated_sub_category_list(value)
+    return render_template("view-product.html", login=True, admin=True, sub_cat_name=value, items=sub_category)
+
+@app.route('/add-product', methods=['get', 'post'])
+def add_product():
+    if request.method == 'POST':
+        n = request.form.get("nm")
+        name = request.form.get("name")
+        price = request.form.get("price")
+        detail = request.form.get("detail")
+        brand = request.form.get("brand")
+        stock = request.form.get("stock")
+        discount = request.form.get("discount")
+        uploaded_file = request.files['img']
+        subcat = db.query(SubCategory).filter(SubCategory.name == n).first()
+        prod = db.query(Product).filter((Product.name == name) & (Product.brand == brand)).first()
+        if prod != None:
+            return render_template("error1.html", Message="Product already exist....")
+        number = subcat.number + 1
+        subcat.number = number
+        uploaded_file.filename = str(number) + ".jpeg"
+        current_directory = "static/assets/img/" + n + "/"
+        uploaded_file.save(os.path.join(current_directory, uploaded_file.filename))
+        p = current_directory + uploaded_file.filename
+        obj = Product(price, discount, stock, brand, name, p, subcat, detail)
+        db.add(obj)
+        db.commit()
+        session['sub_category_name'] = n
+    return redirect(url_for("view_product"))
+
+@app.route('/admin/<id>/<sub_cat_name>', methods=['get','post'])
+def delete_product(id,sub_cat_name):
+    db.query(Product).filter(Product.id == id).delete()
+    db.commit
+    session['sub_category_name'] = sub_cat_name
+    return redirect(url_for("view_product"))
+
+@app.route('/admin-panel.html', methods=['get', 'post'])
+def admin_panel():
+    refresh()
+    return render_template("admin-panel.html", login=True, admin=True, data=data)
+
+# --------------------------------------------------------------------------------
 
 @app.route('/', methods=['post','get'])
 def main():
@@ -22,12 +108,13 @@ def main():
 
 @app.route('/index.html', methods=['post','get'])
 def home():
+    refresh()  # Refreshing Data from database
     if 'username' in session:
         if(session['username'] == adminUsername):
-            return render_template("index.html", log=True, admin=True)
+            return render_template("index.html", log=True, admin=True, data=data)
         else:
-            return render_template("index.html", log=True, admin=False)
-    return render_template("index.html", log=False, admin=False)
+            return render_template("index.html", log=True, admin=False,data=data)
+    return render_template("index.html", log=False, admin=False,data=data)
 
 @app.route('/list-product.html', methods=['get', 'post'])
 def list_product():
@@ -261,29 +348,21 @@ def remove_wishlist():
             return render_template("index.html", log=True, admin=False)
     return redirect('/index.html')
 
-@app.route('/admin-panel.html', methods=['get', 'post'])
-def admin_panel():
-    return render_template("admin-panel.html", login=True, admin=True)
+# @app.route('/add-product.html', methods=['get', 'post'])
+# def add_product():
+#     return render_template("add-product.html")
 
-@app.route('/view-products.html', methods=['get', 'post'])
-def view_product():
-    return render_template("view-product.html", login=True, admin=True)
+# @app.route('/remove-product.html', methods=['get', 'post'])
+# def remove_product():
+#     return render_template("remove-product.html")
 
-@app.route('/add-product.html', methods=['get', 'post'])
-def add_product():
-    return render_template("add-product.html")
+# @app.route('/add-category.html', methods=['get', 'post'])
+# def add_category():
+#     return render_template("add-category.html")
 
-@app.route('/remove-product.html', methods=['get', 'post'])
-def remove_product():
-    return render_template("remove-product.html")
-
-@app.route('/add-category.html', methods=['get', 'post'])
-def add_category():
-    return render_template("add-category.html")
-
-@app.route('/remove-category.html', methods=['get', 'post'])
-def remove_category():
-    return render_template("remove-category.html")
+# @app.route('/remove-category.html', methods=['get', 'post'])
+# def remove_category():
+#     return render_template("remove-category.html")
 
 @app.route('/search', methods=['get', 'post'])
 def search():
@@ -322,6 +401,27 @@ def email():
             return render_template("error1.html", Message=msg)
         except Exception as x:
             return render_template("error1.html", Message="Something wrong happened....")
+
+
+def refresh():
+    cat = db.query(Category).all()
+    data.clear()
+    i = 0
+    for x in cat:
+        data.append({"name": x.name,
+                     "subcat": []})
+        sub = db.query(SubCategory).filter(SubCategory.catId == x.id)
+        for y in sub:
+            data[i]['subcat'].append(y.name)
+        i = i+1
+
+def updated_sub_category_list(value):
+    sub_category = []
+    sub_cat = db.query(SubCategory).filter(SubCategory.name == value).first()
+    prod = db.query(Product).filter(Product.subCatId == sub_cat.id)
+    for x in prod:
+        sub_category.append(x)
+    return sub_category
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True)

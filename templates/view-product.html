@@ -8,15 +8,18 @@
                 <div class="modal-window-inner text-center">
                     <h2>Add Product</h2>
                     <div class="modal-subscribe add-product">
-                        <form action="#">
-                            <input type="text" class="theme-input-style" required placeholder="Name">
-                            <input type="text" class="theme-input-style" required placeholder="Price">
-                            <input type="text" class="theme-input-style" required placeholder="Detail">
-                            <input type="text" class="theme-input-style" required placeholder="Brand">
-                            <input type="text" class="theme-input-style" required placeholder="Stock">
+                        <form action="/add-product" method="post" enctype="multipart/form-data">
+                            <input type="text" name="name" class="theme-input-style" required placeholder="Name">
+                            <input type="number" name="price" class="theme-input-style" required placeholder="Price">
+                            <input type="text" name="brand" class="theme-input-style" required placeholder="Brand">
+                            <input type="text" name="stock" class="theme-input-style" required placeholder="Stock">
+                            <input type="number" step="any" name="discount" class="theme-input-style" value="0" placeholder="Discount">
+                            <input type="text" name="detail" class="theme-input-style" required placeholder="Detail">
+
 <!--                            <input type="file" id="myFile" class="upload-image" name="filename">-->
+                            <input type="text" name="nm" value='{{ sub_cat_name }}' class="theme-input-style" hidden>
                             <!-- actual upload which is hidden -->
-                            <input type="file" id="actual-btn" hidden/>
+                            <input type="file" name="img" id="actual-btn" required accept="image/*" hidden/>
                             <!-- our custom upload button -->
                             <label for="actual-btn">Choose File</label>
                             <!-- name of file chosen -->
@@ -32,6 +35,38 @@
         </div>
 <!-- End of main wrapper -->
 
+<!-- Modal Sub-Cat Main 2 -->
+    <div class="modal-window-container fancy update-product">
+            <div class="modal-window-overlay"></div>
+            <div class="modal-window-content">
+                <div class="modal-window-inner text-center">
+                    <h2>Update Product</h2>
+                    <div class="modal-subscribe update-product">
+                        <form action="/update-product" method="post" enctype="multipart/form-data">
+                            <input type="text" name="name" value='{{ sub_cat_name }}' class="theme-input-style" required placeholder="Name">
+                            <input type="number" name="price" class="theme-input-style" required placeholder="Price">
+                            <input type="text" name="brand" class="theme-input-style" required placeholder="Brand">
+                            <input type="text" name="stock" class="theme-input-style" required placeholder="Stock">
+                            <input type="number" step="any" name="discount" class="theme-input-style" value="0" placeholder="Discount">
+                            <input type="text" name="detail" class="theme-input-style" required placeholder="Detail">
+                            <input type="text" name="nm" value='{{ sub_cat_name }}' class="theme-input-style" hidden>
+                            <!-- actual upload which is hidden -->
+                            <input type="file" name="img" id="a-btn" required accept="image/*" hidden/>
+                            <!-- our custom upload button -->
+                            <label for="a-btn">Choose File</label>
+                            <!-- name of file chosen -->
+                            <span id="file-chose">No file chosen</span>
+                            <button type="submit" class="btn btn-fill-type update">Update Now</button>
+                        </form>
+                    </div>
+                    <div class="modal-window-close">
+                        <img src="static/assets/img/icons/close-button.svg" class="svg" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+<!-- End of main wrapper 2 -->
+
 <!-- page title -->
     <section class="page-title-inner" data-bg-img='static/assets/img/page-titlebg.png'>
         <div class="container">
@@ -39,12 +74,11 @@
                 <div class="col-12">
                     <!-- page title inner -->
                     <div class="page-title-wrap">
-                        <div class="page-title-heading"><h1 class="h2">Products<span>Admin</span></h1></div>
+                        <div class="page-title-heading"><h1 class="h2">{{ sub_cat_name }}<span>Products</span></h1></div>
                         <ul class="list-unstyled mb-0">
                             <li><a href="index.html">Home</a></li>
-                            <li><a href="#">Profile</a></li>
-                             <li><a href="#">Manage</a></li>
-                            <li class="active"><a href="#">Products</a></li>
+                            <li><a href="admin-panel.html">Categories</a></li>
+                            <li class="active"><a href="#">{{ sub_cat_name }}</a></li>
                         </ul>
                     </div>
                     <!-- End of page title inner -->
@@ -60,86 +94,26 @@
         <div class="col-lg-8 mx-auto">
             <!-- List group-->
             <ul class="list-group shadow">
-                <!-- list group item-->
-                <li class="list-group-item">
-                    <!-- Custom content-->
-                    <div class="media align-items-lg-center flex-column flex-lg-row p-3">
-                        <div class="media-body order-2 order-lg-1">
-                            <h5 class="mt-0 font-weight-bold mb-2">Apple iPhone XR (Red, 128 GB)</h5>
-                            <p class="font-italic text-muted mb-0 small">128 GB ROM | 15.49 cm (6.1 inch) Display 12MP Rear Camera | 7MP Front Camera A12 Bionic Chip Processor</p>
-                            <div class="d-flex align-items-center justify-content-between mt-1">
-                                <h6 class="font-weight-bold my-2">₹64,999</h6>
-                                <ul class="list-inline small">
-                                    <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
-                                    <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
-                                    <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
-                                    <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
-                                    <li class="list-inline-item m-0"><i class="fa fa-star-o text-gray"></i></li>
-                                </ul>
+                {% for x in items %}
+                    <!-- list group item-->
+                    <li class="list-group-item">
+                        <!-- Custom content-->
+                        <div class="media align-items-lg-center flex-column flex-lg-row p-3">
+                            <div class="media-body order-2 order-lg-1">
+                                <h5 class="mt-0 font-weight-bold mb-2">{{ x.name }}</h5>
+                                <p class="font-italic text-muted mb-0 small">{{ x.details }}</p>
+                                <div class="d-flex align-items-center justify-content-between mt-1">
+                                    <h6 class="font-weight-bold my-2">$ {{ x.price }}</h6>
+                                </div>
+                                <div class="row">
+                                    <a href="#" id='{{x}}' class="btn btn-fill-type update-a-product">Update</a>
+                                    <a href='{{url_for("delete_product", id=x.id, sub_cat_name=sub_cat_name)}}' class="btn btn-fill-type delete-a-product">Delete</a>
+                                </div>
                             </div>
-                        </div><img src="static/assets/img/demo-list.jpeg" alt="Generic placeholder image" width="200" class="ml-lg-5 order-1 order-lg-2">
-                    </div> <!-- End -->
-                </li> <!-- End -->
-                <!-- list group item-->
-                <li class="list-group-item">
-                    <!-- Custom content-->
-                    <div class="media align-items-lg-center flex-column flex-lg-row p-3">
-                        <div class="media-body order-2 order-lg-1">
-                            <h5 class="mt-0 font-weight-bold mb-2">Apple iPhone XS (Silver, 64 GB)</h5>
-                            <p class="font-italic text-muted mb-0 small">64 GB ROM | 14.73 cm (5.8 inch) Super Retina HD Display 12MP + 12MP | 7MP Front Camera A12 Bionic Chip Processor</p>
-                            <div class="d-flex align-items-center justify-content-between mt-1">
-                                <h6 class="font-weight-bold my-2">₹99,900</h6>
-                                <ul class="list-inline small">
-                                    <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
-                                    <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
-                                    <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
-                                    <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
-                                    <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
-                                </ul>
-                            </div>
-                        </div><img src="static/assets/img/demo-list.jpeg" alt="Generic placeholder image" width="200" class="ml-lg-5 order-1 order-lg-2">
-                    </div> <!-- End -->
-                </li> <!-- End -->
-                <!-- list group item -->
-                <li class="list-group-item">
-                    <!-- Custom content-->
-                    <div class="media align-items-lg-center flex-column flex-lg-row p-3">
-                        <div class="media-body order-2 order-lg-1">
-                            <h5 class="mt-0 font-weight-bold mb-2">Apple iPhone XS Max (Gold, 64 GB)</h5>
-                            <p class="font-italic text-muted mb-0 small">64 GB ROM | 16.51 cm (6.5 inch) Super Retina HD Display 12MP + 12MP | 7MP Front Camera A12 Bionic Chip Processor</p>
-                            <div class="d-flex align-items-center justify-content-between mt-1">
-                                <h6 class="font-weight-bold my-2">₹1,09,900</h6>
-                                <ul class="list-inline small">
-                                    <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
-                                    <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
-                                    <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
-                                    <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
-                                    <li class="list-inline-item m-0"><i class="fa fa-star-o text-gray"></i></li>
-                                </ul>
-                            </div>
-                        </div><img src="static/assets/img/demo-list.jpeg" alt="Generic placeholder image" width="200" class="ml-lg-5 order-1 order-lg-2">
-                    </div> <!-- End -->
-                </li> <!-- End -->
-                <!-- list group item -->
-                <li class="list-group-item">
-                    <!-- Custom content-->
-                    <div class="media align-items-lg-center flex-column flex-lg-row p-3">
-                        <div class="media-body order-2 order-lg-1">
-                            <h5 class="mt-0 font-weight-bold mb-2">OnePlus 7 Pro (Almond, 256 GB)</h5>
-                            <p class="font-italic text-muted mb-0 small">Rear Camera|48MP (Primary)+ 8MP (Tele-photo)+16MP (ultrawide)| Front Camera|16 MP POP-UP Camera|8GB RAM|Android pie</p>
-                            <div class="d-flex align-items-center justify-content-between mt-1">
-                                <h6 class="font-weight-bold my-2">₹ 52,999</h6>
-                                <ul class="list-inline small">
-                                    <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
-                                    <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
-                                    <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
-                                    <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
-                                    <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
-                                </ul>
-                            </div>
-                        </div><img src="static/assets/img/demo-list.jpeg" alt="Generic placeholder image" width="200" class="ml-lg-5 order-1 order-lg-2">
-                    </div> <!-- End -->
-                </li> <!-- End -->
+                            <img src='{{x.img}}' alt="Generic placeholder image" width="200" class="ml-lg-5 order-1 order-lg-2">
+                        </div> <!-- End -->
+                    </li> <!-- End -->
+                {% endfor %}
             </ul> <!-- End -->
         </div>
     </div>

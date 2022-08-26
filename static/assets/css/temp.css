@@ -280,12 +280,12 @@ body {
     margin: 20px auto;
 }
 
-.modal-subscribe.add-product button[type=submit]:hover {
+.modal-subscribe.add-product button[type=submit]:hover, .modal-subscribe.update-product button[type=submit]:hover {
     -webkit-transform: unset;
     transform: unset;
 }
 
-.modal-subscribe.add-product button[type=submit] {
+.modal-subscribe.add-product button[type=submit], .modal-subscribe.update-product button[type=submit] {
     background: inherit;
     border: 2px solid #333;
     color: auto;
@@ -298,7 +298,7 @@ body {
     transition: .3s all linear;
 }
 
-.modal-subscribe.add-product .theme-input-style {
+.modal-subscribe.add-product .theme-input-style, .modal-subscribe.update-product .theme-input-style {
     font-size: 12px;
     width: 100%;
     height: auto;
@@ -307,7 +307,7 @@ body {
     padding-bottom: 10px;
  }
 
- .modal-subscribe.add-product label {
+ .modal-subscribe.add-product label,  .modal-subscribe.update-product label {
   background-color: indigo;
   color: white;
   padding: 0.5rem;
@@ -319,21 +319,21 @@ body {
   left: 0;
 }
 
-.modal-subscribe.add-product #file-chosen {
+.modal-subscribe.add-product #file-chosen,.modal-subscribe.update-product #file-chose {
     position: relative;
     left: 35px;
     margin-top: 24px;
     font-family: sans-serif;
 }
 
-.modal-window-container.fancy.view-product .modal-window-inner h2 {
+.modal-window-container.fancy.view-product .modal-window-inner h2, .modal-window-container.fancy.update-product .modal-window-inner h2 {
     color: #ff5400;
 }
-.modal-window-container.fancy.view-product .modal-window-close {
+.modal-window-container.fancy.view-product .modal-window-close, .modal-window-container.fancy.update-product .modal-window-close {
     top: 20px;
 }
 
-.modal-window-container.fancy.view-product .modal-window-inner span {
+.modal-window-container.fancy.view-product .modal-window-inner span, .modal-window-container.fancy.update-product .modal-window-inner span{
     font-weight: unset;
     display: inline-block;
     font-size: unset;
