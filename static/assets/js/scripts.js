@@ -1109,21 +1109,21 @@ modalfunction()
         };
 
 
-$('.quick_view').on('click', function(event){
-    event.preventDefault();
-    $('.modal-quickview-container').addClass('show');
-    $('.modal-window-overlay').css('opacity',1);
-    $('body').delay(500).addClass('modal-window-open');
-})
-
-$('.modal-window-close').on('click', function(){
-    $('.modal-quickview-container').removeClass('show');
-    $('body').delay(500).removeClass('modal-window-open');
-})
-$('.modal-window-overlay').on('click', function(){
-        $(this).delay(500).parents('.modal-quickview-container').removeClass('show');
-        $('body').delay(500).removeClass('modal-window-open');
-    })
+//$('.quick_view').on('click', function(event){
+//    event.preventDefault();
+//    $('.modal-quickview-container').addClass('show');
+//    $('.modal-window-overlay').css('opacity',1);
+//    $('body').delay(500).addClass('modal-window-open');
+//})
+//
+//$('.modal-window-close').on('click', function(){
+//    $('.modal-quickview-container').removeClass('show');
+//    $('body').delay(500).removeClass('modal-window-open');
+//})
+//$('.modal-window-overlay').on('click', function(){
+//        $(this).delay(500).parents('.modal-quickview-container').removeClass('show');
+//        $('body').delay(500).removeClass('modal-window-open');
+//    })
 
 /*======================================================================
     39: cart list remover

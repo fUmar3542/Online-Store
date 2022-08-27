@@ -2389,6 +2389,7 @@ label input[type=radio] {
     font-size: 36px;
     font-weight: 700;
     margin-bottom: 37px;
+    color: coral;
 }
 
 .modal-window-inner h4 {
