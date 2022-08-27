@@ -91,19 +91,15 @@
                                                         <li>
                                                             <a href="#">Catagories</a>
                                                             <ul>
-                                                                <li><a href="categories-page1.html">Attire's</a></li>
-                                                                <li><a href="categories-page2.html">Electronics</a></li>
-                                                                <li><a href="categories-page4.html">Accessories</a></li>
-                                                                <li><a href="categories-page1.html">Grocery</a></li>
-                                                                <li><a href="categories-page2.html">Home Decor</a></li>
-                                                                <li><a href="categories-page4.html">Cosmetics</a></li>
-                                                                <li><a href="categories-page1.html">Fragrances</a></li>
+                                                                {% for x in data %}
+                                                                    <li><a href='{{url_for("main_category", value=x["name"])}}'>{{ x['name'] }}</a></li>
+                                                                {% endfor %}
                                                             </ul>
                                                         </li>
                                                         <li><a href="#">Collection</a>
                                                             <ul>
-                                                                <li><a href="collection-page1.html">New Arrival</a></li>
-                                                                <li><a href="collection-page2.html">Discount %</a></li>
+                                                                <li><a href='{{url_for("collection", value="New Arrival")}}'>New Arrival</a></li>
+                                                                <li><a href='{{url_for("collection", value="Discount %")}}'>Discount %</a></li>
                                                             </ul>
                                                         </li>
                                                         {% if log %}
@@ -233,7 +229,7 @@
                 <div class="col-md-8 offset-md-2">
                     <div class="search-bar primary-form parsley-validate">
                         <form action="/search" method="post">
-                            <input type="text" class="theme-input-style" placeholder="Type Your Search Here" required>
+                            <input type="text" name="value" class="theme-input-style" maxlength="50" placeholder="Type Your Search Here" required>
                             <input type="submit" class="search-icon" value="&#xF002;">
                         </form>
                     </div>
@@ -244,97 +240,15 @@
                     <div class="catagory-menu-wrap">
                         <nav>
                             <ul class="list-unstyled">
-                                <li class="parent-li"><a href="#">Electronics</a>
-                                    <span><img src="static/assets/img/icons/woman.svg" class="svg" alt=""></span>
-                                    <ul>
-                                        <li><a href="#">Camera & Photo</a></li>
-                                        <li><a href="#">Cell Phones</a></li>
-                                        <li><a href="#">Computers</a></li>
-                                        <li><a href="#">Audio</a></li>
-                                        <li><a href="#">Video</a></li>
-                                        <li><a href="#">Power Accessories</a></li>
-                                        <li><a href="#">eBook Readers</a></li>
-                                        <li><a href="#">Security Appliances</a></li>
-                                    </ul>
-                                </li>
-                                <li class="parent-li"><a href="#">Accessories</a>
-                                    <span><img src="static/assets/img/icons/kid.svg" class="svg" alt=""></span>
-                                    <ul>
-                                        <li><a href="#">Tools</a></li>
-                                        <li><a href="#">Scientific</a></li>
-                                        <li><a href="#">Sports & Outside</a></li>
-                                        <li><a href="#">GArden & Outdoor</a></li>
-                                        <li><a href="#">Appliances</a></li>
-                                        <li><a href="#">Health</a></li>
-                                        <li><a href="#">Office Products</a></li>
-                                        <li><a href="#">Everything Else</a></li>
-                                    </ul>
-                                </li>
-                                <li class="parent-li third-row"><a href="#">Grocery</a>
-                                    <span><img src="static/assets/img/icons/home-dec.svg" class="svg" alt=""></span>
-                                    <ul>
-                                        <li><a href="#">Baby Foods</a></li>
-                                        <li><a href="#">Dairy Products</a></li>
-                                        <li><a href="#">Beverages</a></li>
-                                        <li><a href="#">Snakes and Sweets</a></li>
-                                        <li><a href="#">Meat and Seafood</a></li>
-                                        <li><a href="#">Fresh Flowers</a></li>
-                                        <li><a href="#">Oils</a></li>
-                                        <li><a href="#">Prepared Foods</a></li>
-                                    </ul>
-                                </li>
-                                <li class="parent-li second-row"><a href="#">Home Decor</a>
-                                    <span><img src="static/assets/img/icons/home-dec.svg" class="svg" alt=""></span>
-                                    <ul>
-                                        <li><a href="#">Smart Home</a></li>
-                                        <li><a href="#">Bath</a></li>
-                                        <li><a href="#">Bedding</a></li>
-                                        <li><a href="#">Furniture</a></li>
-                                        <li><a href="#">Home Appliances</a></li>
-                                        <li><a href="#">Home Improvement</a></li>
-                                        <li><a href="#">Kids' Home</a></li>
-                                        <li><a href="#">Kitchen & Dining</a></li>
-                                    </ul>
-                                </li>
-                                <li class="parent-li"><a href="#">Attire's</a>
-                                    <span><img src="static/assets/img/icons/man.svg" class="svg" alt=""></span>
-                                    <ul>
-                                        <li><a href="#">Men Casual</a></li>
-                                        <li><a href="#">Men Formal</a></li>
-                                        <li><a href="#">Women Stitched</a></li>
-                                        <li><a href="#">Women Unstitched</a></li>
-                                        <li><a href="#">Foot Wear</a></li>
-                                        <li><a href="#">Kids Wear</a></li>
-                                        <li><a href="#">Gowns</a></li>
-                                        <li><a href="#">Ready To Wear</a></li>
-                                    </ul>
-                                </li>
-                                <li class="parent-li second-row"><a href="#">Cosmetics</a>
-                                    <span><img src="static/assets/img/icons/home-dec.svg" class="svg" alt=""></span>
-                                    <ul>
-                                        <li><a href="#">Makeup</a></li>
-                                        <li><a href="#">Skin Care</a></li>
-                                        <li><a href="#">Hair Care</a></li>
-                                        <li><a href="#">Hair Style</a></li>
-                                        <li><a href="#">Men's</a></li>
-                                        <li><a href="#">Beauty Magzine</a></li>
-                                        <li><a href="#">Serum</a></li>
-                                        <li><a href="#">Concealer</a></li>
-                                    </ul>
-                                </li>
-                                <li class="parent-li second-row"><a href="#">Fragrances</a>
-                                    <span><img src="static/assets/img/icons/home-dec.svg" class="svg" alt=""></span>
-                                    <ul>
-                                        <li><a href="#">Ambery</a></li>
-                                        <li><a href="#">Aquatic</a></li>
-                                        <li><a href="#">Aromatic</a></li>
-                                        <li><a href="#">Chypre</a></li>
-                                        <li><a href="#">Citrus</a></li>
-                                        <li><a href="#">Floral</a></li>
-                                        <li><a href="#">Fougere</a></li>
-                                        <li><a href="#">Fresh & Fruity</a></li>
-                                    </ul>
-                                </li>
+                                {% for x in data %}
+                                    <li class="parent-li"><a href='{{url_for("main_category", value=x["name"])}}'>{{ x['name'] }}</a>
+                                        <ul>
+                                            {% for sub in x['subcat'] %}
+                                                <li><a href='{{url_for("show_category_products", value=sub)}}'>{{ sub }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                {% endfor %}
                             </ul>
                         </nav>
                     </div>
@@ -848,47 +762,49 @@
 <!-- featured section -->
 <section class="pb-70">
     <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <!-- single feature area -->
-                <div class="single-featured-inner type2">
-                    <div class="featured-item-image">
-                        <img src="static/assets/img/attire-540x255.jpg" data-rjs="2" alt="">
-                    </div>
-                    <div class="featured-content text-right">
-                        <div class="single-add">
-                            <p>#womenhat</p>
-                            <h3>Women's Faux<br> Leather Band Felt Floppy Hat</h3>
-                            <a href="#" class="btn">Shop Now</a>
+        {% if new[1] %}
+            <div class="row">
+                <div class="col-md-6">
+                    <!-- single feature area -->
+                    <div class="single-featured-inner type2">
+                        <div class="featured-item-image">
+                            <img src='{{new[0].img}}' data-rjs="2" alt="">
+                        </div>
+                        <div class="featured-content text-right">
+                            <div class="single-add">
+                                <p>#{{new[0].name}}</p>
+                                <h3>{{new[0].name}}<br>{{new[0].brand}}</h3>
+                                <a href="#" class="btn">Shop Now</a>
+                            </div>
                         </div>
                     </div>
+                    <!--End of single feature area -->
                 </div>
-                <!--End of single feature area -->
-            </div>
-            <div class="col-md-6">
-                <!-- single feature area -->
-                <div class="single-featured-inner type2">
-                    <div class="featured-item-image">
-                        <img src="static/assets/img/attire-540x255.jpg" data-rjs="2" alt="">
-                    </div>
-                    <div class="featured-content text-left">
-                        <div class="single-add">
-                            <p>#womenhat</p>
-                            <h3>Women's Faux<br> Leather Band Felt Floppy Hat</h3>
-                            <a href="#" class="btn">Shop Now</a>
+                <div class="col-md-6">
+                    <!-- single feature area -->
+                    <div class="single-featured-inner type2">
+                        <div class="featured-item-image">
+                            <img src='{{new[1].img}}' data-rjs="2" alt="">
+                        </div>
+                        <div class="featured-content text-left">
+                            <div class="single-add">
+                                <p>#{{new[1].name}}</p>
+                                <h3>{{new[1].name}}<br>{{new[1].brand}}</h3>
+                                <a href="#" class="btn">Shop Now</a>
+                            </div>
                         </div>
                     </div>
+                    <!--End of  single feature area -->
                 </div>
-                <!--End of  single feature area -->
             </div>
-        </div>
+        {% endif %}
         <div class="row">
             <div class="col-12">
                 <!-- single feature area -->
                 <div class="single-featured-inner type2 callto-action-inner"
                      data-bg-img='static/assets/img/add/cta-1.jpg'>
                     <h3>All Collections</h3>
-                    <h5>are <a href="#" class="btn">Available Here</a></h5>
+                    <h5>are <a href='{{url_for("all_products")}}' class="btn">Available Here</a></h5>
                 </div>
                 <!--End of single feature area -->
             </div>
@@ -912,678 +828,70 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6 col-12 col-lg-3">
-                <!-- single product -->
-                <div class="single-product">
-                    <div class="product-item">
-                        <div class="product-thumb">
-                            <!-- Product Image -->
-                            <div class="product-image">
-                                <a href='shop-details.html'>
-                                    <img class='normal-state' data-rjs="2" src="static/assets/img/product/product-1.jpg"
-                                         alt="">
-                                    <img class='hover-state' data-rjs="2" src="static/assets/img/product/product-1b.jpg"
-                                         alt="">
-                                </a>
+            {% for x in new %}
+                <div class="col-sm-6 col-12 col-lg-3">
+                    <!-- single product -->
+                    <div class="single-product">
+                        <div class="product-item">
+                            <div class="product-thumb">
+                                <!-- Product Image -->
+                                <div class="product-image">
+                                    <a href='{{url_for("show_details", id=x.id)}}'>
+                                        <img class='normal-state' data-rjs="2" src='{{x.img}}'
+                                             alt="">
+                                        <img class='hover-state' data-rjs="2" src='{{x.img}}'
+                                             alt="">
+                                    </a>
+                                </div>
+                                <!-- End of Product Image -->
+
+                                <!-- product button -->
+                                <div class="product-buttons">
+                                    <div class="quick-btn">
+                                        <div class="quick-icon-btn">
+                                            <a href='{{url_for("show_details", id=x.id)}}' class="quick_view">
+                                                <span class="product-icon"><i class="fa fa-eye"
+                                                                              aria-hidden="true"></i></span>
+                                                <span class="icon-title">Quick View</span>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="addto-cart-btn">
+                                        <div class="addto-icon-btn">
+                                            <a href="#">
+                                                <span class="product-icon"><img src="static/assets/img/icons/add-bag.svg"
+                                                                                alt="" class="svg"></span>
+                                                <span class="icon-title">Add To Cart</span>
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                    <div class="wishlist-btn">
+                                        <div class="wishlist-icon-btn">
+                                            <a href="#">
+                                                <span class="product-icon"><img src="static/assets/img/icons/wishlist.svg"
+                                                                                alt="" class="svg"></span>
+                                                <span class="icon-title">See Wish List</span>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- End of product button -->
                             </div>
-                            <!-- End of Product Image -->
 
-                            <!-- product button -->
-                            <div class="product-buttons">
-                                <div class="quick-btn">
-                                    <div class="quick-icon-btn">
-                                        <a href="#" class="quick_view">
-                                            <span class="product-icon"><i class="fa fa-eye"
-                                                                          aria-hidden="true"></i></span>
-                                            <span class="icon-title">Quick View</span>
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class="addto-cart-btn">
-                                    <div class="addto-icon-btn">
-                                        <a href="#">
-                                            <span class="product-icon"><img src="static/assets/img/icons/add-bag.svg"
-                                                                            alt="" class="svg"></span>
-                                            <span class="icon-title">Add To Cart</span>
-                                        </a>
-                                    </div>
-
-                                </div>
-                                <div class="wishlist-btn">
-                                    <div class="wishlist-icon-btn">
-                                        <a href="#">
-                                            <span class="product-icon"><img src="static/assets/img/icons/wishlist.svg"
-                                                                            alt="" class="svg"></span>
-                                            <span class="icon-title">See Wish List</span>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="copmare-btn">
-                                    <div class="compare-icon-btn">
-                                        <a href="#">
-                                            <span class="product-icon"><img src="static/assets/img/icons/compare.svg"
-                                                                            alt="" class="svg"></span>
-                                            <span class="icon-title">Compare</span>
-                                        </a>
-                                    </div>
-
-                                </div>
+                            <!-- product info -->
+                             <div class="product-info">
+                                 <h4><a href="shop-details.html">{{ x.name }}</a></h4>
+                                 <div class="product-price"><h5>$ {{x.price}}</h5></div>
                             </div>
-                            <!-- End of product button -->
-
-                            <!-- product title -->
-                            <div class="product-title">
-                                <h4><a href="shop-details.html">Woven Throw Pillow</a></h4>
-                            </div>
-                            <!-- end of product title -->
+                            <!-- End of product info -->
                         </div>
-
-                        <!-- product info -->
-                        <div class="product-info">
-                            <div class="product-price"><h5>$30.1</h5></div>
-                            <div class="product-rating">
-                                <div class="star-rating">
-                                    <span></span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End of product info -->
                     </div>
+                    <!-- End of single product -->
                 </div>
-                <!-- End of single product -->
-            </div>
-            <div class="col-sm-6 col-12 col-lg-3">
-                <!-- single product -->
-                <div class="single-product">
-                    <div class="product-item">
-                        <div class="product-thumb">
-                            <!-- Product Image -->
-                            <div class="product-image">
-                                <a href="shop-details.html">
-                                    <img class='normal-state' data-rjs="2" src="static/assets/img/product/product-2.jpg"
-                                         alt="">
-                                    <img class='hover-state' data-rjs="2" src="static/assets/img/product/product-2b.jpg"
-                                         alt="">
-                                </a>
-                            </div>
-                            <!-- End of Product Image -->
-
-                            <!-- product button -->
-                            <div class="product-buttons">
-                                <div class="quick-btn">
-                                    <div class="quick-icon-btn">
-                                        <a href="#" class="quick_view">
-                                            <span class="product-icon"><i class="fa fa-eye"
-                                                                          aria-hidden="true"></i></span>
-                                            <span class="icon-title">Quick View</span>
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class="addto-cart-btn">
-                                    <div class="addto-icon-btn">
-                                        <a href="#">
-                                            <span class="product-icon"><img src="static/assets/img/icons/add-bag.svg"
-                                                                            alt="" class="svg"></span>
-                                            <span class="icon-title">Add To Cart</span>
-                                        </a>
-                                    </div>
-
-                                </div>
-                                <div class="wishlist-btn">
-                                    <div class="wishlist-icon-btn">
-                                        <a href="#">
-                                            <span class="product-icon"><img src="static/assets/img/icons/wishlist.svg"
-                                                                            alt="" class="svg"></span>
-                                            <span class="icon-title">See Wish List</span>
-                                        </a>
-                                    </div>
-
-                                </div>
-                                <div class="copmare-btn">
-                                    <div class="compare-icon-btn">
-                                        <a href="#">
-                                            <span class="product-icon"><img src="static/assets/img/icons/compare.svg"
-                                                                            alt="" class="svg"></span>
-                                            <span class="icon-title">Compare</span>
-                                        </a>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <!-- End of product button -->
-
-                            <!-- product title -->
-                            <div class="product-title">
-                                <h4><a href="shop-details.html">Copley Dining Chair</a></h4>
-                            </div>
-                            <!-- end of product title -->
-
-                            <!-- discount tag -->
-                            <div class="product-tag discount-tag">
-                                <div class="tag-text">
-                                    <span>-20%</span>
-                                </div>
-                            </div>
-                            <!-- End of discount tag -->
-                        </div>
-
-                        <!-- product info -->
-                        <div class="product-info">
-                            <div class="product-price"><h5>$24.1</h5></div>
-                            <div class="product-rating">
-                                <div class="star-rating">
-                                    <span></span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End of product info -->
-                    </div>
-                </div>
-                <!-- End of single product -->
-            </div>
-            <div class="col-sm-6 col-12 col-lg-3">
-                <!-- single product -->
-                <div class="single-product">
-                    <div class="product-item">
-                        <div class="product-thumb">
-                            <!-- Product Image -->
-                            <div class="product-image">
-                                <a href="shop-details.html">
-                                    <img class='normal-state' data-rjs="2" src="static/assets/img/product/product-3.jpg"
-                                         alt="">
-                                    <img class='hover-state' data-rjs="2" src="static/assets/img/product/product-3b.jpg"
-                                         alt="">
-                                </a>
-                            </div>
-                            <!-- End of Product Image -->
-
-                            <!-- product button -->
-                            <div class="product-buttons">
-                                <div class="quick-btn">
-                                    <div class="quick-icon-btn">
-                                        <a href="#" class="quick_view">
-                                            <span class="product-icon"><i class="fa fa-eye"
-                                                                          aria-hidden="true"></i></span>
-                                            <span class="icon-title">Quick View</span>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="addto-cart-btn">
-                                    <div class="addto-icon-btn">
-                                        <a href="#">
-                                            <span class="product-icon"><img src="static/assets/img/icons/add-bag.svg"
-                                                                            alt="" class="svg"></span>
-                                            <span class="icon-title">Add To Cart</span>
-                                        </a>
-                                    </div>
-
-                                </div>
-                                <div class="wishlist-btn">
-                                    <div class="wishlist-icon-btn">
-                                        <a href="#">
-                                            <span class="product-icon"><img src="static/assets/img/icons/wishlist.svg"
-                                                                            alt="" class="svg"></span>
-                                            <span class="icon-title">See Wish List</span>
-                                        </a>
-                                    </div>
-
-                                </div>
-                                <div class="copmare-btn">
-                                    <div class="compare-icon-btn">
-                                        <a href="#">
-                                            <span class="product-icon"><img src="static/assets/img/icons/compare.svg"
-                                                                            alt="" class="svg"></span>
-                                            <span class="icon-title">Compare</span>
-                                        </a>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <!-- End of product button -->
-
-                            <!-- product title -->
-                            <div class="product-title">
-                                <h4><a href="shop-details.html">Women's Flexible Bottom Shoes</a></h4>
-                            </div>
-                            <!-- end of product title -->
-                        </div>
-
-                        <!-- product info -->
-                        <div class="product-info">
-                            <div class="product-price"><h5>$32</h5></div>
-                            <div class="product-rating">
-                                <div class="star-rating">
-                                    <span></span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End of product info -->
-                    </div>
-                </div>
-                <!-- End of single product -->
-            </div>
-            <div class="col-sm-6 col-12 col-lg-3">
-                <!-- single product -->
-                <div class="single-product">
-                    <div class="product-item">
-                        <div class="product-thumb">
-                            <!-- Product Image -->
-                            <div class="product-image">
-                                <a href="shop-details.html">
-                                    <img class='normal-state' data-rjs="2" src="static/assets/img/product/product-4.jpg"
-                                         alt="">
-                                    <img class='hover-state' data-rjs="2" src="static/assets/img/product/product-4b.jpg"
-                                         alt="">
-                                </a>
-                            </div>
-                            <!-- End of Product Image -->
-
-                            <!-- product button -->
-                            <div class="product-buttons">
-                                <div class="quick-btn">
-                                    <div class="quick-icon-btn">
-                                        <a href="#" class="quick_view">
-                                            <span class="product-icon"><i class="fa fa-eye"
-                                                                          aria-hidden="true"></i></span>
-                                            <span class="icon-title">Quick View</span>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="addto-cart-btn">
-                                    <div class="addto-icon-btn">
-                                        <a href="#">
-                                            <span class="product-icon"><img src="static/assets/img/icons/add-bag.svg"
-                                                                            alt="" class="svg"></span>
-                                            <span class="icon-title">Add To Cart</span>
-                                        </a>
-                                    </div>
-
-                                </div>
-                                <div class="wishlist-btn">
-                                    <div class="wishlist-icon-btn">
-                                        <a href="#">
-                                            <span class="product-icon"><img src="static/assets/img/icons/wishlist.svg"
-                                                                            alt="" class="svg"></span>
-                                            <span class="icon-title">See Wish List</span>
-                                        </a>
-                                    </div>
-
-                                </div>
-                                <div class="copmare-btn">
-                                    <div class="compare-icon-btn">
-                                        <a href="#">
-                                            <span class="product-icon"><img src="static/assets/img/icons/compare.svg"
-                                                                            alt="" class="svg"></span>
-                                            <span class="icon-title">Compare</span>
-                                        </a>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <!-- End of product button -->
-
-                            <!-- product title -->
-                            <div class="product-title">
-                                <h4><a href="shop-details.html">Women's Strap Sandal</a></h4>
-                            </div>
-                            <!-- end of product title -->
-                        </div>
-
-                        <!-- product info -->
-                        <div class="product-info">
-                            <div class="product-price"><h5>$10</h5></div>
-                            <div class="product-rating">
-                                <div class="star-rating">
-                                    <span></span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End of product info -->
-                    </div>
-                </div>
-                <!-- End of single product -->
-            </div>
-            <div class="col-sm-6 col-12 col-lg-3">
-                <!-- single product -->
-                <div class="single-product  new-product-tag">
-                    <div class="product-item">
-                        <div class="product-thumb">
-                            <!-- Product Image -->
-                            <div class="product-image">
-                                <a href="shop-details.html">
-                                    <img class='normal-state' data-rjs="2" src="static/assets/img/product/product-5.jpg"
-                                         alt="">
-                                    <img class='hover-state' data-rjs="2" src="static/assets/img/product/product-5b.jpg"
-                                         alt="">
-                                </a>
-                            </div>
-                            <!-- End of Product Image -->
-
-                            <!-- product button -->
-                            <div class="product-buttons">
-                                <div class="quick-btn">
-                                    <div class="quick-icon-btn">
-                                        <a href="#" class="quick_view">
-                                            <span class="product-icon"><i class="fa fa-eye"
-                                                                          aria-hidden="true"></i></span>
-                                            <span class="icon-title">Quick View</span>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="addto-cart-btn">
-                                    <div class="addto-icon-btn">
-                                        <a href="#">
-                                            <span class="product-icon"><img src="static/assets/img/icons/add-bag.svg"
-                                                                            alt="" class="svg"></span>
-                                            <span class="icon-title">Add To Cart</span>
-                                        </a>
-                                    </div>
-
-                                </div>
-                                <div class="wishlist-btn">
-                                    <div class="wishlist-icon-btn">
-                                        <a href="#">
-                                            <span class="product-icon"><img src="static/assets/img/icons/wishlist.svg"
-                                                                            alt="" class="svg"></span>
-                                            <span class="icon-title">See Wish List</span>
-                                        </a>
-                                    </div>
-
-                                </div>
-                                <div class="copmare-btn">
-                                    <div class="compare-icon-btn">
-                                        <a href="#">
-                                            <span class="product-icon"><img src="static/assets/img/icons/compare.svg"
-                                                                            alt="" class="svg"></span>
-                                            <span class="icon-title">Compare</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End of product button -->
-
-                            <!-- product title -->
-                            <div class="product-title">
-                                <h4><a href="shop-details.html">Cat Eye Reading Glasses</a></h4>
-                            </div>
-                            <!-- end of product title -->
-
-                            <!-- new item tag -->
-                            <div class="product-tag">
-                                <div class="tag-text">
-                                    <span>new</span>
-                                </div>
-                            </div>
-                            <!-- End of new item tag -->
-                        </div>
-
-                        <!-- product info -->
-                        <div class="product-info">
-                            <div class="product-price"><h5>$17</h5></div>
-                            <div class="product-rating">
-                                <div class="star-rating">
-                                    <span></span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End of product info -->
-                    </div>
-                </div>
-                <!-- End of single product -->
-            </div>
-            <div class="col-sm-6 col-12 col-lg-3">
-                <!-- single product -->
-                <div class="single-product sold-product-tag">
-                    <div class="product-item">
-                        <div class="product-thumb">
-                            <!-- Product Image -->
-                            <div class="product-image">
-                                <a href="shop-details.html">
-                                    <img class='normal-state' data-rjs="2" src="static/assets/img/product/product-6.jpg"
-                                         alt="">
-                                    <img class='hover-state' data-rjs="2" src="static/assets/img/product/product-6b.jpg"
-                                         alt="">
-                                </a>
-                            </div>
-                            <!-- End of Product Image -->
-
-                            <!-- product button -->
-                            <div class="product-buttons">
-                                <div class="quick-btn">
-                                    <div class="quick-icon-btn">
-                                        <a href="#" class="quick_view">
-                                            <span class="product-icon"><i class="fa fa-eye"
-                                                                          aria-hidden="true"></i></span>
-                                            <span class="icon-title">Quick View</span>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="addto-cart-btn">
-                                    <div class="addto-icon-btn">
-                                        <a href="#">
-                                            <span class="product-icon"><img src="static/assets/img/icons/add-bag.svg"
-                                                                            alt="" class="svg"></span>
-                                            <span class="icon-title">Add To Cart</span>
-                                        </a>
-                                    </div>
-
-                                </div>
-                                <div class="wishlist-btn">
-                                    <div class="wishlist-icon-btn">
-                                        <a href="#">
-                                            <span class="product-icon"><img src="static/assets/img/icons/wishlist.svg"
-                                                                            alt="" class="svg"></span>
-                                            <span class="icon-title">See Wish List</span>
-                                        </a>
-                                    </div>
-
-                                </div>
-                                <div class="copmare-btn">
-                                    <div class="compare-icon-btn">
-                                        <a href="#">
-                                            <span class="product-icon"><img src="static/assets/img/icons/compare.svg"
-                                                                            alt="" class="svg"></span>
-                                            <span class="icon-title">Compare</span>
-                                        </a>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <!-- End of product button -->
-
-                            <!-- product title -->
-                            <div class="product-title">
-                                <h4><a href="shop-details.html">Army Baseball Cap</a></h4>
-                            </div>
-                            <!-- end of product title -->
-
-                            <!-- sold item tag -->
-                            <div class="product-tag">
-                                <div class="tag-text">
-                                    <span>sold out</span>
-                                </div>
-                            </div>
-                            <!-- End of sold item tag -->
-                        </div>
-
-                        <!-- product info -->
-                        <div class="product-info">
-                            <div class="product-price"><h5>$19</h5></div>
-                            <div class="product-rating">
-                                <div class="star-rating">
-                                    <span></span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End of product info -->
-                    </div>
-                </div>
-                <!-- End of single product -->
-            </div>
-            <div class="col-sm-6 col-12 col-lg-3">
-                <!-- single product -->
-                <div class="single-product">
-                    <div class="product-item">
-                        <div class="product-thumb">
-                            <!-- Product Image -->
-                            <div class="product-image">
-                                <a href="shop-details.html">
-                                    <img class='normal-state' data-rjs="2" src="static/assets/img/product/product-7.jpg"
-                                         alt="">
-                                    <img class='hover-state' data-rjs="2" src="static/assets/img/product/product-7b.jpg"
-                                         alt="">
-                                </a>
-                            </div>
-                            <!-- End of Product Image -->
-
-                            <!-- product button -->
-                            <div class="product-buttons">
-                                <div class="quick-btn">
-                                    <div class="quick-icon-btn">
-                                        <a href="#" class="quick_view">
-                                            <span class="product-icon"><i class="fa fa-eye"
-                                                                          aria-hidden="true"></i></span>
-                                            <span class="icon-title">Quick View</span>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="addto-cart-btn">
-                                    <div class="addto-icon-btn">
-                                        <a href="#">
-                                            <span class="product-icon"><img src="static/assets/img/icons/add-bag.svg"
-                                                                            alt="" class="svg"></span>
-                                            <span class="icon-title">Add To Cart</span>
-                                        </a>
-                                    </div>
-
-                                </div>
-                                <div class="wishlist-btn">
-                                    <div class="wishlist-icon-btn">
-                                        <a href="#">
-                                            <span class="product-icon"><img src="static/assets/img/icons/wishlist.svg"
-                                                                            alt="" class="svg"></span>
-                                            <span class="icon-title">See Wish List</span>
-                                        </a>
-                                    </div>
-
-                                </div>
-                                <div class="copmare-btn">
-                                    <div class="compare-icon-btn">
-                                        <a href="#">
-                                            <span class="product-icon"><img src="static/assets/img/icons/compare.svg"
-                                                                            alt="" class="svg"></span>
-                                            <span class="icon-title">Compare</span>
-                                        </a>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <!-- End of product button -->
-
-                            <!-- product title -->
-                            <div class="product-title">
-                                <h4><a href="shop-details.html">Girls' Monster Wallet</a></h4>
-                            </div>
-                            <!-- end of product title -->
-                        </div>
-
-                        <!-- product info -->
-                        <div class="product-info">
-                            <div class="product-price"><h5>$38</h5></div>
-                            <div class="product-rating">
-                                <div class="star-rating">
-                                    <span></span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End of product info -->
-                    </div>
-                </div>
-                <!-- End of single product -->
-            </div>
-            <div class="col-sm-6 col-12 col-lg-3">
-                <!-- single product -->
-                <div class="single-product">
-                    <div class="product-item">
-                        <div class="product-thumb">
-                            <!-- Product Image -->
-                            <div class="product-image">
-                                <a href="shop-details.html">
-                                    <img class='normal-state' data-rjs="2" src="static/assets/img/product/product-8.jpg"
-                                         alt="">
-                                    <img class='hover-state' data-rjs="2" src="static/assets/img/product/product-8b.jpg"
-                                         alt="">
-                                </a>
-                            </div>
-                            <!-- End of Product Image -->
-
-                            <!-- product button -->
-                            <div class="product-buttons">
-                                <div class="quick-btn">
-                                    <div class="quick-icon-btn">
-                                        <a href="#" class="quick_view">
-                                            <span class="product-icon"><i class="fa fa-eye"
-                                                                          aria-hidden="true"></i></span>
-                                            <span class="icon-title">Quick View</span>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="addto-cart-btn">
-                                    <div class="addto-icon-btn">
-                                        <a href="#">
-                                            <span class="product-icon"><img src="static/assets/img/icons/add-bag.svg"
-                                                                            alt="" class="svg"></span>
-                                            <span class="icon-title">Add To Cart</span>
-                                        </a>
-                                    </div>
-
-                                </div>
-                                <div class="wishlist-btn">
-                                    <div class="wishlist-icon-btn">
-                                        <a href="#">
-                                            <span class="product-icon"><img src="static/assets/img/icons/wishlist.svg"
-                                                                            alt="" class="svg"></span>
-                                            <span class="icon-title">See Wish List</span>
-                                        </a>
-                                    </div>
-
-                                </div>
-                                <div class="copmare-btn">
-                                    <div class="compare-icon-btn">
-                                        <a href="#">
-                                            <span class="product-icon"><img src="static/assets/img/icons/compare.svg"
-                                                                            alt="" class="svg"></span>
-                                            <span class="icon-title">Compare</span>
-                                        </a>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <!-- End of product button -->
-
-                            <!-- product title -->
-                            <div class="product-title">
-                                <h4><a href="shop-details.html">Room Stick Lamp</a></h4>
-                            </div>
-                            <!-- end of product title -->
-                        </div>
-
-                        <!-- product info -->
-                        <div class="product-info">
-                            <div class="product-price"><h5>$08</h5></div>
-                            <div class="product-rating">
-                                <div class="star-rating">
-                                    <span></span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End of product info -->
-                    </div>
-                </div>
-                <!-- End of single product -->
-            </div>
+            {% endfor %}
         </div>
     </div>
 </section>
@@ -1662,9 +970,9 @@
             <div class="col-md-6">
                 <div class="about-image-inner">
                     <div class="about-image">
-                        <img src="static/assets/img/featuerd/about1.jpg" alt="" class="about-image1">
-                        <img src="static/assets/img/featuerd/about2.jpg" alt="" class="about-image2">
-                        <img src="static/assets/img/featuerd/about3.jpg" alt="" class="about-image3">
+                        <img src="static/assets/img/about1.jpg" alt="" class="about-image1">
+                        <img src="static/assets/img/about2.jpg" alt="" class="about-image2">
+                        <img src="static/assets/img/about3.jpg" alt="" class="about-image3">
                     </div>
                 </div>
             </div>
@@ -1738,7 +1046,7 @@
             <div class="col-md-6">
                 <!-- testimonial image -->
                 <div class="testimonial-image">
-                    <img src="static/assets/img/clients/testimonial.jpg" alt="">
+                    <img src="static/assets/img/testimonial.jpg" alt="">
                 </div>
                 <!-- End of testimonial image -->
             </div>
@@ -1830,7 +1138,7 @@
                         <div class="col-lg-6">
                             <!-- single blog image -->
                             <div class="single-blog-image">
-                                <a href="#"><img src="static/assets/img/blog/img1.jpg" alt=""></a>
+                                <a href="#"><img src="static/assets/img/img1.jpg" alt=""></a>
                             </div>
                             <!-- End of single blog image -->
                         </div>
@@ -1868,7 +1176,7 @@
                         <div class="col-lg-6">
                             <!-- single blog image -->
                             <div class="single-blog-image">
-                                <a href="#"><img src="static/assets/img/blog/img2.jpg" alt=""></a>
+                                <a href="#"><img src="static/assets/img/img2.jpg" alt=""></a>
                             </div>
                             <!-- End of single blog image -->
                         </div>

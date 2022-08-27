@@ -7,10 +7,11 @@
                 <div class="col-12">
                     <!-- page title inner -->
                     <div class="page-title-wrap">
-                        <div class="page-title-heading"><h1 class="h2">Collection<span>LookBook</span></h1></div>
+                        <div class="page-title-heading"><h1 class="h2">{{ collection }}<span>LookBook</span></h1></div>
                         <ul class="list-unstyled mb-0">
                             <li><a href="index.html">home</a></li>
-                            <li class="active"><a href="#">Shop</a></li>
+                            <li><a href="#">Collection</a></li>
+                            <li class="active"><a href="#">{{ collection }}</a></li>
                         </ul>
                     </div>
                     <!-- End of page title inner -->
@@ -32,8 +33,8 @@
                                 <div class="collection-image">
                                     <img src="static/assets/img/collection/collection1.jpg" data-rjs='2' alt="">
                                     <div class="image-caption">
-                                        <h3><a href="shop-2col-withbar.html">Trendy Fashion</a></h3>
-                                        <a href="shop-2col-withbar.html" class="btn btn-line">Browse All Collections</a>
+                                        <h3><a href='{{url_for("collect", col=collection, type="trendy")}}'>Trendy Fashion</a></h3>
+                                        <a href='{{url_for("collect", col=collection, type="trendy")}}' class="btn btn-line">Browse All Collections</a>
                                     </div>
                                 </div>
                             </div>
@@ -46,8 +47,8 @@
                                 <div class="collection-image">
                                     <img src="static/assets/img/collection/collection2.jpg" data-rjs='2' alt="">
                                     <div class="image-caption">
-                                        <h3><a href="shop-2col-withbar.html">Fashion Accessories</a></h3>
-                                        <a href="shop-2col-withbar.html" class="btn btn-line">Browse All Collections</a>
+                                        <h3><a href='{{url_for("collect", col=collection, type="beauty")}}'>Beauty Magzine</a></h3>
+                                        <a href='{{url_for("collect", col=collection, type="beauty")}}' class="btn btn-line">Browse All Collections</a>
                                     </div>
                                 </div>
                             </div>
@@ -60,8 +61,8 @@
                                 <div class="collection-image">
                                     <img src="static/assets/img/collection/collection3.jpg" data-rjs='2' alt="">
                                     <div class="image-caption">
-                                        <h3><a href="shop-2col-withbar.html">Fashionable Shoes</a></h3>
-                                        <a href="shop-2col-withbar.html" class="btn btn-line">Browse All Collections</a>
+                                        <h3><a href='{{url_for("collect", col=collection, type="home")}}'>Home Decoration</a></h3>
+                                        <a href='{{url_for("collect", col=collection, type="home")}}' class="btn btn-line">Browse All Collections</a>
                                     </div>
                                 </div>
                             </div>
@@ -74,8 +75,8 @@
                                 <div class="collection-image">
                                     <img src="static/assets/img/collection/collection4.jpg" data-rjs='2' alt="">
                                     <div class="image-caption">
-                                        <h3><a href="shop-2col-withbar.html">Home Decoration</a></h3>
-                                        <a href="shop-2col-withbar.html" class="btn btn-line">Browse All Collections</a>
+                                        <h3><a href='{{url_for("collect", col=collection, type="technology")}}'>Technology</a></h3>
+                                        <a href='{{url_for("collect", col=collection, type="technology")}}' class="btn btn-line">Browse All Collections</a>
                                     </div>
                                 </div>
                             </div>

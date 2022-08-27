@@ -2,10 +2,13 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from Base import Session, engine, Base
-from flask import Flask, session, render_template, make_response, request, url_for, redirect
+from flask import Flask, session, render_template, make_response, request, url_for, redirect, jsonify
 from Model import User, Order, Category, SubCategory, Product, OrderProduct, Payment
-from pathlib import Path
+from sqlalchemy import or_
 import os
+
+adminUsername = 'Umar'
+data = []             # For categories name with their subcategories list
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
@@ -15,8 +18,182 @@ app.secret_key = "anony"
 Base.metadata.create_all(engine)
 db = Session()
 
-adminUsername = 'Umar'
-data = []
+def all_prod():
+    prod = []
+    dat = db.query(Product).filter().order_by(Product.id.desc()).all()
+    for x in dat:
+        prod.append(x.id)
+    return prod
+
+def new_arrival():
+    dat = db.query(Product).filter().order_by(Product.id.desc()).limit(8)
+    return dat
+
+def refresh():
+    cat = db.query(Category).all()
+    data.clear()
+    i = 0
+    for x in cat:
+        data.append({"name": x.name,
+                     "subcat": []})
+        sub = db.query(SubCategory).filter(SubCategory.catId == x.id)
+        for y in sub:
+            data[i]['subcat'].append(y.name)
+        i = i+1
+
+def updated_sub_category_list(value):
+    sub_category = []
+    sub_cat = db.query(SubCategory).filter(SubCategory.name == value).first()
+    prod = db.query(Product).filter(Product.subCatId == sub_cat.id)
+    for x in prod:
+        sub_category.append(x)
+    return sub_category
+
+def return_collection(col,type):
+    products = []
+    cat1 = ""
+    cat2 = ""
+    if type == "trendy":
+        cat1 = "Attire's"
+        cat2 = "Cosmetics"
+    elif type == "beauty":
+        cat1 = "Fragrances"
+        cat2 = "Cosmetics"
+    elif type == "home":
+        cat1 = "Home Decor"
+        cat2 = "Grocery"
+    else:
+        cat1 = "Electronics"
+        cat2 = "Accessories"
+    if col == "Discount %":
+        dat = db.query(Product
+                ).join(
+                SubCategory
+                ).join(
+                Category
+                ).filter(
+                ((Product.discount > 0) & (or_(Category.name == cat1, Category.name == cat2)))
+        ).all()
+    else:
+        dat = db.query(Product
+                ).join(
+                SubCategory
+                ).join(
+                    Category
+                ).filter(
+                    (or_(Category.name == cat1, Category.name == cat2))
+        ).order_by(Product.id.desc()).limit(12)
+    for x in dat:
+        products.append(x.id)
+    return products
+
+@app.route('/search', methods=['get', 'post'])
+def search():
+    if request.method == 'POST':
+        value = request.form.get("value").upper().split()   # Splitting each keyword
+        prod = []
+        dat = db.query(Product).filter().order_by(Product.id.desc()).all()
+        for x in dat:
+            name = x.name.upper().split()
+            brand = x.brand.upper().split()
+            for i in value:
+                if (i in name) or (i in brand):
+                    prod.append(x.id)
+        session['list_product_ids'] = list(dict.fromkeys(prod))   # Removing duplicates
+        session['list_product_name'] = request.form.get("value")
+        return redirect(url_for("list_product"))
+
+@app.route('/all/products', methods=['get', 'post'])
+def all_products():
+    products = all_prod()
+    session['list_product_ids'] = products
+    session['list_product_name'] = "All Products"
+    return redirect(url_for("list_product"))
+
+@app.route('/<value>', methods=['get', 'post'])
+def main_category(value):
+    session['main_category'] = value
+    return redirect(url_for("categories_page2"))
+
+@app.route('/categories', methods=['get', 'post'])
+def categories_page2():
+    name = session['main_category']
+    cat = db.query(Category).filter(Category.name == name).first()
+    if cat != None:
+        sub_categories = db.query(SubCategory).filter(SubCategory.catId == cat.id).all()
+    else:
+        sub_categories= []
+    if 'username' in session:
+        if session['username'] == adminUsername:
+            return render_template("categories-page2.html", login=True, admin=True, data=data, categories=sub_categories, main=name)
+        else:
+            return render_template("categories-page2.html",login=True, admin=False, data=data, categories=sub_categories, main=name)
+    else:
+        return render_template("categories-page2.html", login=False, admin=False, categories=sub_categories, main=name)
+
+@app.route('/Main/<value>', methods=['get', 'post'])
+def show_category_products(value):
+    products = []
+    t = db.query(Product.id).join(SubCategory).filter(SubCategory.name == value).all()
+    for x in t:
+        products.append(x.id)
+    session['list_product_ids'] = products
+    session['list_product_name'] = value
+    return redirect(url_for("list_product"))
+
+@app.route('/collection/<value>', methods=['get', 'post'])
+def collection(value):
+    session['collection'] = value
+    return redirect(url_for("collection_page"))
+
+@app.route('/collection/<col>/<type>', methods=['get','post'])
+def collect(col,type):
+    t = return_collection(col,type)
+    session['list_product_ids'] = t
+    session['list_product_name'] = col
+    return redirect(url_for("list_product"))
+
+@app.route('/products', methods=['get', 'post'])
+def list_product():
+    products = []
+    name = session['list_product_name']
+    for x in session['list_product_ids']:
+        products.append(db.query(Product).filter(Product.id == x).first())
+    if 'username' in session:
+        if (session['username'] == adminUsername):
+            return render_template("list-product.html", login=True, admin=True, data=data, items=products, name=name)
+        else:
+            return render_template("list-product.html", login=True, admin=False, data=data, items=products, name=name)
+    else:
+        return render_template("list-product.html", login=False, admin=False, data=data, items=products, name=name)
+
+@app.route('/products/<id>', methods=['get', 'post'])
+def show_details(id):
+    session['detail_product_id'] = id
+    return redirect(url_for("detail_product"))
+
+@app.route('/details', methods=['get', 'post'])
+def detail_product():
+    id = session['detail_product_id']
+    details = db.query(Product).filter(Product.id == id).first()
+    if 'username' in session:
+        if (session['username'] == adminUsername):
+            return render_template("detail-product.html", login=True, admin=True, data=data, item=details)
+        else:
+            return render_template("detail-product.html", login=True, admin=False, data=data, item=details)
+    else:
+        return render_template("detail-product.html", login=False, admin=False, data=data, item=details)
+
+@app.route('/collection', methods=['get', 'post'])
+def collection_page():
+    value = session['collection']
+    if 'username' in session:
+        if (session['username'] == adminUsername):
+            return render_template("collection-page2.html", login=True, admin=True, data=data, collection=value)
+        else:
+            return render_template("collection-page2.html", login=True, admin=False, data=data, collection=value)
+    else:
+        return render_template("collection-page2.html", login=False, admin=False, data=data, collection=value)
 
 @app.route('/add-category', methods=['get','post'])
 def add_category():
@@ -100,7 +277,6 @@ def admin_panel():
     refresh()
     return render_template("admin-panel.html", login=True, admin=True, data=data)
 
-# --------------------------------------------------------------------------------
 
 @app.route('/', methods=['post','get'])
 def main():
@@ -109,70 +285,53 @@ def main():
 @app.route('/index.html', methods=['post','get'])
 def home():
     refresh()  # Refreshing Data from database
+    new_arrive = new_arrival()
     if 'username' in session:
         if(session['username'] == adminUsername):
-            return render_template("index.html", log=True, admin=True, data=data)
+            return render_template("index.html", log=True, admin=True, data=data, new=new_arrive)
         else:
-            return render_template("index.html", log=True, admin=False,data=data)
-    return render_template("index.html", log=False, admin=False,data=data)
+            return render_template("index.html", log=True, admin=False, data=data, new=new_arrive)
+    return render_template("index.html", log=False, admin=False, data=data, new=new_arrive)
 
-@app.route('/list-product.html', methods=['get', 'post'])
-def list_product():
-    if 'username' in session:
-        if (session['username'] == adminUsername):
-            return render_template("list-product.html", log=True, admin=True)
-        else:
-            return render_template("list-product.html", log=True, admin=False)
-    else:
-        return render_template("list-product.html", login=False, admin=False)
-
-@app.route('/detail-product.html', methods=['get', 'post'])
-def detail_product():
-    if 'username' in session:
-        if (session['username'] == adminUsername):
-            return render_template("detail-product.html", log=True, admin=True)
-        else:
-            return render_template("detail-product.html", log=True, admin=False)
-    else:
-        return render_template("detail-product.html", login=False, admin=False)
+# --------------------------------------------------------------------------------
 
 @app.route('/about.html', methods=['get', 'post'])
 def about():
     if 'username' in session:
         if (session['username'] == adminUsername):
-            return render_template("about.html", log=True, admin=True)
+            return render_template("about.html", login=True, admin=True, data=data)
         else:
-            return render_template("about.html", log=True, admin=False)
+            return render_template("about.html", login=True, admin=False, data=data)
     else:
-        return render_template("about.html", login=False, admin=False)
+        return render_template("about.html", login=False, admin=False, data=data)
 
 @app.route('/blog-details.html', methods=['get', 'post'])
 def blog_details():
     if 'username' in session:
         if (session['username'] == adminUsername):
-            return render_template("blog-details.html", login=True, admin=True)
+            return render_template("blog-details.html", login=True, admin=True, data=data)
         else:
-            return render_template("blog-details.html", login=True, admin=False)
+            return render_template("blog-details.html", login=True, admin=False, data=data)
     else:
-        return render_template("blog-details.html", login=False, admin=False)
+        return render_template("blog-details.html", login=False, admin=False, data=data)
 
 @app.route('/blog-list.html', methods=['get', 'post'])
 def blog_list():
     if 'username' in session:
         if (session['username'] == adminUsername):
-            return render_template("blog-list.html", login=True, admin=True)
+            return render_template("blog-list.html", login=True, admin=True, data=data)
         else:
-            return render_template("blog-list.html", login=True, admin=False)
+            return render_template("blog-list.html", login=True, admin=False, data=data)
     else:
-        return render_template("blog-list.html", login=False, admin=False)
+        return render_template("blog-list.html", login=False, admin=False, data=data)
 
 @app.route('/cart-list.html', methods=['get', 'post'])
 def cart_list():
     if 'username' in session:
         if (session['username'] == adminUsername):
-            return render_template("cart-list.html", login=True, admin=True)
+            return render_template("cart-list.html", login=True, admin=True, data=data)
         else:
-            return render_template("cart-list.html", log=True, admin=False)
+            return render_template("cart-list.html", login=True, admin=False, data=data)
     return redirect('/index.html')
 
 @app.route('/add-cart.html', methods=['get', 'post'])
@@ -198,71 +357,41 @@ def remove_cart():
 def categories_page1():
     if 'username' in session:
         if (session['username'] == adminUsername):
-            return render_template("categories-page1.html", login=True, admin=True)
+            return render_template("categories-page1.html", login=True, admin=True, data=data)
         else:
-            return render_template("categories-page1.html", login=True, admin=False)
+            return render_template("categories-page1.html", login=True, admin=False, data=data)
     else:
-        return render_template("categories-page1.html", login=False, admin=False)
-
-@app.route('/categories-page2.html', methods=['get', 'post'])
-def categories_page2():
-    if 'username' in session:
-        if (session['username'] == adminUsername):
-            return render_template("categories-page2.html", login=True, admin=True)
-        else:
-            return render_template("categories-page2.html",login=True, admin=False)
-    else:
-        return render_template("categories-page2.html", login=False, admin=False)
+        return render_template("categories-page1.html", login=False, admin=False, data=data)
 
 @app.route('/categories-page4.html', methods=['get', 'post'])
 def categories_page4():
     if 'username' in session:
         if (session['username'] == adminUsername):
-            return render_template("categories-page4.html", login=True, admin=True)
+            return render_template("categories-page4.html", login=True, admin=True, data=data)
         else:
-            return render_template("categories-page4.html", login=True, admin=False)
+            return render_template("categories-page4.html", login=True, admin=False, data=data)
     else:
-        return render_template("categories-page4.html", login=False, admin=False)
+        return render_template("categories-page4.html", login=False, admin=False, data=data)
 
 @app.route('/checkout.html', methods=['get', 'post'])
 def checkout():
     if 'username' in session:
         if (session['username'] == adminUsername):
-            return render_template("checkout.html", login=True, admin=True)
+            return render_template("checkout.html", login=True, admin=True, data=data)
         else:
-            return render_template("checkout.html", login=True, admin=False)
+            return render_template("checkout.html", login=True, admin=False, data=data)
     else:
-        return render_template("checkout.html", login=False, admin=False)
-
-@app.route('/collection-page1.html', methods=['get', 'post'])
-def collection_page1():
-    if 'username' in session:
-        if(session['username'] == adminUsername):
-            return render_template("collection-page1.html", login=True, admin=True)
-        else:
-            return render_template("collection-page1.html", login=True, admin=False)
-    else:
-        return render_template("collection-page1.html", login=False, admin=False)
-
-@app.route('/collection-page2.html', methods=['get', 'post'])
-def collection_page2():
-    if 'username' in session:
-        if (session['username'] == adminUsername):
-            return render_template("collection-page2.html", login=True, admin=True)
-        else:
-            return render_template("collection-page2.html", login=True, admin=False)
-    else:
-        return render_template("collection-page2.html", login=False, admin=False)
+        return render_template("checkout.html", login=False, admin=False, data=data)
 
 @app.route('/contact.html', methods=['get', 'post'])
 def contact():
     if 'username' in session:
         if (session['username'] == adminUsername):
-            return render_template("contact.html", login=True, admin=True)
+            return render_template("contact.html", login=True, admin=True, data=data)
         else:
-            return render_template("contact.html", login=True, admin=False)
+            return render_template("contact.html", login=True, admin=False, data=data)
     else:
-        return render_template("contact.html", login=False, admin=False)
+        return render_template("contact.html", login=False, admin=False, data=data)
 
 @app.route('/error1.html', methods=['get', 'post'])
 def error():
@@ -272,11 +401,11 @@ def error():
 def faq():
     if 'username' in session:
         if (session['username'] == adminUsername):
-            return render_template("faq.html", login=True, admin=True)
+            return render_template("faq.html", login=True, admin=True, data=data)
         else:
-            return render_template("faq.html", login=True, admin=False)
+            return render_template("faq.html", login=True, admin=False, data=data)
     else:
-        return render_template("faq.html", login=False, admin=False)
+        return render_template("faq.html", login=False, admin=False, data=data)
 
 @app.route('/login', methods=['post'])
 def login():
@@ -312,22 +441,22 @@ def logout():
 @app.route('/myaccount.html', methods=['get', 'post'])
 def myaccount():
     if 'username' in session:
-        return render_template("index.html", log=True, admin=False)
+        return render_template("index.html", log=True, admin=False, data=data)
     return redirect('/index.html')
 
 @app.route('/search-result.html', methods=['get', 'post'])
 def search_result():
     if 'username' in session:
-        return render_template("index.html", log=True, admin=False)
+        return render_template("index.html", log=True, admin=False, data=data)
     return redirect('/index.html')
 
 @app.route('/wish-list.html', methods=['get', 'post'])
 def wish_list():
     if 'username' in session:
         if (session['username'] == adminUsername):
-            return render_template("index.html", log=True, admin=True)
+            return render_template("index.html", log=True, admin=True, data=data)
         else:
-            return render_template("index.html", log=True, admin=False)
+            return render_template("index.html", log=True, admin=False, data=data)
     return redirect('/index.html')
 
 @app.route('/add-wishlist.html', methods=['get', 'post'])
@@ -347,27 +476,6 @@ def remove_wishlist():
         else:
             return render_template("index.html", log=True, admin=False)
     return redirect('/index.html')
-
-# @app.route('/add-product.html', methods=['get', 'post'])
-# def add_product():
-#     return render_template("add-product.html")
-
-# @app.route('/remove-product.html', methods=['get', 'post'])
-# def remove_product():
-#     return render_template("remove-product.html")
-
-# @app.route('/add-category.html', methods=['get', 'post'])
-# def add_category():
-#     return render_template("add-category.html")
-
-# @app.route('/remove-category.html', methods=['get', 'post'])
-# def remove_category():
-#     return render_template("remove-category.html")
-
-@app.route('/search', methods=['get', 'post'])
-def search():
-    if request.method == 'POST':
-        return render_template("faq.html")
 
 @app.route('/email', methods=['get', 'post'])
 def email():
@@ -402,26 +510,7 @@ def email():
         except Exception as x:
             return render_template("error1.html", Message="Something wrong happened....")
 
-
-def refresh():
-    cat = db.query(Category).all()
-    data.clear()
-    i = 0
-    for x in cat:
-        data.append({"name": x.name,
-                     "subcat": []})
-        sub = db.query(SubCategory).filter(SubCategory.catId == x.id)
-        for y in sub:
-            data[i]['subcat'].append(y.name)
-        i = i+1
-
-def updated_sub_category_list(value):
-    sub_category = []
-    sub_cat = db.query(SubCategory).filter(SubCategory.name == value).first()
-    prod = db.query(Product).filter(Product.subCatId == sub_cat.id)
-    for x in prod:
-        sub_category.append(x)
-    return sub_category
+refresh()
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True)
