@@ -1158,23 +1158,23 @@ $('.product-quantity .minus').on('click',function(){
 /*==================================================
      42: Wish list and add to cart ontifaction
 ==================================================*/
-    $( '.add-to-bag, .addto-icon-btn a, .wishlist-icon-btn a, wish-list, .main-menu-btn a'  ).on('click', function(e){
-        e.preventDefault();
-    });
+//    $( '.add-to-bag, .addto-icon-btn a, .wishlist-icon-btn a, wish-list, .main-menu-btn a'  ).on('click', function(e){
+//        e.preventDefault();
+//    });
 
-     $('.add-to-bag, .addto-icon-btn a').on('click', function(e){
-        $('.modal-add-notifacition').fadeTo(300, 1);
-         e.preventDefault();
-         $('.modal-add-notifacition').css({'opacity': "1", "visibility":"visible"}).delay(2000).fadeTo(300, 0);
-     });
+//     $('.add-to-bag, .addto-icon-btn a').on('click', function(e){
+//        $('.modal-add-notifacition').fadeTo(300, 1);
+//         e.preventDefault();
+//         $('.modal-add-notifacition').css({'opacity': "1", "visibility":"visible"}).delay(2000).fadeTo(300, 0);
+//     });
 
 
 
-     $('.wish-list, .wishlist-icon-btn a').on('click', function(e){
-        $('.modal-wish-notifacition').fadeTo(300, 1);
-         e.preventDefault();
-         $('.modal-wish-notifacition').css({'opacity': "1", "visibility":"visible"}).delay(2000).fadeTo(300, 0);
-     })
+//     $('.wish-list, .wishlist-icon-btn a').on('click', function(e){
+//        $('.modal-wish-notifacition').fadeTo(300, 1);
+//         e.preventDefault();
+//         $('.modal-wish-notifacition').css({'opacity': "1", "visibility":"visible"}).delay(2000).fadeTo(300, 0);
+//     })
 
     /*===========================================
      43: title Text animation

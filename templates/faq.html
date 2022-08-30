@@ -10,7 +10,7 @@
                         <div class="page-title-heading"><h1 class="h2">questions<span>FAQ</span></h1></div>
                         <ul class="list-unstyled mb-0">
                             <li><a href="index.html">home</a></li>
-                            <li class="active"><a href="#">FAQ</a></li>
+                            <li class="active"><a href="{{url_for('reload')}}">FAQ</a></li>
                         </ul>
                     </div>
                     <!-- End of page title inner -->
@@ -46,8 +46,15 @@
                                     <span class="roboto">
                                         03
                                     </span>
-                                    <h5 class="lato">What is your buisness model.Is any other 3rd party participate in selling product or you just sell your own products.</h5>
+                                    <h4 class="lato">What is your buisness model.Is any other 3rd party participate in selling product or you just sell your own products.</h4>
                                     <p>First of all thank you so much for your interest in our store.yes we do have plans to expand our buisness model with 3rd party seller to contribute but for now we now we are not being able to add 3rd party.We for now just sell our product which have the best quality and rate.</p>
+                                </li>
+                                <li>
+                                    <span class="roboto">
+                                        04
+                                    </span>
+                                    <h4 class="lato">What is the maximum time for delivery in other city and do you have any physical center.</h4>
+                                    <p>We really appreciate your interest regarding this.I want to ellaborate you that it take 3 to 5 working days to deliver any where.second yes we do have physical center in Lahore</p>
                                 </li>
 
                             </ul>
@@ -55,133 +62,97 @@
                         <!-- End of faq inner area -->
                 </div>
                 <div class="col-lg-3">
-                    <aside>
-                        <!--Single sidebar widget -->
-                        <div class="single-sidebar-widget mb-60">
-                            <!-- widget title -->
-                            <div class="widget-title">
-                                <h4>New Products</h4>
-                            </div>
-                            <!--End of widget title -->
-                            <div class="new-product-item">
-                                <ul class="list-unstyled mb-0">
-                                    <!-- single new product -->
-                                    <li>
-                                        <div class="new-product-wrap media">
-                                            <div class="new-produt-image">
-                                                <img src="static/assets/img/shop/img1.png" alt="">
-                                            </div>
-                                            <div class="product-img-caption media-body">
-                                                <h5><a href="blog-list.html">Highlighters and colors</a></h5>
-                                                <h6>$12</h6>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <!--End of single new product -->
-
-                                    <!-- single new product -->
-                                    <li>
-                                        <div class="new-product-wrap media">
-                                            <div class="new-produt-image">
-                                                <img src="static/assets/img/shop/img2.png" alt="">
-                                            </div>
-                                            <div class="product-img-caption media-body">
-                                                <h5><a href="#">Kid's Wrist Watch</a></h5>
-                                                <h6>$32</h6>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <!--End of single new product -->
-
-                                    <!-- single new product -->
-                                    <li>
-                                        <div class="new-product-wrap media">
-                                            <div class="new-produt-image">
-                                                <img src="static/assets/img/shop/img3.png" alt="">
-                                            </div>
-                                            <div class="product-img-caption media-body">
-                                                <h5><a href="#">Lamp Essentials</a></h5>
-                                                <h6>$22</h6>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <!--End of single new product -->
-                                </ul>
-                            </div>
-                        </div>
-                        <!--End of Single sidebar widget -->
-
-                        <!--Single sidebar widget -->
-                        <div class="single-sidebar-widget mb-60">
-                            <!-- widget title -->
-                            <div class="widget-title">
-                                <h4>Recent Review</h4>
-                            </div>
-                            <!--End of widget title -->
-                            <div class="new-product-item">
-                                <ul class="list-unstyled mb-0">
-                                    <!-- single recent product -->
-                                    <li>
-                                        <div class="recent-product-wrap media">
-                                            <div class="recent-produt-image">
-                                                <img src="static/assets/img/shop/img4.png" alt="">
-                                            </div>
-                                            <div class="product-img-caption media-body">
-                                                <h5><a href="#">Leather Mini Backpack</a></h5>
-                                                <h6>$32</h6>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <!--End of single recent product -->
-
-                                    <!-- single recent product -->
-                                    <li>
-                                        <div class="recent-product-wrap media">
-                                            <div class="recent-produt-image">
-                                                <img src="static/assets/img/shop/img5.png" alt="">
-                                            </div>
-                                            <div class="product-img-caption media-body">
-                                                <h5><a href="#">Double Zip Pouch Clutch</a></h5>
-                                                <h6>$42</h6>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <!--End of single recent product -->
-
-                                    <!-- single recent product -->
-                                    <li>
-                                        <div class="recent-product-wrap media">
-                                            <div class="recent-produt-image">
-                                                <img src="static/assets/img/shop/img6.png" alt="">
-                                            </div>
-                                            <div class="product-img-caption media-body">
-                                                <h5><a href="#">Copley Dining Chair</a></h5>
-                                                <h6>$22</h6>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <!--End of single recent product -->
-                                </ul>
-                            </div>
-                        </div>
-                        <!--End of Single sidebar widget -->
-
-                        <!--Single sidebar widget -->
-                        <div class="single-sidebar-widget mb-60">
-                            <div class="sider-add-inner shope-add-sidebar" data-bg-img='static/assets/img/shop/shop-add.png'>
-                                <div class="sidebar-add-text">
-                                    <h2 class="h1">75</h2>
-                                    <h3>% off</h3>
-                                    <p>For Gents Wear</p>
-                                    <a href="#" class="btn btn-line"> Shop Now</a>
+                        <aside>
+                            <!--Single sidebar widget -->
+                            <div class="single-sidebar-widget mb-60">
+                                <!-- widget title -->
+                                <div class="widget-title">
+                                    <h4>New Products</h4>
+                                </div>
+                                <!--End of widget title -->
+                                <div class="new-product-item">
+                                    <ul class="list-unstyled mb-0">
+                                        {% for x in new %}
+                                            <!-- single new product -->
+                                            <li>
+                                                <div class="new-product-wrap media">
+                                                    <div class="new-produt-image">
+                                                        <img src='{{x.img}}' alt="">
+                                                    </div>
+                                                    <div class="product-img-caption media-body">
+                                                        <h5><a href='{{url_for("show_details", id=x.id)}}'>{{x.name}}</a></h5>
+                                                        <h6>${{x.price}}</h6>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <!--End of single new product -->
+                                        {% endfor %}
+                                    </ul>
                                 </div>
                             </div>
-                        </div>
-                        <!--End of Single sidebar widget -->
-                    </aside>
-                </div>
+                            <!--End of Single sidebar widget -->
+
+                        </aside>
+                    </div>
             </div>
         </div>
     </section>
     <!-- End of product details wrapper -->
 {% endblock %}
+
+
+
+<!--                            &lt;!&ndash;Single sidebar widget &ndash;&gt;-->
+<!--                            <div class="single-sidebar-widget mb-60">-->
+<!--                                &lt;!&ndash; widget title &ndash;&gt;-->
+<!--                                <div class="widget-title">-->
+<!--                                    <h4>Recent Review</h4>-->
+<!--                                </div>-->
+<!--                                &lt;!&ndash;End of widget title &ndash;&gt;-->
+<!--                                <div class="new-product-item">-->
+<!--                                    <ul class="list-unstyled mb-0">-->
+<!--                                        &lt;!&ndash; single recent product &ndash;&gt;-->
+<!--                                        <li>-->
+<!--                                            <div class="recent-product-wrap media">-->
+<!--                                                <div class="recent-produt-image">-->
+<!--                                                    <img src="static/assets/img/shop/img4.png" alt="">-->
+<!--                                                </div>-->
+<!--                                                <div class="product-img-caption media-body">-->
+<!--                                                    <h5><a href="#">Leather Mini Backpack</a></h5>-->
+<!--                                                    <h6>$32</h6>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </li>-->
+<!--                                        &lt;!&ndash;End of single recent product &ndash;&gt;-->
+<!--    -->
+<!--                                        &lt;!&ndash; single recent product &ndash;&gt;-->
+<!--                                        <li>-->
+<!--                                            <div class="recent-product-wrap media">-->
+<!--                                                <div class="recent-produt-image">-->
+<!--                                                    <img src="static/assets/img/shop/img5.png" alt="">-->
+<!--                                                </div>-->
+<!--                                                <div class="product-img-caption media-body">-->
+<!--                                                    <h5><a href="#">Double Zip Pouch Clutch</a></h5>-->
+<!--                                                    <h6>$42</h6>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </li>-->
+<!--                                        &lt;!&ndash;End of single recent product &ndash;&gt;-->
+<!--    -->
+<!--                                        &lt;!&ndash; single recent product &ndash;&gt;-->
+<!--                                        <li>-->
+<!--                                            <div class="recent-product-wrap media">-->
+<!--                                                <div class="recent-produt-image">-->
+<!--                                                    <img src="static/assets/img/shop/img6.png" alt="">-->
+<!--                                                </div>-->
+<!--                                                <div class="product-img-caption media-body">-->
+<!--                                                    <h5><a href="#">Copley Dining Chair</a></h5>-->
+<!--                                                    <h6>$22</h6>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </li>-->
+<!--                                        &lt;!&ndash;End of single recent product &ndash;&gt;-->
+<!--                                    </ul>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash;End of Single sidebar widget &ndash;&gt;-->

@@ -113,10 +113,10 @@
                                                                 {% else %}
                                                                 <ul>
                                                                     <li><a href="myaccount.html">My Account</a></li>
-                                                                    <li><a href="cart-list.html">Cart List</a></li>
-                                                                    <li><a href="wish-list.html">Wish List</a></li>
+                                                                    <li><a href='{{url_for("cart_list")}}'>Cart List</a></li>
+                                                                    <li><a href='{{url_for("wish_list")}}'>Wish List</a></li>
                                                                     <li><a href="faq.html">FAQ</a></li>
-                                                                    <li><a href="search-result.html">Search Results</a></li>
+                                                                    <li><a href='{{url_for("all_products")}}'>Search Results</a></li>
                                                                     <li><a href="logout.html">Log Out</a></li>
                                                                 </ul>
                                                                 {% endif%}
@@ -287,75 +287,46 @@
 
     <div class="offcanvas-inner">
         <div class="added-wish-list">
-            <!-- single wish list -->
-            <div class="single-added-list">
-                <!-- single wish list left -->
-                <div class="single-item-left media align-items-center">
-                    <img src="static/assets/img/clients/wishlist1.png" alt="">
-                    <div class="single-item-details midea-body">
-                        <h5><a href="#">Women's Strap Sandal</a></h5>
-                        <p>$125</p>
+
+            {% if wish|length > 0 %}
+                {% for x in wish %}
+                    <!-- single wish list -->
+                    <div class="single-added-list">
+                        <!-- single wish list left -->
+                        <div class="single-item-left media align-items-center">
+                            <img src='{{x.img}}' alt="">
+                            <div class="single-item-details midea-body">
+                                <h5><a href='{{url_for("show_details", id=x.id)}}'>{{x.name}}</a></h5>
+                                <p>$ {{x.price}}</p>
+                            </div>
+                        </div>
+                        <!-- End of single wish list left -->
+
+                        <!-- Single wish list right -->
+                        <div class="single-item-right text-right">
+                            <a href='{{url_for("remove_wishlist", id=x.id)}}'><img src="static/assets/img/icons/remove.svg" alt="" class="svg"></a>
+                            {% if x.stock > 0 %}
+                                <a href='{{url_for("add_cart", id=x.id, quantity=1)}}' class="btn addto-cart-btn">Add To Cart</a>
+                            {% else %}
+                                <a href="#" class="btn out-stock-btn">Out Of Stock</a>
+                            {% endif %}
+                        </div>
+                        <!-- End of Single wish list right -->
                     </div>
-                </div>
-                <!-- End of single wish list left -->
+                    <!-- End of single wish list -->
+                {% endfor %}
 
-                <!-- Single wish list right -->
-                <div class="single-item-right text-right">
-                    <a href="#"><img src="static/assets/img/icons/remove.svg" alt="" class="svg"></a>
-                    <a href="#" class="btn addto-cart-btn">Add To Cart</a>
+                <!-- add to button an support -->
+                <div class="view-cart-check-btn text-center">
+                    <a href='{{url_for("cart_list")}}' class='btn btn-fill-type'>View Cart List</a>
+                    <a href="checkout.html" class='btn btn-fill-type'>Check Out</a>
+                    <p>Free Shipping on All Orders Over $500!</p>
                 </div>
-                <!-- End of Single wish list right -->
-            </div>
-            <!-- End of single wish list -->
-
-            <!-- single wish list -->
-            <div class="single-added-list sold-item">
-                <!-- single wish list left -->
-                <div class="single-item-left media align-items-center">
-                    <img src="static/assets/img/clients/wishlist2.png" alt="">
-                    <div class="single-item-details midea-body">
-                        <h5><a href="#">Wilson Dynasty 29” Basketball</a></h5>
-                        <p>$25</p>
-                    </div>
+            {% else %}
+                <div class="single-item media align-items-center">
+                    <ul><h4>You don't have any products in the wishlist</h4></ul>
                 </div>
-                <!-- End of single wish list left -->
-
-                <!-- Single wish list right -->
-                <div class="single-item-right text-right">
-                    <a href="#"><img src="static/assets/img/icons/remove.svg" alt="" class="svg"></a>
-                    <a href="#" class="btn out-stock-btn">Out Of Stock</a>
-                </div>
-                <!-- End of Single wish list right -->
-            </div>
-            <!-- End of single wish list -->
-
-            <!-- single wish list -->
-            <div class="single-added-list">
-                <!-- single wish list left -->
-                <div class="single-item-left media align-items-center">
-                    <img src="static/assets/img/clients/wishlist3.png" alt="">
-                    <div class="single-item-details midea-body">
-                        <h5><a href="#">HyperX Gaming Headset</a></h5>
-                        <p>$15</p>
-                    </div>
-                </div>
-                <!-- End of single wish list left -->
-
-                <!-- Single wish list right -->
-                <div class="single-item-right text-right">
-                    <a href="#"><img src="static/assets/img/icons/remove.svg" alt="" class="svg"></a>
-                    <a href="#" class="btn addto-cart-btn">Add To Cart</a>
-                </div>
-                <!-- End of Single wish list right -->
-            </div>
-            <!-- End of single wish list -->
-
-            <!-- add to button an support -->
-            <div class="view-cart-check-btn text-center">
-                <a href="cart-list.html" class='btn btn-fill-type'>View Cart List</a>
-                <a href="checkout.html" class='btn btn-fill-type'>Check Out</a>
-                <p>Free Shipping on All Orders Over $100!</p>
-            </div>
+            {% endif %}
             <div class="cart-support">
                 <p class="roboto">Support</p>
                 <ul class="list-unstyled">
@@ -365,7 +336,7 @@
                     </li>
                     <li>
                         <span><i class="fa fa-map-marker"></i></span>
-                        1622 Colins Street West, Strawberry (Le), ITALY
+                        1622 Street Johar Town, Lahore, Pakistan
                     </li>
                 </ul>
             </div>
@@ -388,62 +359,50 @@
     </div>
 
     <div class="offcanvas-inner">
-        <div class="added-cart-list">
-            <!-- single cart list -->
-            <div class="single-added-list">
-                <!-- single cart list left -->
-                <div class="single-item-left media align-items-center">
-                    <img src="static/assets/img/clients/wishlist1.png" alt="">
-                    <div class="single-item-details midea-body">
-                        <h5><a href="#">Women's Strap Sandal</a></h5>
-                        <p>25 X 2</p>
+        {% if cart|length > 0 %}
+            <div class="added-cart-list">
+                {% for x in cart %}
+                    <!-- single cart list -->
+                    <div class="single-added-list">
+                        <!-- single cart list left -->
+                        <div class="single-item-left media align-items-center">
+                            <img src='{{x.img}}' alt="">
+                            <div class="single-item-details midea-body">
+                                <h5><a href="#">{{x.name}}</a></h5>
+                                <p>{{x.price}} X {{x.quantity}}</p>
+                            </div>
+                        </div>
+                        <!-- End of single cart list left -->
+
+                        <!-- Single wish list right -->
+                        <div class="single-item-right text-right">
+                            <a href='{{url_for("remove_cart", id=x.id)}}'><img src="static/assets/img/icons/remove.svg" alt="" class="svg"></a>
+                            <h6>${{x.total}}</h6>
+                        </div>
+                        <!-- End of Single cart list right -->
                     </div>
-                </div>
-                <!-- End of single cart list left -->
+                    <!-- End of single cart list -->
+                {% endfor %}
 
-                <!-- Single wish list right -->
-                <div class="single-item-right text-right">
-                    <a href="#"><img src="static/assets/img/icons/remove.svg" alt="" class="svg"></a>
-                    <h6>$320</h6>
-                </div>
-                <!-- End of Single cart list right -->
             </div>
-            <!-- End of single cart list -->
-
-            <!-- single cart list -->
-            <div class="single-added-list">
-                <!-- single cart list left -->
-                <div class="single-item-left media align-items-center">
-                    <img src="static/assets/img/clients/wishlist2.png" alt="">
-                    <div class="single-item-details midea-body">
-                        <h5><a href="#">Wilson Dynasty 29” Basketball</a></h5>
-                        <p>25 X 1</p>
-                    </div>
-                </div>
-                <!-- End of singlecart list left -->
-
-                <!-- Single cart list right -->
-                <div class="single-item-right text-right">
-                    <a href="#"><img src="static/assets/img/icons/remove.svg" alt="" class="svg"></a>
-                    <h6>$13</h6>
-                </div>
-                <!-- End of Single cart list right -->
+            <!-- total price -->
+            <div class="total-price">
+                <h5>Sub Total</h5>
+                <h3>${{cart_total}}</h3>
             </div>
-            <!-- End of single cart list -->
-        </div>
-        <!-- total price -->
-        <div class="total-price">
-            <h5>Sub Total</h5>
-            <h3>$251</h3>
-        </div>
-        <!-- End of total price -->
+            <!-- End of total price -->
 
-        <!-- add to button an support -->
-        <div class="view-cart-check-btn text-center">
-            <a href="cart-list.html" class='btn btn-fill-type'>View Cart List</a>
-            <a href="checkout.html" class='btn btn-fill-type'>Check Out</a>
-            <p>Free Shipping on All Orders Over $100!</p>
-        </div>
+            <!-- add to button an support -->
+            <div class="view-cart-check-btn text-center">
+                <a href='{{url_for("cart_list")}}' class='btn btn-fill-type'>View Cart List</a>
+                <a href='{{url_for("checkout")}}' class='btn btn-fill-type'>Check Out</a>
+                <p>Free Shipping on All Orders Over $100!</p>
+            </div>
+        {% else %}
+            <div class="single-item media align-items-center">
+                <ul><h4>You don't have any products in the cart</h4></ul>
+            </div>
+        {% endif %}
         <div class="cart-support">
             <p class="roboto">Support</p>
             <ul class="list-unstyled">
@@ -453,7 +412,7 @@
                 </li>
                 <li>
                     <span><i class="fa fa-map-marker"></i></span>
-                    1622 Colins Street West, Strawberry (Le), ITALY
+                    1622 Street Johar Town, Lahore, Pakistan
                 </li>
             </ul>
         </div>
@@ -590,135 +549,107 @@
 <section class="banner-slider banner-slider3">
     <div class="slider-inner-wrap" data-bg-img='static/assets/img/banner/eccomerce-banner-1.jpg'>
         <div class="owl-carousel banner-carousel3">
-            <!-- single slider wrap -->
-            <div class="single-slider-wrap">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-md-6">
-                            <!-- banner image -->
-                            <div class="banner-image" data-trigger="parallax_layers">
-                                <img src="static/assets/img/attire-8.png" alt="" data-depth="0.2">
-                            </div>
-                            <!-- banner image -->
+            {% for x in new %}
+                {% if (x.id % 2) == 0 %}
+                    <!-- single slider wrap -->
+                    <div class="single-slider-wrap">
+                        <div class="container">
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <!-- banner image -->
+                                    <div class="banner-image" data-trigger="parallax_layers">
+                                        <img src="static/assets/img/attire-8.png" alt="" data-depth="0.2">
+                                    </div>
+                                    <!-- banner image -->
 
-                            <!-- image caption -->
-                            <a href="shop-details.html">
-                                <div class="image-caption">
-                                    <h6>$ 764.26</h6>
-                                    <h5>JOE Joseph Abboud Brown <br> Smart Blazer Set</h5>
-                                </div>
-                            </a>
-                            <!-- image caption -->
-
-                            <!-- dress details -->
-                            <div class="dress-details">
-                                <ul class="list-unstyled mb-30">
-                                    <li><a href="shop-details.html">
-                                        <div class="dress-image">
-                                            <img src="static/assets/img/attire-thumb.png" alt="">
+                                    <!-- image caption -->
+                                    <a href='{{url_for("show_details", id=x.id)}}'>
+                                        <div class="image-caption">
+                                            <h6>$ {{x.price}}</h6>
+                                            <h5>{{x.brand}} <br> {{x.name}}</h5>
                                         </div>
-                                        <h6>Long Blazer <span>$150.38</span></h6>
                                     </a>
-                                    </li>
-                                    <li>
-                                        <a href="shop-details.html">
-                                            <div class="dress-image">
-                                                <img src="static/assets/img/attire-thumb.png" alt="">
-                                            </div>
-                                            <h6>White Pant <span>$80.38</span></h6>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="shop-details.html">
-                                            <div class="dress-image">
-                                                <img src="static/assets/img/attire-thumb.png" alt="">
-                                            </div>
-                                            <h6>Leather Shoe <span>$50.38</span></h6>
-                                        </a>
-                                    </li>
-                                </ul>
+                                    <!-- image caption -->
 
-                            </div>
-                            <!-- End of dress details -->
-                        </div>
-                        <div class="col-md-6">
-                            <!-- slider text -->
-                            <div class="single-slider-text">
-                                <span>Expression Of Individuals</span>
-                                <h1>Fashion Is Nothing But Choise</h1>
-                                <a href="#" class="btn">Shop Now</a>
-                            </div>
-                            <!-- End of slider text -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- single slider wrap -->
-
-            <!-- single slider wrap -->
-            <div class="single-slider-wrap right-content">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-md-6">
-                            <!-- slider text -->
-                            <div class="single-slider-text">
-                                <span>Expression Of Individuals</span>
-                                <h1>Fashion Is Nothing But Choise</h1>
-                                <a href="#" class="btn">Shop Now</a>
-                            </div>
-                            <!-- End of slider text -->
-                        </div>
-                        <div class="col-md-6">
-                            <!-- banner image -->
-                            <div class="banner-image" data-trigger="parallax_layers">
-                                <img src="static/assets/img/attire-10.png" alt="" data-depth="0.2">
-                            </div>
-                            <!-- banner image -->
-
-                            <!-- image caption -->
-                            <a href="shop-details.html">
-                                <div class="image-caption">
-                                    <h6>$ 764.26</h6>
-                                    <h5>JOE Joseph Abboud Brown <br> Smart Blazer Set</h5>
+                                    <!-- dress details -->
+                                    <div class="dress-details">
+                                        <ul class="list-unstyled mb-30">
+                                            <li>
+                                                <a href='{{url_for("show_details", id=x.id)}}'>
+                                                    <div class="dress-image">
+                                                        <img src='{{x.img}}' alt="">
+                                                    </div>
+                                                    <h6>{{x.img}} <span>${{x.price}}</span></h6>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- End of dress details -->
                                 </div>
-                            </a>
-                            <!-- image caption -->
-
-                            <!-- dress details -->
-                            <div class="dress-details">
-                                <ul class="list-unstyled mb-30">
-                                    <li>
-                                        <a href="shop-details.html">
-                                            <div class="dress-image">
-                                                <img src="static/assets/img/attire-thumb.png" alt="">
-                                            </div>
-                                            <h6>Blue Shirt <span>$150.38</span></h6>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="shop-details.html">
-                                            <div class="dress-image">
-                                                <img src="static/assets/img/attire-thumb.png" alt="">
-                                            </div>
-                                            <h6>Blue Jeans <span>$80.38</span></h6>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="shop-details.html">
-                                            <div class="dress-image">
-                                                <img src="static/assets/img/attire-thumb.png" alt="">
-                                            </div>
-                                            <h6>Green Convrs <span>$50.38</span></h6>
-                                        </a>
-                                    </li>
-                                </ul>
+                                <div class="col-md-6">
+                                    <!-- slider text -->
+                                    <div class="single-slider-text">
+                                        <span>Expression Of Individuals</span>
+                                        <h1>Fashion Is Nothing But Choise</h1>
+                                        <a href='{{url_for("all_products")}}' class="btn">Shop Now</a>
+                                    </div>
+                                    <!-- End of slider text -->
+                                </div>
                             </div>
-                            <!-- End of dress details -->
                         </div>
                     </div>
-                </div>
-            </div>
-            <!-- single slider wrap -->
+                    <!-- single slider wrap -->
+                {% else %}
+                    <!-- single slider wrap -->
+                    <div class="single-slider-wrap right-content">
+                        <div class="container">
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <!-- slider text -->
+                                    <div class="single-slider-text">
+                                        <span>Expression Of Individuals</span>
+                                        <h1>Fashion Is Nothing But Choise</h1>
+                                        <a href='{{url_for("all_products")}}' class="btn">Shop Now</a>
+                                    </div>
+                                    <!-- End of slider text -->
+                                </div>
+                                <div class="col-md-6">
+                                    <!-- banner image -->
+                                    <div class="banner-image" data-trigger="parallax_layers">
+                                        <img src="static/assets/img/attire-10.png" alt="" data-depth="0.2">
+                                    </div>
+                                    <!-- banner image -->
+
+                                    <!-- image caption -->
+                                    <a href="shop-details.html">
+                                        <div class="image-caption">
+                                            <h6>$ {{x.price}}</h6>
+                                            <h5>{{x.brand}} <br> {{x.name}}</h5>
+                                        </div>
+                                    </a>
+                                    <!-- image caption -->
+
+                                    <!-- dress details -->
+                                    <div class="dress-details">
+                                        <ul class="list-unstyled mb-30">
+                                            <li>
+                                                <a href="shop-details.html">
+                                                    <div class="dress-image">
+                                                        <img src='{{x.img}}' alt="">
+                                                    </div>
+                                                    <h6>{{x.name}} <span>${{x.price}}</span></h6>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!-- End of dress details -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- single slider wrap -->
+                {% endif %}
+            {% endfor %}
         </div>
     </div>
 </section>
@@ -739,7 +670,7 @@
                             <div class="single-add">
                                 <p>#{{new[0].name}}</p>
                                 <h3>{{new[0].name}}<br>{{new[0].brand}}</h3>
-                                <a href="#" class="btn">Shop Now</a>
+                                <a href='{{url_for("show_details", id=new[0].id)}}' class="btn">Shop Now</a>
                             </div>
                         </div>
                     </div>
@@ -755,7 +686,7 @@
                             <div class="single-add">
                                 <p>#{{new[1].name}}</p>
                                 <h3>{{new[1].name}}<br>{{new[1].brand}}</h3>
-                                <a href="#" class="btn">Shop Now</a>
+                                <a href='{{url_for("show_details", id=new[1].id)}}' class="btn">Shop Now</a>
                             </div>
                         </div>
                     </div>
@@ -824,7 +755,7 @@
 
                                     <div class="addto-cart-btn">
                                         <div class="addto-icon-btn">
-                                            <a href="#">
+                                            <a href='{{url_for("add_cart", id=x.id, quantity=1)}}'>
                                                 <span class="product-icon"><img src="static/assets/img/icons/add-bag.svg"
                                                                                 alt="" class="svg"></span>
                                                 <span class="icon-title">Add To Cart</span>
@@ -834,10 +765,10 @@
                                     </div>
                                     <div class="wishlist-btn">
                                         <div class="wishlist-icon-btn">
-                                            <a href="#">
+                                            <a href='{{url_for("add_wishlist", id=x.id)}}'>
                                                 <span class="product-icon"><img src="static/assets/img/icons/wishlist.svg"
                                                                                 alt="" class="svg"></span>
-                                                <span class="icon-title">See Wish List</span>
+                                                <span class="icon-title">Add To Wish List</span>
                                             </a>
                                         </div>
                                     </div>
@@ -848,7 +779,7 @@
 
                             <!-- product info -->
                              <div class="product-info">
-                                 <h4><a href="shop-details.html">{{ x.name }}</a></h4>
+                                 <h4><a href='{{url_for("show_details", id=x.id)}}'>{{ x.name }}</a></h4>
                                  <div class="product-price"><h5>$ {{x.price}}</h5></div>
                             </div>
                             <!-- End of product info -->
