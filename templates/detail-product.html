@@ -11,7 +11,7 @@
                         <div class="page-title-heading"><h1 class="h2">{{item.name}}<span>Details</span></h1></div>
                         <ul class="list-unstyled mb-0">
                             <li><a href="index.html">home</a></li>
-                            <li class="active"><a href="#">Products</a></li>
+                            <li class="active"><a href="{{url_for('reload')}}">Products</a></li>
                         </ul>
                     </div>
                     <!-- End of page title inner -->
@@ -71,12 +71,12 @@
                             <!-- product details btns -->
                             <div class="product-details-btns">
                                 <div class="addto-bag-btn">
-                                    <a href="#" class="btn btn-fill-type">
+                                    <a href='{{url_for("add_cart", id=item.id, quantity=1)}}' class="btn btn-fill-type">
                                         <span><img src="static/assets/img/icons/add-bag.svg" alt="" class="svg"></span><span class="d-none d-lg-block mr-0">Add To Cart</span>
                                     </a>
                                 </div>
                                  <div class="wish-btn">
-                                    <a href="#" class="btn btn-fill-type">
+                                    <a href='{{url_for("add_wishlist", id=item.id)}}' class="btn btn-fill-type">
                                         <span class=""><img src="static/assets/img/icons/wishlist.svg" alt="" class="svg"></span><span class="d-none d-lg-block mr-0">Add To Wishlist</span>
                                     </a>
                                 </div>

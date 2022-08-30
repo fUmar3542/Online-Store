@@ -13,7 +13,7 @@
                         <ul class="list-unstyled mb-0">
                             <li><a href="index.html">home</a></li>
                             <li><a href="#">Profile</a></li>
-                            <li class="active"><a href="#">Cart List</a></li>
+                            <li class="active"><a href="{{url_for('reload')}}">Cart List</a></li>
                         </ul>
                     </div>
                     <!-- End of page title inner -->
@@ -23,6 +23,7 @@
     </section>
     <!-- End of page title -->
 
+{% if cart|length > 0 %}
     <section class="pt-100 pb-100">
         <div class="container">
             <div class="row justify-content-center">
@@ -40,9 +41,6 @@
                                             <td class="product-name">
                                                 Product name
                                             </td>
-<!--                                            <td class="">-->
-<!--                                                Size-->
-<!--                                            </td>-->
                                             <td class="product-quantity">
                                                 Quantity
                                             </td>
@@ -56,177 +54,44 @@
                                         </tr>
                                         <!-- End of first table row -->
 
-                                        <!-- tr -->
-                                        <tr class="woocommerce-cart-form__cart-item cart_item">
-                                            <!-- product thumbnail -->
-                                            <td class="product-thumbnail">
-                                                <div class="product-details">
-                                                    <a href="#" class="porduct-image-wrap">
-                                                        <img src="static/assets/img/clients/cart1.png" alt="">
-                                                    </a>
-                                                    <a href="#">Woven Throw Pillow</a>
-                                                </div>
-                                            </td>
-                                            <!-- End of product thumbnail -->
+                                        {% for x in cart %}
+                                            <!-- tr -->
+                                            <tr class="woocommerce-cart-form__cart-item cart_item">
+                                                <!-- product thumbnail -->
+                                                <td class="product-thumbnail">
+                                                    <div class="product-details">
+                                                        <a href="#" class="porduct-image-wrap">
+                                                            <img src='{{x.img}}' alt="">
+                                                        </a>
+                                                        <a href='{{url_for("show_details", id=x.id)}}'>{{x.name}}</a>
+                                                    </div>
+                                                </td>
+                                                <!-- End of product thumbnail -->
 
-<!--                                            &lt;!&ndash; Product size &ndash;&gt;-->
-<!--                                            <td>-->
-<!--                                                <div class="product-size">-->
-<!--                                                    <span class="minus"><img src="static/assets/img/icons/minus.svg" class="svg" alt=""></span>-->
-<!--                                                    <input type="text" value="L" class="product-size-list">-->
-<!--                                                    <span class="plus"><img src="static/assets/img/icons/plus.svg" class="svg" alt=""></span>-->
-<!--                                                </div>-->
-<!--                                            </td>-->
-<!--                                            &lt;!&ndash;End of Product Size &ndash;&gt;-->
+                                                <!-- product quantity -->
+                                                <td>
+                                                    <div class="product-quantity">
+                                                        <span class="minus"><img src="static/assets/img/icons/minus.svg" class="svg" alt=""></span>
+                                                        <input type="text" value="0" class="product-quantity-list">
+                                                        <span class="plus"><img src="static/assets/img/icons/plus.svg" class="svg" alt=""></span>
+                                                    </div>
+                                                </td>
+                                                <!--End of product quantity -->
 
-                                            <!-- product quantity -->
-                                            <td>
-                                                <div class="product-quantity">
-                                                    <span class="minus"><img src="static/assets/img/icons/minus.svg" class="svg" alt=""></span>
-                                                    <input type="text" value="0" class="product-quantity-list">
-                                                    <span class="plus"><img src="static/assets/img/icons/plus.svg" class="svg" alt=""></span>
-                                                </div>
-                                            </td>
-                                            <!--End of product quantity -->
+                                                <td>${{x.price}}</td>
+                                                <td><span class="totalprice">${{x.total}}</span></td>
 
-                                            <td>$125</td>
-                                            <td><span class="totalprice">$300</span></td>
+                                                <!-- product remove -->
+                                                <td class="product-remove">
+                                                    <div class="remover-field">
+                                                        <a href='{{url_for("remove_cart", id=x.id)}}'><img src="static/assets/img/icons/remove.svg" class='svg' alt=""></a>
+                                                    </div>
+                                                </td>
+                                                <!--End of  product remove -->
+                                            </tr>
+                                            <!--End of tr -->
+                                        {% endfor %}
 
-                                            <!-- product remove -->
-                                            <td class="product-remove">
-                                                <div class="remover-field">
-                                                    <img src="static/assets/img/icons/remove.svg" class='svg' alt="">
-                                                </div>
-                                            </td>
-                                            <!--End of  product remove -->
-                                        </tr>
-                                        <!--End of tr -->
-
-                                        <!-- tr -->
-                                        <tr class="woocommerce-cart-form__cart-item cart_item">
-
-                                            <!-- product-thumbnail -->
-                                            <td class="product-thumbnail">
-                                                <div class="product-details">
-                                                    <a href="#" class="porduct-image-wrap">
-                                                        <img src="static/assets/img/clients/cart2.png" alt="">
-                                                    </a>
-                                                    <a href="#">Copley Dining Chair</a>
-                                                </div>
-                                            </td>
-                                            <!-- product thumbnail -->
-
-<!--                                            &lt;!&ndash; product size &ndash;&gt;-->
-<!--                                            <td>-->
-<!--                                                <div class="product-size">-->
-<!--                                                    <span class="minus"><img src="static/assets/img/icons/minus.svg" class="svg" alt=""></span>-->
-<!--                                                    <input type="text" value="S" class="product-size-list">-->
-<!--                                                    <span class="plus"><img src="static/assets/img/icons/plus.svg" class="svg" alt=""></span>-->
-<!--                                                </div>-->
-<!--                                            </td>-->
-<!--                                            &lt;!&ndash; product size &ndash;&gt;-->
-
-                                            <!-- product quantity -->
-                                            <td>
-                                                <div class="product-quantity">
-                                                    <span class="minus"><img src="static/assets/img/icons/minus.svg" class="svg" alt=""></span>
-                                                    <input type="text" value="03" class="product-quantity-list">
-                                                    <span class="plus"><img src="static/assets/img/icons/plus.svg" class="svg" alt=""></span>
-                                                </div>
-                                            </td>
-                                            <!-- product quantity -->
-
-                                            <td>$155</td>
-                                            <td>$400</td>
-
-                                            <!-- product remove -->
-                                            <td class="product-remove">
-                                                <div class="remover-field">
-                                                    <img src="static/assets/img/icons/remove.svg" class='svg' alt="">
-                                                </div>
-                                            </td>
-                                            <!-- product remove -->
-                                        </tr>
-                                        <!-- End of tr -->
-
-                                        <!-- tr -->
-                                        <tr class="woocommerce-cart-form__cart-item cart_item">
-                                            <!-- product-thumbnail -->
-                                            <td class="product-thumbnail">
-                                                <div class="product-details">
-                                                    <a href="#" class="porduct-image-wrap">
-                                                        <img src="static/assets/img/clients/cart3.png" alt="">
-                                                    </a>
-                                                    <a href="#">Women's Flexible Bottom Shoes</a>
-                                                </div>
-                                            </td>
-                                            <!-- product-thumbnail -->
-
-<!--                                            &lt;!&ndash; product-size &ndash;&gt;-->
-<!--                                            <td>-->
-<!--                                                <div class="product-size">-->
-<!--                                                    <span class="minus"><img src="static/assets/img/icons/minus.svg" class="svg" alt=""></span>-->
-<!--                                                    <input type="text" value="L" class="product-size-list">-->
-<!--                                                    <span class="plus"><img src="static/assets/img/icons/plus.svg" class="svg" alt=""></span>-->
-<!--                                                </div>-->
-<!--                                            </td>-->
-<!--                                            &lt;!&ndash; product-size &ndash;&gt;-->
-
-                                            <!-- product-quantity -->
-                                            <td>
-                                                <div class="product-quantity">
-                                                    <span class="minus"><img src="static/assets/img/icons/minus.svg" class="svg" alt=""></span>
-                                                    <input type="text" value="0" class="product-quantity-list">
-                                                    <span class="plus"><img src="static/assets/img/icons/plus.svg" class="svg" alt=""></span>
-                                                </div>
-                                            </td>
-                                            <!-- product-quantity -->
-                                            <td>$15</td>
-                                            <td>$100</td>
-
-                                            <!-- product-remove -->
-                                            <td class="product-remove">
-                                                <div class="remover-field">
-                                                    <img src="static/assets/img/icons/remove.svg" class='svg' alt="">
-                                                </div>
-                                            </td>
-                                            <!-- product-remove -->
-                                        </tr>
-                                        <!--End of tr -->
-
-                                        <!-- tr -->
-                                        <tr class="woocommerce-cart-form__cart-item cart_item">
-                                            <td class="product-thumbnail">
-                                                <div class="product-details">
-                                                    <a href="#" class="porduct-image-wrap">
-                                                        <img src="static/assets/img/clients/cart4.png" alt="">
-                                                    </a>
-                                                    <a href="#">Women's Strap Sandal</a>
-                                                </div>
-                                            </td>
-<!--                                            <td>-->
-<!--                                                <div class="product-size">-->
-<!--                                                    <span class="minus"><img src="static/assets/img/icons/minus.svg" class="svg" alt=""></span>-->
-<!--                                                    <input type="text" value="L" class="product-size-list">-->
-<!--                                                    <span class="plus"><img src="static/assets/img/icons/plus.svg" class="svg" alt=""></span>-->
-<!--                                                </div>-->
-<!--                                            </td>-->
-                                            <td>
-                                                <div class="product-quantity">
-                                                    <span class="minus"><img src="static/assets/img/icons/minus.svg" class="svg" alt=""></span>
-                                                    <input type="text" value="0" class="product-quantity-list">
-                                                    <span class="plus"><img src="static/assets/img/icons/plus.svg" class="svg" alt=""></span>
-                                                </div>
-                                            </td>
-                                            <td>$45</td>
-                                            <td>$60</td>
-                                            <td class="product-remove">
-                                                <div class="remover-field">
-                                                    <img src="static/assets/img/icons/remove.svg" class='svg' alt="">
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <!-- end of tr -->
                                     </tbody>
                                 </table>
                                 <!--End of cart table -->
@@ -238,7 +103,7 @@
                                                 <!-- cart shoping button  -->
                                                 <div class="cart-shoping-button">
                                                     <a href="#" class="update-cart-btn btn btn-fill-type"><img src="static/assets/img/icons/update.svg" class="svg" alt="">Update Cart</a>
-                                                    <a href="index.html" class="update-cart-btn btn btn-fill-type">Continue Shopping</a>
+                                                    <a href='{{url_for("all_products")}}' class="update-cart-btn btn btn-fill-type">Continue Shopping</a>
                                                 </div>
                                                 <!-- End of cart shoping button  -->
 
@@ -260,7 +125,7 @@
                                                                 Subtotal
                                                             </th>
                                                             <td>
-                                                                $100
+                                                                ${{cart_total}}
                                                             </td>
                                                         </tr>
                                                         <tr class="order-total">
@@ -268,7 +133,7 @@
                                                                 Total
                                                             </th>
                                                             <td>
-                                                                <span class="woocommerce-Price-amount amount">$100</span>
+                                                                <span class="woocommerce-Price-amount amount">${{cart_total}}</span>
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -290,5 +155,6 @@
             </div>
         </div>
     </section>
+{% endif %}
 
 {% endblock %}

@@ -2,8 +2,8 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from Base import Session, engine, Base
-from flask import Flask, session, render_template, make_response, request, url_for, redirect, jsonify
-from Model import User, Order, Category, SubCategory, Product, OrderProduct, Payment
+from flask import Flask, session, render_template, make_response, request, url_for, redirect
+from Model import User, Order, Category, SubCategory, Product, OrderProduct, Payment, Wishlist, Cart
 from sqlalchemy import or_
 import os
 
@@ -87,6 +87,121 @@ def return_collection(col,type):
         products.append(x.id)
     return products
 
+def add_to_cart(id,quantity):
+    prod = db.query(Product).filter(Product.id == id).first()
+    user = db.query(User).filter(User.username == session['username']).first()
+    check = db.query(Cart).filter((Cart.userId == user.id) & (Cart.productId == prod.id)).first()
+    if check == None:  # If product not present in cart
+        if prod.stock < quantity:
+            return render_template("error1.html", Message="Required quantity not available......")
+        wish_product = db.query(Wishlist).filter((Wishlist.userId == user.id) & (Wishlist.productId == prod.id)).first()
+        if wish_product != None:
+            db.query(Wishlist).filter((Wishlist.userId == user.id) & (Wishlist.productId == prod.id)).delete()
+            db.commit()
+        total = quantity * prod.price
+        obj = Cart(quantity, total, user, prod)
+        db.add(obj)
+        db.commit()
+        return True
+    else:       # update quantity
+        check.quantity = quantity
+        check.total = quantity * prod.price
+        db.commit()
+        return False
+
+def return_wishlist_and_cart():
+    cart = db.query(Product.id, Product.name, Product.price, Product.img, Cart.quantity, Cart.total).join(
+        Cart).join(User).filter((User.username == session['username']) & (Product.stock >= Cart.quantity)).all()
+    cart_total = 0
+    for x in cart:
+        cart_total += x.total
+    wish = db.query(Product).join(Wishlist).join(User).filter(User.username == session['username']).all()
+    return cart, wish, cart_total
+
+@app.route('/faq.html', methods=['get', 'post'])
+def faq():
+    new_arrive = new_arrival()
+    if 'username' in session:
+        if (session['username'] == adminUsername):
+            return render_template("faq.html", login=True, admin=True, data=data, new=new_arrive)
+        else:
+            cart, wish, cart_total = return_wishlist_and_cart()
+            return render_template("faq.html", login=True, admin=False, data=data, wish=wish, cart=cart,
+                               cart_total=cart_total, new=new_arrive)
+    else:
+        return render_template("faq.html", login=False, admin=False, data=data, new=new_arrive)
+
+@app.route('/wish-list', methods=['get', 'post'])
+def wish_list():
+    if 'username' in session:
+        cart, wish, cart_total = return_wishlist_and_cart()
+        wish_total = 0
+        for x in wish:
+            wish_total += x.price
+        return render_template("wish-list.html", login=True, admin=False, data=data, wish=wish, cart=cart,
+                               wish_total=wish_total)
+    return redirect(url_for("logout"))
+
+@app.route('/cart-list', methods=['get', 'post'])
+def cart_list():
+    if 'username' in session:
+        cart, wish, cart_total = return_wishlist_and_cart()
+        return render_template("cart-list.html", login=True, admin=False, data=data, wish=wish, cart=cart,
+                               cart_total=cart_total)
+    return redirect(url_for("logout"))
+
+@app.route('/updated-cart/<id>/<quantity>', methods=['get', 'post'])
+def update_cart(id, quantity):
+    if 'username' in session:
+        # pass each cart product to add to cart and update
+        return redirect(request.referrer)
+    return redirect(url_for("logout"))
+
+@app.route('/added-to-cart/<id>/<quantity>', methods=['get', 'post'])
+def add_cart(id, quantity):
+    if 'username' in session:
+        if (session['username'] != adminUsername):
+            f = add_to_cart(id,int(quantity))
+        return redirect(request.referrer)
+    return redirect(url_for("logout"))
+
+@app.route('/removed-from-cart/<id>', methods=['get', 'post'])
+def remove_cart(id):
+    prod = db.query(Product).filter(Product.id == id).first()
+    user = db.query(User).filter(User.username == session['username']).first()
+    db.query(Cart).filter((Cart.userId == user.id) & (Cart.productId == prod.id)).delete()
+    db.commit()
+    return redirect(request.referrer)
+
+@app.route('/Added-To-WishList/<id>', methods=['get', 'post'])
+def add_wishlist(id):
+    if 'username' in session:
+        if (session['username'] == adminUsername):
+            return redirect(request.referrer)
+        else:
+            prod = db.query(Product).filter(Product.id == id).first()
+            user = db.query(User).filter(User.username == session['username']).first()
+            check = db.query(Wishlist).filter((Wishlist.userId == user.id) & (Wishlist.productId == prod.id)).first()
+            cart_check = db.query(Cart).filter((Cart.userId == user.id) & (Cart.productId == prod.id)).first()
+            if (check == None) & (cart_check == None):     # Not present in wishlist and cart
+                obj = Wishlist(user, prod)
+                db.add(obj)
+                db.commit()
+            return redirect(request.referrer)
+    return redirect(url_for("logout"))
+
+@app.route('/removed-from-wishlist/<id>', methods=['get', 'post'])
+def remove_wishlist(id):
+    prod = db.query(Product).filter(Product.id == id).first()
+    user = db.query(User).filter(User.username == session['username']).first()
+    db.query(Wishlist).filter((Wishlist.userId == user.id) & (Wishlist.productId == prod.id)).delete()
+    db.commit()
+    return redirect(request.referrer)
+
+@app.route('/hidden', methods=['get', 'post'])
+def reload():
+    return redirect(request.referrer)
+
 @app.route('/search', methods=['get', 'post'])
 def search():
     if request.method == 'POST':
@@ -127,9 +242,11 @@ def categories_page2():
         if session['username'] == adminUsername:
             return render_template("categories-page2.html", login=True, admin=True, data=data, categories=sub_categories, main=name)
         else:
-            return render_template("categories-page2.html",login=True, admin=False, data=data, categories=sub_categories, main=name)
+            cart, wish, cart_total = return_wishlist_and_cart()
+            return render_template("categories-page2.html",login=True, admin=False, data=data, categories=sub_categories, main=name, wish=wish, cart=cart,
+                               cart_total=cart_total)
     else:
-        return render_template("categories-page2.html", login=False, admin=False, categories=sub_categories, main=name)
+        return render_template("categories-page2.html", login=False, admin=False,data=data, categories=sub_categories, main=name)
 
 @app.route('/Main/<value>', methods=['get', 'post'])
 def show_category_products(value):
@@ -163,7 +280,9 @@ def list_product():
         if (session['username'] == adminUsername):
             return render_template("list-product.html", login=True, admin=True, data=data, items=products, name=name)
         else:
-            return render_template("list-product.html", login=True, admin=False, data=data, items=products, name=name)
+            cart, wish, cart_total = return_wishlist_and_cart()
+            return render_template("list-product.html", login=True, admin=False, data=data, items=products, name=name, wish=wish, cart=cart,
+                               cart_total=cart_total)
     else:
         return render_template("list-product.html", login=False, admin=False, data=data, items=products, name=name)
 
@@ -180,7 +299,9 @@ def detail_product():
         if (session['username'] == adminUsername):
             return render_template("detail-product.html", login=True, admin=True, data=data, item=details)
         else:
-            return render_template("detail-product.html", login=True, admin=False, data=data, item=details)
+            cart, wish, cart_total = return_wishlist_and_cart()
+            return render_template("detail-product.html", login=True, admin=False, data=data, item=details, wish=wish, cart=cart,
+                               cart_total=cart_total)
     else:
         return render_template("detail-product.html", login=False, admin=False, data=data, item=details)
 
@@ -191,7 +312,9 @@ def collection_page():
         if (session['username'] == adminUsername):
             return render_template("collection-page2.html", login=True, admin=True, data=data, collection=value)
         else:
-            return render_template("collection-page2.html", login=True, admin=False, data=data, collection=value)
+            cart, wish, cart_total = return_wishlist_and_cart()
+            return render_template("collection-page2.html", login=True, admin=False, data=data, collection=value, wish=wish, cart=cart,
+                               cart_total=cart_total)
     else:
         return render_template("collection-page2.html", login=False, admin=False, data=data, collection=value)
 
@@ -286,12 +409,16 @@ def main():
 def home():
     refresh()  # Refreshing Data from database
     new_arrive = new_arrival()
+    wish = []
+    cart = []
+    cart_total = 0
     if 'username' in session:
         if(session['username'] == adminUsername):
-            return render_template("index.html", log=True, admin=True, data=data, new=new_arrive)
+            return render_template("index.html", log=True, admin=True, data=data, new=new_arrive, wish=wish, cart=cart, cart_total=cart_total)
         else:
-            return render_template("index.html", log=True, admin=False, data=data, new=new_arrive)
-    return render_template("index.html", log=False, admin=False, data=data, new=new_arrive)
+            cart, wish, cart_total = return_wishlist_and_cart()
+            return render_template("index.html", log=True, admin=False, data=data, new=new_arrive, wish=wish, cart=cart, cart_total=cart_total)
+    return render_template("index.html", log=False, admin=False, data=data, new=new_arrive, wish=wish, cart=cart, cart_total=cart_total)
 
 # --------------------------------------------------------------------------------
 
@@ -301,7 +428,9 @@ def about():
         if (session['username'] == adminUsername):
             return render_template("about.html", login=True, admin=True, data=data)
         else:
-            return render_template("about.html", login=True, admin=False, data=data)
+            cart, wish, cart_total = return_wishlist_and_cart()
+            return render_template("about.html", login=True, admin=False, data=data, wish=wish, cart=cart,
+                               cart_total=cart_total)
     else:
         return render_template("about.html", login=False, admin=False, data=data)
 
@@ -311,7 +440,9 @@ def blog_details():
         if (session['username'] == adminUsername):
             return render_template("blog-details.html", login=True, admin=True, data=data)
         else:
-            return render_template("blog-details.html", login=True, admin=False, data=data)
+            cart, wish, cart_total = return_wishlist_and_cart()
+            return render_template("blog-details.html", login=True, admin=False, data=data, wish=wish, cart=cart,
+                               cart_total=cart_total)
     else:
         return render_template("blog-details.html", login=False, admin=False, data=data)
 
@@ -321,36 +452,11 @@ def blog_list():
         if (session['username'] == adminUsername):
             return render_template("blog-list.html", login=True, admin=True, data=data)
         else:
-            return render_template("blog-list.html", login=True, admin=False, data=data)
+            cart, wish, cart_total = return_wishlist_and_cart()
+            return render_template("blog-list.html", login=True, admin=False, data=data, wish=wish, cart=cart,
+                               cart_total=cart_total)
     else:
         return render_template("blog-list.html", login=False, admin=False, data=data)
-
-@app.route('/cart-list.html', methods=['get', 'post'])
-def cart_list():
-    if 'username' in session:
-        if (session['username'] == adminUsername):
-            return render_template("cart-list.html", login=True, admin=True, data=data)
-        else:
-            return render_template("cart-list.html", login=True, admin=False, data=data)
-    return redirect('/index.html')
-
-@app.route('/add-cart.html', methods=['get', 'post'])
-def add_cart():
-    if 'username' in session:
-        if (session['username'] == adminUsername):
-            return render_template("add-cart.html", login=True, admin=True)
-        else:
-            return render_template("add-cart.html", login=True, admin=False)
-    return redirect('/index.html')
-
-@app.route('/remove-cart.html', methods=['get', 'post'])
-def remove_cart():
-    if 'username' in session:
-        if (session['username'] == adminUsername):
-            return render_template("remove-cart.html", login=True, admin=True)
-        else:
-            return render_template("remove-cart.html", login=True, admin=False)
-    return redirect('/index.html')
 
 
 @app.route('/categories-page1.html', methods=['get', 'post'])
@@ -359,7 +465,9 @@ def categories_page1():
         if (session['username'] == adminUsername):
             return render_template("categories-page1.html", login=True, admin=True, data=data)
         else:
-            return render_template("categories-page1.html", login=True, admin=False, data=data)
+            cart, wish, cart_total = return_wishlist_and_cart()
+            return render_template("categories-page1.html", login=True, admin=False, data=data, wish=wish, cart=cart,
+                               cart_total=cart_total)
     else:
         return render_template("categories-page1.html", login=False, admin=False, data=data)
 
@@ -369,7 +477,9 @@ def categories_page4():
         if (session['username'] == adminUsername):
             return render_template("categories-page4.html", login=True, admin=True, data=data)
         else:
-            return render_template("categories-page4.html", login=True, admin=False, data=data)
+            cart, wish, cart_total = return_wishlist_and_cart()
+            return render_template("categories-page4.html", login=True, admin=False, data=data, wish=wish, cart=cart,
+                               cart_total=cart_total)
     else:
         return render_template("categories-page4.html", login=False, admin=False, data=data)
 
@@ -379,7 +489,9 @@ def checkout():
         if (session['username'] == adminUsername):
             return render_template("checkout.html", login=True, admin=True, data=data)
         else:
-            return render_template("checkout.html", login=True, admin=False, data=data)
+            cart, wish, cart_total = return_wishlist_and_cart()
+            return render_template("checkout.html", login=True, admin=False, data=data, wish=wish, cart=cart,
+                               cart_total=cart_total)
     else:
         return render_template("checkout.html", login=False, admin=False, data=data)
 
@@ -389,23 +501,15 @@ def contact():
         if (session['username'] == adminUsername):
             return render_template("contact.html", login=True, admin=True, data=data)
         else:
-            return render_template("contact.html", login=True, admin=False, data=data)
+            cart, wish, cart_total = return_wishlist_and_cart()
+            return render_template("contact.html", login=True, admin=False, data=data, wish=wish, cart=cart,
+                               cart_total=cart_total)
     else:
         return render_template("contact.html", login=False, admin=False, data=data)
 
 @app.route('/error1.html', methods=['get', 'post'])
 def error():
     return render_template("error1.html", Message="")
-
-@app.route('/faq.html', methods=['get', 'post'])
-def faq():
-    if 'username' in session:
-        if (session['username'] == adminUsername):
-            return render_template("faq.html", login=True, admin=True, data=data)
-        else:
-            return render_template("faq.html", login=True, admin=False, data=data)
-    else:
-        return render_template("faq.html", login=False, admin=False, data=data)
 
 @app.route('/login', methods=['post'])
 def login():
@@ -435,46 +539,11 @@ def register():
 
 @app.route('/logout.html', methods=['post', 'get'])
 def logout():
-    session.clear()
+    session.pop('username',None)
     return render_template("logout.html")
 
 @app.route('/myaccount.html', methods=['get', 'post'])
 def myaccount():
-    if 'username' in session:
-        return render_template("index.html", log=True, admin=False, data=data)
-    return redirect('/index.html')
-
-@app.route('/search-result.html', methods=['get', 'post'])
-def search_result():
-    if 'username' in session:
-        return render_template("index.html", log=True, admin=False, data=data)
-    return redirect('/index.html')
-
-@app.route('/wish-list.html', methods=['get', 'post'])
-def wish_list():
-    if 'username' in session:
-        if (session['username'] == adminUsername):
-            return render_template("index.html", log=True, admin=True, data=data)
-        else:
-            return render_template("index.html", log=True, admin=False, data=data)
-    return redirect('/index.html')
-
-@app.route('/add-wishlist.html', methods=['get', 'post'])
-def add_wishlist():
-    if 'username' in session:
-        if (session['username'] == adminUsername):
-            return render_template("index.html", log=True, admin=True)
-        else:
-            return render_template("index.html", log=True, admin=False)
-    return redirect('/index.html')
-
-@app.route('/remove-wishlist.html', methods=['get', 'post'])
-def remove_wishlist():
-    if 'username' in session:
-        if (session['username'] == adminUsername):
-            return render_template("index.html", log=True, admin=True)
-        else:
-            return render_template("index.html", log=True, admin=False)
     return redirect('/index.html')
 
 @app.route('/email', methods=['get', 'post'])

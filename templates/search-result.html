@@ -10,7 +10,7 @@
                         <div class="page-title-heading"><h1 class="h2">Shop Page<span>Shopping</span></h1></div>
                         <ul class="list-unstyled mb-0">
                             <li><a href="index.html">home</a></li>
-                            <li class="active"><a href="#">Shop</a></li>
+                            <li class="active"><a href="{{url_for('reload')}}">Shop</a></li>
                         </ul>
                     </div>
                     <!-- End of page title inner -->
@@ -32,7 +32,7 @@
                                 <div class="col-md-4 position-static">
                                     <div class="search-form position-relative search-page">
                                         <form action="#" method="post">
-                                            <input type="text" placeholder="What you looking for" class="theme-input-style" required>
+                                            <input type="text" name="value" placeholder="What you looking for" class="theme-input-style" required>
                                             <button type="submit"><img src="static/assets/img/icons/search-button3.svg" class="svg" alt=""></button>
                                         </form>
                                     </div>

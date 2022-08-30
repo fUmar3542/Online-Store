@@ -58,24 +58,26 @@ class Cart(Base):
     __tablename__ = "cart"
     id = Column(Integer, primary_key=True)
     quantity = Column(Integer)
-    orderId = Column(Integer, ForeignKey('users.id', ondelete='CASCADE', onupdate='CASCADE'))
-    order = relationship('User', backref='cart')
+    total = Column(Integer)
+    userId = Column(Integer, ForeignKey('users.id', ondelete='CASCADE', onupdate='CASCADE'))
+    user = relationship('User', backref='cart')
     productId = Column(Integer, ForeignKey('products.id', ondelete='CASCADE', onupdate='CASCADE'))
     prod = relationship('Product', backref='cart')
-    def __init__(self, quant, ord, prd):
+    def __init__(self, quant, total, ord, prd):
         self.quantity = quant
-        self.order = ord
+        self.total = total
+        self.user = ord
         self.prod = prd
 
 class Wishlist(Base):
     __tablename__ = "wish"
     id = Column(Integer, primary_key=True)
-    orderId = Column(Integer, ForeignKey('users.id', ondelete='CASCADE', onupdate='CASCADE'))
-    order = relationship('User', backref='wish')
+    userId = Column(Integer, ForeignKey('users.id', ondelete='CASCADE', onupdate='CASCADE'))
+    user = relationship('User', backref='wish')
     productId = Column(Integer, ForeignKey('products.id', ondelete='CASCADE', onupdate='CASCADE'))
     prod = relationship('Product', backref='wish')
     def __init__(self, ord, prd):
-        self.order = ord
+        self.user = ord
         self.prod = prd
 
 class Order(Base):
