@@ -43,7 +43,7 @@
                     <h2>Update Product</h2>
                     <div class="modal-subscribe update-product">
                         <form action="/update-product" method="post" enctype="multipart/form-data">
-                            <input type="text" name="name" value='{{ sub_cat_name }}' maxlength="50" class="theme-input-style" required placeholder="Name">
+                            <input type="text" name="name" maxlength="50" class="theme-input-style" required placeholder="Name">
                             <input type="number" name="price" class="theme-input-style" required placeholder="Price">
                             <input type="text" name="brand" class="theme-input-style" maxlength="50" required placeholder="Brand">
                             <input type="text" name="stock" class="theme-input-style" required placeholder="Stock">
@@ -89,9 +89,9 @@
     <!-- End of page title -->
 
     <div class="container product-lists py-5">
-        <a href="#" class="btn btn-fill-type add-a-product"> Add a Product</a>
     <div class="row">
         <div class="col-lg-8 mx-auto">
+            <a href="#" class="btn btn-fill-type add-a-product"> Add a Product</a>
             <!-- List group-->
             <ul class="list-group shadow">
                 {% for x in items %}
@@ -106,7 +106,7 @@
                                     <h6 class="font-weight-bold my-2">$ {{ x.price }}</h6>
                                 </div>
                                 <div class="row">
-                                    <a href="#" id='{{x}}' class="btn btn-fill-type update-a-product">Update</a>
+                                    <a href="#" name="{{x}}" id="{{x.id}}" class="btn btn-fill-type update-a-product">Update</a>
                                     <a href='{{url_for("delete_product", id=x.id, sub_cat_name=sub_cat_name)}}' class="btn btn-fill-type delete-a-product">Delete</a>
                                 </div>
                             </div>

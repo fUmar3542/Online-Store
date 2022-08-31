@@ -21,10 +21,14 @@ $( document ).ready(function() {
     });
 
     $(".btn.btn-fill-type.update-a-product").click(function(){
-      //alert("The paragraph was clicked.");
+//      alert("The paragraph was clicked.");
       $(".modal-window-container.fancy.update-product.window-show").css("display","block");
       $(".modal-window-container.fancy.update-product").addClass("window-show");
       $("body").addClass("modal-window-open");
+
+//      var val = this.id; // retrieve the value
+//      var v = this.name
+//      console.log(v)
     });
 
 });

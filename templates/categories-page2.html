@@ -43,7 +43,7 @@
                                 <div class="col-md-6 col-sm-12">
                                     <!-- caregory image -->
                                     <div class="category-image hover-effect">
-                                        <img src="static/assets/img/category/catagory-l-1.jpg" data-rjs="2" alt="">
+                                        <img src="{{ x.address }}" data-rjs="2" alt="">
                                     </div>
                                     <!--End of caregory image -->
                                 </div>
@@ -53,18 +53,18 @@
                                         <div class="row">
                                             <div class="col-md-6 col-sm-12">
                                                 <div class="category-image hover-effect">
-                                                    <img src="static/assets/img/category/catagory2-s-1.jpg" data-rjs="2" alt="">
+                                                    <img src="{{ x.address }}" data-rjs="2" alt="">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-sm-12">
                                                 <div class="category-image hover-effect">
-                                                    <img src="static/assets/img/category/catagory2-s-2.jpg" data-rjs="2" alt="">
+                                                    <img src="{{ x.address }}" data-rjs="2" alt="">
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <!--single catagory content -->
                                                 <div class="single-category-content">
-                                                    <h2> <a href="shop-2col.html">{{x.name}}</a> </h2>
+                                                    <h2> <a href="">{{x.name}}</a> </h2>
                                                     <a href='{{url_for("show_category_products", value=x.name)}}' class="btn">Shop Now</a>
                                                 </div>
                                                 <!--End of single catagory content -->

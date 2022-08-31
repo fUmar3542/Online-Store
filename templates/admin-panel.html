@@ -4,17 +4,24 @@
 {% with m = '/add/c' %}
 
 <!-- Modal Sub-Cat Main -->
-    <div class="modal-window-container fancy sub-cat">
+    <div class="modal-window-container fancy sub-cat with-image">
             <div class="modal-window-overlay"></div>
             <div class="modal-window-content">
                 <div class="modal-window-inner text-center">
                     <h2>Add Sub Category</h2>
                     <p>It is a long established fact that a reader will<br> distracted by the readable content of a page when looking injected humour its layout.</p>
                     <div class="modal-subscribe">
-                        <form action= "/add-category" method="post">
+                        <form action= "/add-category" method="post" enctype="multipart/form-data">
                             <input type="text" name="name" class="theme-input-style" maxlength="50" required placeholder="Enter Category Here">
                             <input type="text" name="nm" id="i" class="theme-input-style" hidden>
                             <button type="submit"><img src="static/assets/img/icons/right-icon.svg" class="svg" alt=""></button>
+                            <input type="text" name="nm" value='{{ sub_cat_name }}' class="theme-input-style" hidden>
+                            <!-- actual upload which is hidden -->
+                            <input type="file" name="img" id="actual-btn" required accept="image/*" hidden/>
+                            <!-- our custom upload button -->
+                            <label class="chose-file" for="actual-btn">Choose File</label>
+                            <!-- name of file chosen -->
+                            <span id="file-chosen">No file chosen</span>
                         </form>
                     </div>
                     <div class="modal-window-close">

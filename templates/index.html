@@ -122,11 +122,11 @@
                                                                 {% endif%}
                                                             </li>
                                                         {% endif %}
-                                                        <li><a href="about.html">About</a></li>
+                                                        <li><a href='{{url_for("about")}}'>About</a></li>
                                                         <li>
-                                                            <a href="blog-list.html">Blog</a>
+                                                            <a href='{{url_for("blog_list")}}'>Blog</a>
                                                         </li>
-                                                        <li><a href="contact.html">Contact</a></li>
+                                                        <li><a href='{{url_for("contact")}}'>Contact</a></li>
                                                     </ul>
                                                 </div>
                                                 <!-- End of Header-menu -->
@@ -368,7 +368,7 @@
                         <div class="single-item-left media align-items-center">
                             <img src='{{x.img}}' alt="">
                             <div class="single-item-details midea-body">
-                                <h5><a href="#">{{x.name}}</a></h5>
+                                <h5><a href='{{url_for("show_details", id=x.id)}}'>{{x.name}}</a></h5>
                                 <p>{{x.price}} X {{x.quantity}}</p>
                             </div>
                         </div>
@@ -470,7 +470,7 @@
                             <!-- loging input -->
                             <button type="submit" class="btn btn-fill-type">log In</button>
                         </form>
-                        <p>Don’t have an account,<a href="#"> register now!</a></p>
+                        <p>Don’t have an account,<a href="#reg"> register now!</a></p>
                     </div>
                 </div>
 
@@ -505,7 +505,7 @@
                             <!-- register input -->
                             <button type="submit" class="btn btn-fill-type">Register</button>
                         </form>
-                        <p>Have an account,<a href="#">Log In now!</a></p>
+                        <p>Have an account,<a href="#login">Log In now!</a></p>
                     </div>
                 </div>
             </div>
@@ -579,7 +579,7 @@
                                                     <div class="dress-image">
                                                         <img src='{{x.img}}' alt="">
                                                     </div>
-                                                    <h6>{{x.img}} <span>${{x.price}}</span></h6>
+                                                    <h6>{{x.name}} <span>${{x.price}}</span></h6>
                                                 </a>
                                             </li>
                                         </ul>
@@ -590,7 +590,7 @@
                                     <!-- slider text -->
                                     <div class="single-slider-text">
                                         <span>Expression Of Individuals</span>
-                                        <h1>Fashion Is Nothing But Choise</h1>
+                                        <h1>Fashion Is Nothing But Choice</h1>
                                         <a href='{{url_for("all_products")}}' class="btn">Shop Now</a>
                                     </div>
                                     <!-- End of slider text -->
@@ -608,7 +608,7 @@
                                     <!-- slider text -->
                                     <div class="single-slider-text">
                                         <span>Expression Of Individuals</span>
-                                        <h1>Fashion Is Nothing But Choise</h1>
+                                        <h1>Fashion Is Nothing But Choice</h1>
                                         <a href='{{url_for("all_products")}}' class="btn">Shop Now</a>
                                     </div>
                                     <!-- End of slider text -->
@@ -616,12 +616,12 @@
                                 <div class="col-md-6">
                                     <!-- banner image -->
                                     <div class="banner-image" data-trigger="parallax_layers">
-                                        <img src="static/assets/img/attire-10.png" alt="" data-depth="0.2">
+                                        <img src="static/assets/img/attire-8.png" alt="" data-depth="0.2">
                                     </div>
                                     <!-- banner image -->
 
                                     <!-- image caption -->
-                                    <a href="shop-details.html">
+                                    <a href='{{url_for("show_details", id=x.id)}}'>
                                         <div class="image-caption">
                                             <h6>$ {{x.price}}</h6>
                                             <h5>{{x.brand}} <br> {{x.name}}</h5>
@@ -633,7 +633,7 @@
                                     <div class="dress-details">
                                         <ul class="list-unstyled mb-30">
                                             <li>
-                                                <a href="shop-details.html">
+                                                <a href='{{url_for("show_details", id=x.id)}}'>
                                                     <div class="dress-image">
                                                         <img src='{{x.img}}' alt="">
                                                     </div>
@@ -1034,7 +1034,7 @@
                         <div class="col-lg-6">
                             <!-- single blog image -->
                             <div class="single-blog-image">
-                                <a href="#"><img src="static/assets/img/img1.jpg" alt=""></a>
+                                <a  href='{{url_for("blog_details")}}'><img src="static/assets/img/img1.jpg" alt=""></a>
                             </div>
                             <!-- End of single blog image -->
                         </div>
@@ -1056,7 +1056,7 @@
                                 <div class="post-body">
                                     <p>There are many variations of pass ages of Lorem Ipsum available, but the majority
                                         have suffered alterat ion in some form injected.</p>
-                                    <a href="blog-details.html" class="btn btn-line">Continue Reading...</a>
+                                    <a  href='{{url_for("blog_details")}}' class="btn btn-line">Continue Reading...</a>
                                 </div>
                             </div>
                             <!-- End of single blog post details -->
@@ -1072,7 +1072,7 @@
                         <div class="col-lg-6">
                             <!-- single blog image -->
                             <div class="single-blog-image">
-                                <a href="#"><img src="static/assets/img/img2.jpg" alt=""></a>
+                                <a   href='{{url_for("blog_details")}}'><img src="static/assets/img/img2.jpg" alt=""></a>
                             </div>
                             <!-- End of single blog image -->
                         </div>
@@ -1094,7 +1094,7 @@
                                 <div class="post-body">
                                     <p>There are many variations of pass ages of Lorem Ipsum available, but the majority
                                         have suffered alterat ion in some form injected.</p>
-                                    <a href="blog-details.html" class="btn btn-line">Continue Reading...</a>
+                                    <a  href='{{url_for("blog_details")}}' class="btn btn-line">Continue Reading...</a>
                                 </div>
                             </div>
                             <!-- End of single blog post details -->
@@ -1139,16 +1139,16 @@
                         <div class="footer-links">
                             <ul class="links-list list-unstyled mb-0">
                                 <li>
-                                    <a href="about.html">About Our Company</a>
+                                    <a href='{{url_for("about")}}'>About Our Company</a>
                                 </li>
                                 <li>
-                                    <a href="about.html">License</a>
+                                    <a href='{{url_for("about")}}'>License</a>
                                 </li>
                                 <li>
-                                    <a href="about.html">Policy Privacy</a>
+                                    <a href='{{url_for("about")}}'>Policy Privacy</a>
                                 </li>
                                 <li>
-                                    <a href="about.html">Terms of use</a>
+                                    <a href='{{url_for("about")}}'>Terms of use</a>
                                 </li>
                             </ul>
                         </div>
@@ -1167,10 +1167,10 @@
                         <div class="footer-links">
                             <ul class="links-list list-unstyled mb-0">
                                 <li>
-                                    <a href="collection-page2.html">Discount Shop</a>
+                                    <a href='{{url_for("collection", value="Discount %")}}'>Discount Shop</a>
                                 </li>
                                 <li>
-                                    <a href="collection-page1.html">New Arrivals</a>
+                                    <a href='{{url_for("collection", value="New Arrival")}}'>New Arrivals</a>
                                 </li>
                             </ul>
                         </div>
@@ -1194,11 +1194,11 @@
                                 </li>
                                 <li>
                                     <span><i class="fa fa-envelope" aria-hidden="true"></i></span>
-                                    <a href="info@emailname.com">Email: CustomerSupport@gmail.com</a>
+                                    <a>Email: CustomerSupport@gmail.com</a>
                                 </li>
                                 <li>
                                     <span><i class="fa fa-phone" aria-hidden="true"></i></span>
-                                    <a href="+006543219874">Phone: +92 654 321 9874</a>
+                                    <a >Phone: +92 654 321 9874</a>
                                 </li>
                                 <li>
                                     <span><i class="fa fa-clock-o" aria-hidden="true"></i></span>

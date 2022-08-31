@@ -203,7 +203,13 @@ button[type=submit] {
 textarea { resize: none; }
 img {
     max-width: 100%;
-    height: auto; 
+    height: auto;
+}
+.single-blog-image.hover-effect img{
+    padding-left: 15px;
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
 }
 
 a {
@@ -2731,7 +2737,7 @@ label input[type=radio] {
 }
 
 .catagory-menu-wrap ul li ul {
-    padding-left: 0;
+    padding-left: 7px;
     position: absolute;
     top: 51px;
 }
@@ -2754,7 +2760,8 @@ label input[type=radio] {
 .catagory-menu-wrap ul > li {
     list-style: none;
     display: inline-flex;
-    width: 14%;
+    width: 13%;
+    justify-content: center;
     position: relative;
 }
 .catagory-menu-wrap ul li ul li {
