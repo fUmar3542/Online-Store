@@ -60,7 +60,7 @@
                                                 <!-- product thumbnail -->
                                                 <td class="product-thumbnail">
                                                     <div class="product-details">
-                                                        <a href="#" class="porduct-image-wrap">
+                                                        <a href='{{url_for("show_details", id=x.id)}}' class="porduct-image-wrap">
                                                             <img src='{{x.img}}' alt="">
                                                         </a>
                                                         <a href='{{url_for("show_details", id=x.id)}}'>{{x.name}}</a>

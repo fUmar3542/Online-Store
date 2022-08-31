@@ -128,11 +128,11 @@
                                                     {% endif%}
                                                 </li>
                                             {% endif %}
-                                            <li><a href="about.html">About</a></li>
+                                            <li><a href='{{url_for("about")}}'>About</a></li>
                                             <li>
-                                                <a href="blog-list.html">Blog</a>
+                                                <a href='{{url_for("blog_list")}}'>Blog</a>
                                             </li>
-                                            <li><a href="contact.html">Contact</a></li>
+                                            <li><a href='{{url_for("contact")}}'>Contact</a></li>
                                         </ul>
                                     </div>
                                     <!-- End of Header-menu -->
@@ -349,7 +349,7 @@
                         <div class="single-item-left media align-items-center">
                             <img src='{{x.img}}' alt="">
                             <div class="single-item-details midea-body">
-                                <h5><a href="#">{{x.name}}</a></h5>
+                                <h5><a href='{{url_for("show_details", id=x.id)}}'>{{x.name}}</a></h5>
                                 <p>{{x.price}} X {{x.quantity}}</p>
                             </div>
                         </div>
@@ -548,16 +548,16 @@
                             <div class="footer-links">
                                 <ul class="links-list list-unstyled mb-0">
                                     <li>
-                                        <a href="about.html">About Our Company</a>
+                                        <a href='{{url_for("about")}}'>About Our Company</a>
                                     </li>
                                     <li>
-                                        <a href="about.html">License</a>
+                                        <a href='{{url_for("about")}}'>License</a>
                                     </li>
                                     <li>
-                                        <a href="about.html">Policy Privacy</a>
+                                        <a href='{{url_for("about")}}'>Policy Privacy</a>
                                     </li>
                                     <li>
-                                        <a href="about.html">Terms of use</a>
+                                        <a href='{{url_for("about")}}'>Terms of use</a>
                                     </li>
                                 </ul>
                             </div>
@@ -576,10 +576,10 @@
                             <div class="footer-links">
                                 <ul class="links-list list-unstyled mb-0">
                                     <li>
-                                        <a href="collection-page2.html">Discount Shop</a>
+                                        <a href='{{url_for("collection", value="Discount %")}}'>Discount Shop</a>
                                     </li>
                                     <li>
-                                        <a href="collection-page1.html">New Arrivals</a>
+                                        <a href='{{url_for("collection", value="New Arrival")}}'>New Arrivals</a>
                                     </li>
                                 </ul>
                             </div>
@@ -603,11 +603,11 @@
                                     </li>
                                     <li>
                                         <span><i class="fa fa-envelope" aria-hidden="true"></i></span>
-                                        <a href="info@emailname.com">Email: CustomerSupport@gmail.com</a>
+                                        <a>Email: CustomerSupport@gmail.com</a>
                                     </li>
                                     <li>
                                         <span><i class="fa fa-phone" aria-hidden="true"></i></span>
-                                        <a href="+006543219874">Phone: +92 654 321 9874</a>
+                                        <a>Phone: +92 654 321 9874</a>
                                     </li>
                                     <li>
                                         <span><i class="fa fa-clock-o" aria-hidden="true"></i></span>

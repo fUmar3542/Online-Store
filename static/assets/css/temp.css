@@ -89,8 +89,9 @@ body {
 }
 
 .product-lists img {
-    height: 170px;
+    height: 140px;
     width: 140px;
+    object-fit: cover;
 }
 
 .product-lists .order .card {
@@ -277,7 +278,7 @@ body {
 .product-lists a.btn.btn-fill-type {
     display: block;
     width: 150px;
-    margin: 20px auto;
+    margin: 0 15px;
 }
 
 .modal-subscribe.add-product button[type=submit]:hover, .modal-subscribe.update-product button[type=submit]:hover {
