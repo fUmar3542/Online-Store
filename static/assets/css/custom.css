@@ -44,3 +44,41 @@
         width: 100%;
     }
 }
+
+
+.banner-slider3 .dress-image img {
+    width: 95px !important;
+    height: 100px !important;
+    object-fit: cover !important;
+}
+
+.featured-item-image img {
+    width: 540px;
+    height: 240px;
+    object-fit: cover;
+}
+
+.product-image a img {
+    width: 255px;
+    height: 350px;
+    object-fit: cover;
+}
+
+.shop-product-slider-wrap img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.single-item-left img {
+    margin-right: 30px;
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
+
+tr.woocommerce-cart-form__cart-item.cart_item img {
+    object-fit: cover;
+    width: 90px;
+    height: 90px;
+}

@@ -422,7 +422,7 @@ def home():
 
 # --------------------------------------------------------------------------------
 
-@app.route('/about.html', methods=['get', 'post'])
+@app.route('/about', methods=['get', 'post'])
 def about():
     if 'username' in session:
         if (session['username'] == adminUsername):
@@ -434,7 +434,7 @@ def about():
     else:
         return render_template("about.html", login=False, admin=False, data=data)
 
-@app.route('/blog-details.html', methods=['get', 'post'])
+@app.route('/blog-details', methods=['get', 'post'])
 def blog_details():
     if 'username' in session:
         if (session['username'] == adminUsername):
@@ -446,7 +446,7 @@ def blog_details():
     else:
         return render_template("blog-details.html", login=False, admin=False, data=data)
 
-@app.route('/blog-list.html', methods=['get', 'post'])
+@app.route('/blogs', methods=['get', 'post'])
 def blog_list():
     if 'username' in session:
         if (session['username'] == adminUsername):
@@ -495,7 +495,7 @@ def checkout():
     else:
         return render_template("checkout.html", login=False, admin=False, data=data)
 
-@app.route('/contact.html', methods=['get', 'post'])
+@app.route('/contact', methods=['get', 'post'])
 def contact():
     if 'username' in session:
         if (session['username'] == adminUsername):
