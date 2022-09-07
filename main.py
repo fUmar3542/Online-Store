@@ -3,7 +3,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from Base import Session, engine, Base
 from flask import Flask, session, render_template, make_response, request, url_for, redirect
-from Model import User, Order, Category, SubCategory, Product, OrderProduct, Payment, Wishlist, Cart
+from Model import User, Order, Category, SubCategory, Product, OrderProduct, Wishlist, Cart
 from sqlalchemy import or_
 import os
 
@@ -117,6 +117,49 @@ def return_wishlist_and_cart():
         cart_total += x.total
     wish = db.query(Product).join(Wishlist).join(User).filter(User.username == session['username']).all()
     return cart, wish, cart_total
+
+@app.route('/order', methods=['get', 'post'])
+def place_order():
+    if request.method == 'POST':
+        first_name = request.form.get("first_name")
+        last_name = request.form.get("last_name")
+        phone = request.form.get("phone_no")
+        email = request.form.get("email")
+        country = request.form.get("country")
+        city = request.form.get("city")
+        address1 = request.form.get("address2")
+        address2 = request.form.get("address2")
+        district = request.form.get("district")
+        zip = request.form.get("zip")
+        main_address = address1 + " " + city + " " + district + " " + country
+        tp = "Card payment"
+        discount = 0
+        temp_address = ""
+        if address2 != "":
+            temp_address = address2 + " " + city + " " + district + " " + country
+        cart, wish, cart_total = return_wishlist_and_cart()
+        order_total = cart_total + 10
+        user = db.query(User).filter(User.username == session['username']).first()
+        obj = Order(first_name, last_name, main_address, temp_address, phone, email, zip, tp, discount, cart_total, order_total, user)
+        db.add(obj)
+        db.commit()
+        order = db.query(Order).join(User).filter(User.username == session['username']).order_by(Order.id.desc()).first()
+        for x in cart:
+            product = db.query(Product).filter(Product.id == x.id).first()
+            ord = OrderProduct(x.quantity,order,product)
+            db.add(ord)
+        db.query(Cart).filter(Cart.userId == user.id).delete()
+        db.commit()
+        message = "Your order has been placed\n Order will arrive in between 7-10 working days.\n Thanks for purchasing ....."
+        return render_template("error1.html", Message=message)
+
+@app.route('/checkout.html', methods=['get', 'post'])
+def checkout():
+    if 'username' in session:
+        cart, wish, cart_total = return_wishlist_and_cart()
+        order_total = cart_total + 10
+        return render_template("checkout.html", login=True, admin=False, data=data, wish=wish, cart=cart,
+                               cart_total=cart_total, order_total=order_total)
 
 @app.route('/faq.html', methods=['get', 'post'])
 def faq():
@@ -323,11 +366,16 @@ def add_category():
     if request.method == 'POST':
         n = request.form.get("nm")
         m = request.form.get("name")
+        uploaded_file = request.files['img']
         subcat = db.query(SubCategory).filter(SubCategory.name == m).first()
         if subcat != None:
             return render_template("error1.html", Message="Sub Category already exist....")
         cat = db.query(Category).filter(Category.name == n).first()
-        obj = SubCategory(m,cat)
+        uploaded_file.filename = m
+        current_directory = "static/assets/img/" + n + "/"
+        uploaded_file.save(os.path.join(current_directory, uploaded_file.filename))
+        p = current_directory + uploaded_file.filename
+        obj = SubCategory(m, p, cat)
         db.add(obj)
         db.commit()
         refresh()  # Refreshing Data from database
@@ -482,18 +530,6 @@ def categories_page4():
                                cart_total=cart_total)
     else:
         return render_template("categories-page4.html", login=False, admin=False, data=data)
-
-@app.route('/checkout.html', methods=['get', 'post'])
-def checkout():
-    if 'username' in session:
-        if (session['username'] == adminUsername):
-            return render_template("checkout.html", login=True, admin=True, data=data)
-        else:
-            cart, wish, cart_total = return_wishlist_and_cart()
-            return render_template("checkout.html", login=True, admin=False, data=data, wish=wish, cart=cart,
-                               cart_total=cart_total)
-    else:
-        return render_template("checkout.html", login=False, admin=False, data=data)
 
 @app.route('/contact', methods=['get', 'post'])
 def contact():
