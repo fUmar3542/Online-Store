@@ -43,19 +43,14 @@
                     <h2>Update Product</h2>
                     <div class="modal-subscribe update-product">
                         <form action="/update-product" method="post" enctype="multipart/form-data">
-                            <input type="text" name="name" maxlength="50" class="theme-input-style" required placeholder="Name">
-                            <input type="number" name="price" class="theme-input-style" required placeholder="Price">
-                            <input type="text" name="brand" class="theme-input-style" maxlength="50" required placeholder="Brand">
-                            <input type="text" name="stock" class="theme-input-style" required placeholder="Stock">
-                            <input type="number" step="any" name="discount" class="theme-input-style" value="0" placeholder="Discount">
-                            <input type="text" name="detail" class="theme-input-style" maxlength="500" required placeholder="Detail">
-                            <input type="text" name="nm" value='{{ sub_cat_name }}' class="theme-input-style" hidden>
-                            <!-- actual upload which is hidden -->
-                            <input type="file" name="img" id="a-btn" required accept="image/*" hidden/>
-                            <!-- our custom upload button -->
-                            <label for="a-btn">Choose File</label>
-                            <!-- name of file chosen -->
-                            <span id="file-chose">No file chosen</span>
+                            <input id="name" type="text" name="name" maxlength="50" class="theme-input-style" required placeholder="Name">
+                            <input id="price" type="number" name="price" class="theme-input-style" required placeholder="Price">
+                            <input id="brand" type="text" name="brand" class="theme-input-style" maxlength="50" required placeholder="Brand">
+                            <input id="stock" type="text" name="stock" class="theme-input-style" required placeholder="Stock">
+                            <input id="discount" type="number" step="any" name="discount" class="theme-input-style" placeholder="Discount">
+                            <input id="detail" type="text" name="detail" class="theme-input-style" maxlength="500" required placeholder="Detail">
+                            <input id="id" type="text" name="nm" class="theme-input-style" hidden>
+                            <input id="sub" type="text" name="sub" value="{{sub_cat_name}}" class="theme-input-style" hidden>
                             <button type="submit" class="btn btn-fill-type update">Update Now</button>
                         </form>
                     </div>
@@ -106,7 +101,7 @@
                                     <h6 class="font-weight-bold my-2">$ {{ x.price }}</h6>
                                 </div>
                                 <div class="row">
-                                    <a href="#" name="{{x}}" id="{{x.id}}" class="btn btn-fill-type update-a-product">Update</a>
+                                    <a href="#" id="{{x.id}}" class="btn btn-fill-type update-a-product">Update</a>
                                     <a href='{{url_for("delete_product", id=x.id, sub_cat_name=sub_cat_name)}}' class="btn btn-fill-type delete-a-product">Delete</a>
                                 </div>
                             </div>

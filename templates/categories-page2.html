@@ -64,7 +64,7 @@
                                             <div class="col-md-12">
                                                 <!--single catagory content -->
                                                 <div class="single-category-content">
-                                                    <h2> <a href="">{{x.name}}</a> </h2>
+                                                    <h2> <a href='{{url_for("show_category_products", value=x.name)}}'>{{x.name}}</a> </h2>
                                                     <a href='{{url_for("show_category_products", value=x.name)}}' class="btn">Shop Now</a>
                                                 </div>
                                                 <!--End of single catagory content -->

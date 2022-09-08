@@ -2,7 +2,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from Base import Session, engine, Base
-from flask import Flask, session, render_template, make_response, request, url_for, redirect
+from flask import Flask, session, render_template, make_response, request, url_for, redirect, jsonify
 from Model import User, Order, Category, SubCategory, Product, OrderProduct, Wishlist, Cart
 from sqlalchemy import or_
 import os
@@ -118,6 +118,14 @@ def return_wishlist_and_cart():
     wish = db.query(Product).join(Wishlist).join(User).filter(User.username == session['username']).all()
     return cart, wish, cart_total
 
+@app.route('/api/<val>', methods=['get','post'])
+def return_product(val):
+    arr = []
+    if request.method == 'GET':
+        dat = db.query(Product).filter(Product.id == val).first()
+        arr = [dat.id,dat.name,dat.price,dat.brand,dat.stock,dat.discount,dat.details]
+    return jsonify(arr)
+
 @app.route('/order', methods=['get', 'post'])
 def place_order():
     if request.method == 'POST':
@@ -193,11 +201,18 @@ def cart_list():
                                cart_total=cart_total)
     return redirect(url_for("logout"))
 
-@app.route('/updated-cart/<id>/<quantity>', methods=['get', 'post'])
-def update_cart(id, quantity):
+@app.route('/update-cart/<id1>/<quantity>', methods=['get', 'post'])
+def update_cart(id1, quantity):
     if 'username' in session:
-        # pass each cart product to add to cart and update
-        return redirect(request.referrer)
+        arr =[]
+        user = db.query(User).filter(User.username == session['username']).first()
+        crt = db.query(Cart).filter(Cart.userId == user.id).all()
+        id2 = int(id1)
+        p = db.query(Product).filter(Product.id == (crt[id2].productId)).first()
+        crt[id2].quantity = quantity
+        crt[id2].total = quantity * p.price
+        db.commit()
+        return jsonify(arr)
     return redirect(url_for("logout"))
 
 @app.route('/added-to-cart/<id>/<quantity>', methods=['get', 'post'])
@@ -207,6 +222,15 @@ def add_cart(id, quantity):
             f = add_to_cart(id,int(quantity))
         return redirect(request.referrer)
     return redirect(url_for("logout"))
+
+# @app.route('/cart-updated', methods=['get', 'post'])
+# def update_cart():
+#     if 'username' in session:
+#         if (session['username'] != adminUsername):
+#             # f = add_to_cart(id,int(quantity))
+#             pass
+#         return redirect(request.referrer)
+#     return redirect(url_for("logout"))
 
 @app.route('/removed-from-cart/<id>', methods=['get', 'post'])
 def remove_cart(id):
@@ -407,7 +431,23 @@ def view_category(value):
 def view_product():
     value = session['sub_category_name']
     sub_category = updated_sub_category_list(value)
-    return render_template("view-product.html", login=True, admin=True, sub_cat_name=value, items=sub_category)
+    return render_template("view-product.html", login=True, admin=True, data=data, sub_cat_name=value, items=sub_category)
+
+@app.route('/update-product', methods=['get', 'post'])
+def update_product():
+    if request.method == 'POST':
+        id1 = request.form.get("nm")
+        prod = db.query(Product).filter(Product.id == id1).first()
+        n = request.form.get("sub")
+        prod.name = request.form.get("name")
+        prod.price = request.form.get("price")
+        prod.detail = request.form.get("detail")
+        prod.brand = request.form.get("brand")
+        prod.stock = request.form.get("stock")
+        prod.discount = request.form.get("discount")
+        db.commit()
+        session['sub_category_name'] = n
+    return redirect(url_for("view_product"))
 
 @app.route('/add-product', methods=['get', 'post'])
 def add_product():
@@ -505,31 +545,6 @@ def blog_list():
                                cart_total=cart_total)
     else:
         return render_template("blog-list.html", login=False, admin=False, data=data)
-
-
-@app.route('/categories-page1.html', methods=['get', 'post'])
-def categories_page1():
-    if 'username' in session:
-        if (session['username'] == adminUsername):
-            return render_template("categories-page1.html", login=True, admin=True, data=data)
-        else:
-            cart, wish, cart_total = return_wishlist_and_cart()
-            return render_template("categories-page1.html", login=True, admin=False, data=data, wish=wish, cart=cart,
-                               cart_total=cart_total)
-    else:
-        return render_template("categories-page1.html", login=False, admin=False, data=data)
-
-@app.route('/categories-page4.html', methods=['get', 'post'])
-def categories_page4():
-    if 'username' in session:
-        if (session['username'] == adminUsername):
-            return render_template("categories-page4.html", login=True, admin=True, data=data)
-        else:
-            cart, wish, cart_total = return_wishlist_and_cart()
-            return render_template("categories-page4.html", login=True, admin=False, data=data, wish=wish, cart=cart,
-                               cart_total=cart_total)
-    else:
-        return render_template("categories-page4.html", login=False, admin=False, data=data)
 
 @app.route('/contact', methods=['get', 'post'])
 def contact():
