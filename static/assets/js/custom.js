@@ -6,11 +6,9 @@
 $( document ).ready(function() {
     console.log( "ready!" );
     $(".category-div .btn.btn-fill-type").click(function(){
-//      alert("The paragraph was clicked.");
       $(".modal-window-container.fancy.sub-cat.window-show").css("display","block");
       $(".modal-window-container.fancy.sub-cat").addClass("window-show");
       $("body").addClass("modal-window-open");
-      document.getElementById("i").value = this.id;
     });
 
     $(".btn.btn-fill-type.add-a-product").click(function(){
@@ -21,20 +19,46 @@ $( document ).ready(function() {
     });
 
     $(".btn.btn-fill-type.update-a-product").click(function(){
-//      alert("The paragraph was clicked.");
-      $(".modal-window-container.fancy.update-product.window-show").css("display","block");
-      $(".modal-window-container.fancy.update-product").addClass("window-show");
-      $("body").addClass("modal-window-open");
-
-//      var val = this.id; // retrieve the value
-//      var v = this.name
-//      console.log(v)
+        var id = this.id
+        $.ajax({
+            url: "/api/" + id
+        }).done(function(arr){
+              document.getElementById("id").value = arr[0];
+              document.getElementById("name").value = arr[1];
+              document.getElementById("price").value = arr[2];
+              document.getElementById("brand").value = arr[3];
+              document.getElementById("stock").value = arr[4];
+              document.getElementById("discount").value = arr[5];
+              document.getElementById("detail").value = arr[6];
+        });
+        $(".modal-window-container.fancy.update-product.window-show").css("display","block");
+        $(".modal-window-container.fancy.update-product").addClass("window-show");
+        $("body").addClass("modal-window-open");
     });
 
-});
+    $(".update-cart-btn .btn.btn-fill-type").click(function(){
+        var objects = $(".product-quantity-list");
+        var a = 0
+        for (var obj of objects) {
+            if(obj.value > 1){
+                $.ajax({
+                    url: "/update-cart/" + a + "/" + obj.value,
+                }).done(function(arr){
+                    console.log("Done")
+                });
+            }
+            a++;
+        }
+        $.ajax({
+            url: "/cart-list"
+        }).done(function(arr){
+            console.log("Done")
+        });
+    });
 
-const actualBtn = document.getElementById('actual-btn');
-const fileChosen = document.getElementById('file-chosen');
-actualBtn.addEventListener('change', function(){
-  fileChosen.textContent = this.files[0].name
-})
+    const actualBtn = document.getElementById('actual-btn');
+    const fileChosen = document.getElementById('file-chosen');
+    actualBtn.addEventListener('change', function(){
+    fileChosen.textContent = this.files[0].name;
+    });
+});

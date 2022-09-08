@@ -3391,6 +3391,12 @@ label input[type=radio] {
     margin-bottom: 36px;
 }
 
+.single-team-member .team-member-image img {
+    width: 255px;
+    object-fit: cover;
+    height: 373px;
+}
+
 .single-team-member .team-member-details h4 {
     text-transform: capitalize;
     font-weight: 700;
