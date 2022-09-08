@@ -210,7 +210,7 @@ def update_cart(id1, quantity):
         id2 = int(id1)
         p = db.query(Product).filter(Product.id == (crt[id2].productId)).first()
         crt[id2].quantity = quantity
-        crt[id2].total = quantity * p.price
+        crt[id2].total =  quantity * p.price
         db.commit()
         return jsonify(arr)
     return redirect(url_for("logout"))
