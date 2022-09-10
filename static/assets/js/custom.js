@@ -36,23 +36,24 @@ $( document ).ready(function() {
         $("body").addClass("modal-window-open");
     });
 
-    $(".update-cart-btn .btn.btn-fill-type").click(function(){
+    $(".update-cart-btn.btn.btn-fill-type").click(function(){
         var objects = $(".product-quantity-list");
-        var a = 0
-        for (var obj of objects) {
-            if(obj.value > 1){
-                $.ajax({
-                    url: "/update-cart/" + a + "/" + obj.value,
-                }).done(function(arr){
-                    console.log("Done")
-                });
-            }
-            a++;
+        var server_data = []
+        var index = 0;
+        for (var x of objects){
+            server_data[index] = (x.value);
+            index++;
         }
         $.ajax({
-            url: "/cart-list"
-        }).done(function(arr){
-            console.log("Done")
+              type: "POST",
+              url: "/update",
+              data: JSON.stringify(server_data),
+              contentType: "application/json",
+              dataType: 'json',
+              success: function(result) {
+                console.log(result);
+                location.reload();
+              }
         });
     });
 
@@ -62,3 +63,21 @@ $( document ).ready(function() {
     fileChosen.textContent = this.files[0].name;
     });
 });
+
+
+//        var a = 0
+//        for (var obj of objects) {
+//            if(obj.value > 1){
+//                $.ajax({
+//                    url: "/update-cart/" + a + "/" + obj.value,
+//                }).done(function(arr){
+//                    console.log("Done")
+//                });
+//            }
+//            a++;
+//        }
+//        $.ajax({
+//            url: "/cart-list"
+//        }).done(function(arr){
+//            console.log("Done")
+//        });

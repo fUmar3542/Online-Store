@@ -2,7 +2,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from Base import Session, engine, Base
-from flask import Flask, session, render_template, make_response, request, url_for, redirect, jsonify
+from flask import Flask, session, render_template, request, url_for, redirect, jsonify
 from Model import User, Order, Category, SubCategory, Product, OrderProduct, Wishlist, Cart
 from sqlalchemy import or_
 import os
@@ -110,13 +110,13 @@ def add_to_cart(id,quantity):
         return False
 
 def return_wishlist_and_cart():
-    cart = db.query(Product.id, Product.name, Product.price, Product.img, Cart.quantity, Cart.total).join(
+    cart2 = db.query(Product.id, Product.name, Product.price, Product.img, Cart.quantity, Cart.total).join(
         Cart).join(User).filter((User.username == session['username']) & (Product.stock >= Cart.quantity)).all()
     cart_total = 0
-    for x in cart:
+    for x in cart2:
         cart_total += x.total
     wish = db.query(Product).join(Wishlist).join(User).filter(User.username == session['username']).all()
-    return cart, wish, cart_total
+    return cart2, wish, cart_total
 
 @app.route('/api/<val>', methods=['get','post'])
 def return_product(val):
@@ -161,13 +161,12 @@ def place_order():
         message = "Your order has been placed\n Order will arrive in between 7-10 working days.\n Thanks for purchasing ....."
         return render_template("error1.html", Message=message)
 
-@app.route('/checkout.html', methods=['get', 'post'])
+@app.route('/checkout', methods=['get', 'post'])
 def checkout():
-    if 'username' in session:
-        cart, wish, cart_total = return_wishlist_and_cart()
-        order_total = cart_total + 10
-        return render_template("checkout.html", login=True, admin=False, data=data, wish=wish, cart=cart,
-                               cart_total=cart_total, order_total=order_total)
+    cart1, wish1, cart_total1 = return_wishlist_and_cart()
+    order_total = cart_total1 + 10
+    return render_template("checkout.html", login=True, admin=False, data=data, wish=wish1, cart=cart1,
+                           cart_total=cart_total1, order_total=order_total)
 
 @app.route('/faq.html', methods=['get', 'post'])
 def faq():
@@ -201,19 +200,20 @@ def cart_list():
                                cart_total=cart_total)
     return redirect(url_for("logout"))
 
-@app.route('/update-cart/<id1>/<quantity>', methods=['get', 'post'])
-def update_cart(id1, quantity):
-    if 'username' in session:
-        arr =[]
-        user = db.query(User).filter(User.username == session['username']).first()
-        crt = db.query(Cart).filter(Cart.userId == user.id).all()
-        id2 = int(id1)
-        p = db.query(Product).filter(Product.id == (crt[id2].productId)).first()
-        crt[id2].quantity = quantity
-        crt[id2].total = quantity * p.price
+@app.route('/update', methods=['get', 'post'])
+def update():
+    if request.method == "POST":
+        qtc_data = request.get_json()
+        prod = db.query(Product).join(Cart).join(User).filter(User.username == session['username']).all()
+        crt = db.query(Cart).join(User).filter((User.username == session['username'])).all()
+        index = 0
+        for x in crt:
+            x.quantity = int(qtc_data[index])
+            x.total = x.quantity * (prod[index].price)
+            index = index + 1
         db.commit()
-        return jsonify(arr)
-    return redirect(url_for("logout"))
+    results = {'processed': 'true'}
+    return jsonify(results)
 
 @app.route('/added-to-cart/<id>/<quantity>', methods=['get', 'post'])
 def add_cart(id, quantity):
@@ -222,15 +222,6 @@ def add_cart(id, quantity):
             f = add_to_cart(id,int(quantity))
         return redirect(request.referrer)
     return redirect(url_for("logout"))
-
-# @app.route('/cart-updated', methods=['get', 'post'])
-# def update_cart():
-#     if 'username' in session:
-#         if (session['username'] != adminUsername):
-#             # f = add_to_cart(id,int(quantity))
-#             pass
-#         return redirect(request.referrer)
-#     return redirect(url_for("logout"))
 
 @app.route('/removed-from-cart/<id>', methods=['get', 'post'])
 def remove_cart(id):
@@ -570,6 +561,8 @@ def login():
         dono = db.query(User).filter(User.username == name).first()
         if dono == None:  # if username doesn't exist
             return render_template('error1.html', Message="Username doesn't exist. Signup first...")
+        if(dono.password != password):
+            return render_template('error1.html', Message="Wrong password...")
         session['username'] = name
         return redirect('index.html')
 
@@ -579,9 +572,9 @@ def register():
         name = request.form.get("username1")
         email = request.form.get("email1")
         password = request.form.get("password1")
-        dono = db.query(User).filter(User.username == name).first()
+        dono = db.query(User).filter(or_(User.username == name,User.email == email)).first()
         if dono != None:  # if username already exists
-            return redirect('error1.html')
+            return render_template('error1.html', Message="User already exists...")
         d = User(name, email, password)
         db.add(d)
         db.commit()
@@ -595,7 +588,24 @@ def logout():
 
 @app.route('/myaccount.html', methods=['get', 'post'])
 def myaccount():
-    return redirect('/index.html')
+    cart, wish, cart_total = return_wishlist_and_cart()
+    user = db.query(User).filter(User.username == session['username']).first()
+    order1 = db.query(Order).filter(Order.use == user).all()
+    return render_template('myaccount.html', login=True, admin=False, data=data, wish=wish, cart=cart,
+                               cart_total=cart_total, password=user.password, orders=order1)
+
+@app.route('/change_password', methods=['get', 'post'])
+def change_password():
+    if request.method == 'POST':
+        password = request.form.get('new_password')
+        password1 = request.form.get('confirm_password')
+        if(password != password1):
+            return render_template("error1.html", Message="Passwords don't match...")
+        user = db.query(User).filter(User.username == session['username']).first()
+        user.password = password
+        db.commit()
+    return redirect(request.referrer)
+
 
 @app.route('/email', methods=['get', 'post'])
 def email():
