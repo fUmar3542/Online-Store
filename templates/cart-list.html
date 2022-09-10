@@ -72,7 +72,7 @@
                                                 <td>
                                                     <div class="product-quantity">
                                                         <span class="minus"><img src="static/assets/img/icons/minus.svg" class="svg" alt=""></span>
-                                                        <input type="text" value="1" class="product-quantity-list">
+                                                        <input type="text" value='{{x.quantity}}' class="product-quantity-list">
                                                         <span class="plus"><img src="static/assets/img/icons/plus.svg" class="svg" alt=""></span>
                                                     </div>
                                                 </td>
@@ -139,7 +139,7 @@
                                                     </tbody>
                                                 </table>
                                                 <div class="wc-proceed-to-checkout">
-                                                    <a href="checkout.html" class="update-cart-btn btn btn-fill-type" >Proceed To Checkout</a>
+                                                    <a href='{{url_for("checkout")}}' class="btn btn-fill-type" >Proceed To Checkout</a>
                                                 </div>
                                             </div>
                                             <!-- End of shop total wrap -->
