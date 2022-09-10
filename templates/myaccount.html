@@ -54,7 +54,7 @@
                             <div class="tab-pane fade show active" id="dashboard" role="tabpanel" aria-labelledby='nav-dasboard'>
                                 <!-- dashboard info -->
                                 <div class="dashboard-tab-info">
-                                    <p>Dear Customer,</p>
+                                    <p>Dear {{user.username}},</p>
                                     <p>From your account dashboard you can edit your account information and can track your orders.</p>
                                 </div>
                                 <!--End of dashboard info -->
@@ -82,7 +82,11 @@
                                                         <tr>
                                                             <td>#{{x.id}}</td>
                                                             <td>{{x.dat}}</td>
-                                                            <td>Processing</td>
+                                                            {% if EndDate >= x.dat %}
+                                                                <td>Delivered</td>
+                                                            {% else %}
+                                                                <td>Processing</td>
+                                                            {% endif %}
                                                             <td>${{x.total}}</td>
                                                         </tr>
                                                     {% endfor %}
@@ -104,7 +108,7 @@
                                                 <!-- password change -->
                                                 <div class="passwrd-change-wrap">
                                                     <h5>Password Change</h5>
-                                                    <input type="number" class="theme-input-style" value='{{password}}' placeholder="Current Password" required>
+                                                    <input type="number" class="theme-input-style" value='{{user.password}}' placeholder="Current Password" required>
                                                     <input type="number" name="new_password" class="theme-input-style" placeholder="New Password" required>
                                                     <input type="number" name="confirm_password" class="theme-input-style" placeholder="Confirm Password" required>
                                                     <div class="password-change-btn">
