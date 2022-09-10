@@ -6,6 +6,7 @@ from flask import Flask, session, render_template, request, url_for, redirect, j
 from Model import User, Order, Category, SubCategory, Product, OrderProduct, Wishlist, Cart
 from sqlalchemy import or_
 import os
+from datetime import timedelta, date
 
 adminUsername = 'Umar'
 data = []             # For categories name with their subcategories list
@@ -591,8 +592,9 @@ def myaccount():
     cart, wish, cart_total = return_wishlist_and_cart()
     user = db.query(User).filter(User.username == session['username']).first()
     order1 = db.query(Order).filter(Order.use == user).all()
+    EndDate = date.today() - timedelta(days=10)
     return render_template('myaccount.html', login=True, admin=False, data=data, wish=wish, cart=cart,
-                               cart_total=cart_total, password=user.password, orders=order1)
+                               cart_total=cart_total, user=user, orders=order1,EndDate=EndDate)
 
 @app.route('/change_password', methods=['get', 'post'])
 def change_password():
