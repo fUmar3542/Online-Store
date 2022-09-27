@@ -63,21 +63,3 @@ $( document ).ready(function() {
     fileChosen.textContent = this.files[0].name;
     });
 });
-
-
-//        var a = 0
-//        for (var obj of objects) {
-//            if(obj.value > 1){
-//                $.ajax({
-//                    url: "/update-cart/" + a + "/" + obj.value,
-//                }).done(function(arr){
-//                    console.log("Done")
-//                });
-//            }
-//            a++;
-//        }
-//        $.ajax({
-//            url: "/cart-list"
-//        }).done(function(arr){
-//            console.log("Done")
-//        });
